@@ -1,0 +1,11 @@
+Avantages locale – distante
+
+Avantages Locale : vitesse d’exécution (moins de latence), accès offline, développement simplifié, pas de migration des données
+Désavantages : Backup / récupération des données, espace stockage de la cible
+Avantages Distante : Accessibilité, backup
+Désavantages : Latence, sécurité
+
+SQlite : supporte ACID, sûr, simple d’utilisation
+
+Stockage image : pas conseillé de stocker directement l’image brute, path de l’image
+sudo apt install libsqlite3-dev pour l’utilisation de SQlite
