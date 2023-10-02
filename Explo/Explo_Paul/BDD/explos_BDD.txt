@@ -8,4 +8,16 @@ Désavantages : Latence, sécurité
 SQlite : supporte ACID, sûr, simple d’utilisation
 
 Stockage image : pas conseillé de stocker directement l’image brute, path de l’image
+
 sudo apt install libsqlite3-dev pour l’utilisation de SQlite
+sudo apt install sqlitebrowser : GUI pour SQlite
+
+sqlite3 test.db : ouvrir BDD test en ligne de commande
+.tables : afficher tables
+.mode column
+.headers on
+
+"taper commande SQL" ex SELECT * FROM Table; //point virgule obligatoire
+.exit : quitter
+
+https://zetcode.com/db/sqlitec/

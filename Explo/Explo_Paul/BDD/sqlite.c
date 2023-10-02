@@ -1,7 +1,17 @@
 #include <sqlite3.h>
 #include <stdio.h>
 
+
 int main(void) {
+    
+    FILE *fp = fopen("test.jpg", "wb");
+    
+    if (fp == NULL) {
+        
+        fprintf(stderr, "Cannot open image file\n");    
+        
+        return 1;
+    }    
     
     sqlite3 *db;
     char *err_msg = 0;
@@ -16,30 +26,48 @@ int main(void) {
         return 1;
     }
     
-    char *sql = "DROP TABLE IF EXISTS Cars;" 
-                "CREATE TABLE Cars(Id INT, Name TEXT, Price INT);" 
-                "INSERT INTO Cars VALUES(1, 'Audi', 52642);" 
-                "INSERT INTO Cars VALUES(2, 'Mercedes', 57127);" 
-                "INSERT INTO Cars VALUES(3, 'Skoda', 9000);" 
-                "INSERT INTO Cars VALUES(4, 'Volvo', 29000);" 
-                "INSERT INTO Cars VALUES(5, 'Bentley', 350000);" 
-                "INSERT INTO Cars VALUES(6, 'Citroen', 21000);" 
-                "INSERT INTO Cars VALUES(7, 'Hummer', 41400);" 
-                "INSERT INTO Cars VALUES(8, 'Volkswagen', 21600);";
-
-    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+    char *sql = "SELECT Data FROM Images WHERE Id = 1";
+        
+    sqlite3_stmt *pStmt;
+    rc = sqlite3_prepare_v2(db, sql, -1, &pStmt, 0);
     
     if (rc != SQLITE_OK ) {
         
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        fprintf(stderr, "Failed to prepare statement\n");
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
         
-        sqlite3_free(err_msg);        
         sqlite3_close(db);
         
         return 1;
     } 
     
+    rc = sqlite3_step(pStmt);
+    
+    int bytes = 0;
+    
+    if (rc == SQLITE_ROW) {
+
+        bytes = sqlite3_column_bytes(pStmt, 0);
+    }
+        
+    fwrite(sqlite3_column_blob(pStmt, 0), bytes, 1, fp);
+
+    if (ferror(fp)) {            
+        
+        fprintf(stderr, "fwrite() failed\n");
+
+        return 1;      
+    }  
+    
+    int r = fclose(fp);
+
+    if (r == EOF) {
+        fprintf(stderr, "Cannot close file handler\n");
+    }       
+    
+    rc = sqlite3_finalize(pStmt);   
+
     sqlite3_close(db);
     
     return 0;
-}
+} 
