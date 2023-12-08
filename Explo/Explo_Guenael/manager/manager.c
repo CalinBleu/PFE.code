@@ -12,7 +12,13 @@ void Manager_removeUser(char* idTag){
 }
 
 void Manager_searchUser(char* searchField){
+    char* tags[] = Archivist_getTags(searchField);
+    User* user;
 
+
+    for(int i=0;i<sizeof(tags);i++){
+
+    }
 }
 
 void Manager_modifyUser(User user){
@@ -25,7 +31,7 @@ void Manager_modifyUser(User user){
 }
 
 User* Manager_getAllUsers(){
-    char* tags = getTags();
+    char* tags[] = Archivist_getTags();
     User users[sizeof(tags)];
 
     for(int i = 0;i<sizeof(tags);i++){
@@ -40,7 +46,7 @@ User* Manager_getAllUsers(){
     return users;
 }
 
-User* Manager_getUserByTag(char* idTag){
+static User* Manager_getUserByTag(char* idTag){
     User *user;
 
     user->name = Archivist_getName(idTag);

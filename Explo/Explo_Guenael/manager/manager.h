@@ -28,6 +28,6 @@ void Manager_removeUser(char* idTag);
 void Manager_searchUser(char* searchField);
 void Manager_modifyUser(User user);
 User* Manager_getAllUsers();
-User* Manager_getUserByTag(char* idTag);
+static User* Manager_getUserByTag(char* idTag);
 
 #endif //MANAGER_H
