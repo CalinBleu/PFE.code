@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <unistd.h>
 
 #define NB_LOCK 1
 #define CURRENT_ZONE 0
@@ -33,10 +35,11 @@ Access* Archivist_getAccess(char* idtag);
 char* Archivist_getPassword();
 Picture Archivist_getPicture(char* idtag);
 char** Archivist_getTags(char* name);
+void Archivist_clearImages();
 
 int main(void) {
 
-    char* idtag = "1237";
+    char* idtag = "1234";
 
     char* name = Archivist_getName(idtag);
     char* firstname = Archivist_getFirstName(idtag);
@@ -90,6 +93,8 @@ int main(void) {
     } else {
         fprintf(stderr, "No password found.\n");
     }
+
+    Archivist_clearImages();
 
     return 0;
 }
@@ -206,28 +211,31 @@ char* Archivist_getFirstName(char* idtag) {
 
 Picture Archivist_getPicture(char* idtag) {
 
-    Picture result = NULL;
     char* path = "Pictures/";
 
     char* name = Archivist_getName(idtag);
     char* firstname = Archivist_getFirstName(idtag);
 
+    size_t path_size = strlen(name) + strlen(firstname) + strlen(path) + strlen("_.jpg") + 1;
+    Picture result = malloc(path_size);
+
     if (name != NULL) {
-        //result = strcat(path, )
-        free(name); 
+        if(firstname != NULL) {
+            snprintf(result, path_size, "%s%s%s%s%s", path, name, "_", firstname, ".jpg");
+            printf("path : %s\n", result);
+            free(name);
+            free(firstname);
+        }
+        else {
+            fprintf(stderr, "No firstname found.\n");
+            return NULL;
+        }
     } else {
         fprintf(stderr, "No name found.\n");
         return NULL;
     }
 
-    if (firstname != NULL) {
-        printf("Firstname: %s\n", firstname);
-        free(firstname); 
-    } else {
-        fprintf(stderr, "No firstname found.\n");
-    }
-
-    FILE *fp = fopen("Pictures/result.jpg", "wb");
+    FILE *fp = fopen(result, "wb");
     
     if (fp == NULL) {
         
@@ -407,7 +415,6 @@ Access* Archivist_getAccess(char* idtag) {
         sqlite3_close(db);
 
         int access = strtol(result, NULL, 10);
-        printf("access : %d\n", access);
 
         for(int i = 0; i < NB_LOCK; i++)
         {
@@ -478,4 +485,34 @@ char* Archivist_getPassword() {
 
 char** Archivist_getTags(char* name) {
     
+}
+
+void Archivist_clearImages()
+{
+    DIR *dir;
+    struct dirent *entry;
+
+    dir = opendir("/home/paul/Documents/S9/PFE/PFE.code/Explo/Explo_Paul/BDD/Pictures");
+
+    if (dir == NULL) {
+        perror("Error opening directory");
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+            continue;
+        }
+
+        char filePath[512];
+        snprintf(filePath, sizeof(filePath), "%s/%s", "/home/paul/Documents/S9/PFE/PFE.code/Explo/Explo_Paul/BDD/Pictures", entry->d_name);
+
+        if (unlink(filePath) != 0) {
+            perror("Error removing file");
+        } else {
+            printf("Removed file: %s\n", filePath);
+        }
+    }
+
+    closedir(dir);
 }
