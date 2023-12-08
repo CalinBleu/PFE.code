@@ -11,7 +11,7 @@ typedef bool Access[NB_LOCK];
 
 typedef char Picture;
 
-void checkPassword(char* password, char* idTag ){
+void Guard_checkPassword(char* password, char* idTag ){
 
     char password_hash[SHA256_HEX_SIZE];
 
@@ -27,7 +27,7 @@ void checkPassword(char* password, char* idTag ){
     }
 }
 
-AuthResult checkTag(char* idTag){
+AuthResult Guard_checkTag(char* idTag){
     Role role = getRole(idTag);
     Access access = getAccess(idTag);
 
@@ -49,7 +49,7 @@ AuthResult checkTag(char* idTag){
     
 }
 
-void resultRecognition(AuthResult authResult){
+void Guard_resultRecognition(AuthResult authResult){
     if(authResult == ALLOWED){
         faceAnalysed(true);
     }
@@ -58,7 +58,7 @@ void resultRecognition(AuthResult authResult){
     }
 }
 
-void checkFace(char* idTag){
+void Guard_checkFace(char* idTag){
     Picture picture = getPicture(idTag);
     startRecognition(picture);
 }
@@ -69,8 +69,7 @@ int main(void){
     char str[100];
     printf("\nEntrer votre mdp :");
     gets(str);
-    checkPassword(str, "EAPFDKEAFEA");
-
+    Guard_checkPassword(str, "EAPFDKEAFEA");
 
     return 0;
 }

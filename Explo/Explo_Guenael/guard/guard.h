@@ -18,9 +18,9 @@ typedef enum Role {
     ADMIN
 }Role;
 
-void checkPassword(char* password, char* idTag );
-AuthResult checkTag(char* idTag);
-void resultRecognition(AuthResult authResult);
-void checkFace(char* idTag);
+void Guard_checkPassword(char* password, char* idTag );
+AuthResult Guard_checkTag(char* idTag);
+void Guard_resultRecognition(AuthResult authResult);
+void Guard_checkFace(char* idTag);
 
 #endif //GUARD_H
