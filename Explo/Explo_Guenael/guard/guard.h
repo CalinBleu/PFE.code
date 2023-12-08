@@ -1,6 +1,10 @@
 #ifndef GUARD_H
 #define GUARD_H
 
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
 #define NB_LOCK 1
 
 typedef enum AuthResult {
@@ -17,6 +21,13 @@ typedef enum Role {
     USER = 0,
     ADMIN
 }Role;
+
+
+const int zone = 0;
+
+typedef bool Access[NB_LOCK];
+
+typedef char Picture;
 
 void Guard_checkPassword(char* password, char* idTag );
 AuthResult Guard_checkTag(char* idTag);
