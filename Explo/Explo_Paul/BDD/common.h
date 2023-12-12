@@ -1,6 +1,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <stdbool.h>
+
 //Nombre de serrures supportées par cette instance Visiolock
 #define NB_LOCK 1
 //Indice de la serrure courante
@@ -42,6 +44,11 @@ typedef enum AuthResult {
     ALLOWED,
     FACE_UNKNOWN
 }AuthResult;
+
+typedef struct User
+{
+    /* data */
+}User;
 
 typedef bool Access[NB_LOCK];
 typedef char* Picture;

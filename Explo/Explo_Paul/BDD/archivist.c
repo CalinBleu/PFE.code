@@ -69,6 +69,25 @@ int main(void) {
 
     Archivist_clearImages();
 
+    char* aname = "test";
+
+    char** idtags = Archivist_getTags(aname);
+
+    if (idtags != NULL) {
+        for (int i = 0; idtags[i] != NULL; ++i) {
+            printf("IDTAG %d: %s\n", i + 1, idtags[i]);
+        }
+    } else {
+        fprintf(stderr, "No tags found\n");
+    }
+
+    if (idtags != NULL) {
+        for (int i = 0; idtags[i] != NULL; ++i) {
+            free(idtags[i]);
+        }
+        free(idtags);
+    }
+
     return 0;
 }
 
@@ -192,6 +211,7 @@ Picture Archivist_getPicture(char* idtag) {
     size_t path_size = strlen(name) + strlen(firstname) + strlen(path) + strlen("_.jpg") + 1;
     Picture result = malloc(path_size);
 
+    //à changer
     if (name != NULL) {
         if(firstname != NULL) {
             snprintf(result, path_size, "%s%s%s%s%s", path, firstname, "_", name, ".jpg");
@@ -201,6 +221,7 @@ Picture Archivist_getPicture(char* idtag) {
         }
         else {
             fprintf(stderr, "No firstname found.\n");
+            free(name);
             return NULL;
         }
     } else {
@@ -457,7 +478,95 @@ char* Archivist_getPassword() {
 }
 
 char** Archivist_getTags(char* name) {
+
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+
+    char** result;
     
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return NULL;
+    }
+    
+    char* sql;
+    if(name == NULL)
+    {
+        sql = "SELECT * FROM Employee";
+    }
+    else
+    {
+        sql = "SELECT * FROM Employee WHERE Name = ?"; 
+    }
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        if(name != NULL)
+        {
+            sqlite3_bind_text(res, 1, name, -1, SQLITE_STATIC);
+        }
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    char** results = NULL;
+    int resultCount = 0;
+
+    while (sqlite3_step(res) == SQLITE_ROW) {
+
+        const char* idtagValue = (const char*)sqlite3_column_text(res, IDTAG);
+        size_t len = strlen(idtagValue);
+
+        char* result = (char*)malloc(len + 1);
+        if (result == NULL) {
+            fprintf(stderr, "Memory allocation error\n");
+
+            for (int i = 0; i < resultCount; ++i) {
+                free(results[i]);
+            }
+            free(results);
+
+            sqlite3_finalize(res);
+            sqlite3_close(db);
+            return NULL;
+        }
+
+        strcpy(result, idtagValue);
+
+        results = (char**)realloc(results, (resultCount + 2) * sizeof(char*));
+        if (results == NULL) {
+            fprintf(stderr, "Memory allocation error\n");
+
+            for (int i = 0; i < resultCount; ++i) {
+                free(results[i]);
+            }
+            free(result);
+
+            sqlite3_finalize(res);
+            sqlite3_close(db);
+            return NULL;
+        }
+
+        results[resultCount] = result;
+        resultCount++;
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+
+    if(resultCount)
+    {
+        results[resultCount] = NULL;
+    }
+
+    return results;
 }
 
 static void Archivist_clearImages()
