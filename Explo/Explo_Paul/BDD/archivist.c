@@ -12,7 +12,8 @@ static void Archivist_clearImages();
 
 int main(void) {
 
-    char* idtag = "1234";
+    /*
+    char* idtag = "1239";
 
     char* name = Archivist_getName(idtag);
     char* firstname = Archivist_getFirstName(idtag);
@@ -87,6 +88,18 @@ int main(void) {
         }
         free(idtags);
     }
+    */
+
+    User new;
+    new.firstName = "aaa";
+    new.name = "bbb";
+    new.picture = "Pictures/image_test.jpg";
+    new.role = ADMIN;
+    new.idTag = "1240";
+    new.access[CURRENT_ZONE] = false;
+
+    Archivist_setUser(new);
+
 
     return 0;
 }
@@ -567,6 +580,128 @@ char** Archivist_getTags(char* name) {
     }
 
     return results;
+}
+
+void Archivist_setUser(User user)
+{
+    char* name = user.name;
+    char* firstname = user.firstName;
+    Role role = user.role;
+    Access access;
+    char* idtag = user.idTag;
+    Picture picture = user.picture;
+
+    for (int i = 0; i < NB_LOCK; ++i) {
+        access[i] = user.access[i];
+    }
+
+    int accessIntValue;
+    for (int i = 0; i < NB_LOCK; ++i) {
+        if(access[i] == true)
+        {
+            accessIntValue += 2^(i);
+        }
+    }
+
+
+    FILE *fp = fopen(picture, "rb");
+    
+    if (fp == NULL) {
+        
+        fprintf(stderr, "Cannot open image file\n");    
+    }
+        
+    fseek(fp, 0, SEEK_END);
+    
+    if (ferror(fp)) {
+        
+        fprintf(stderr, "fseek() failed\n");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");          
+        }    
+    }  
+    
+    int flen = ftell(fp);
+    
+    if (flen == -1) {
+        
+        perror("error occurred");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");
+        }    
+    }
+    
+    fseek(fp, 0, SEEK_SET);
+    
+    if (ferror(fp)) {
+        
+        fprintf(stderr, "fseek() failed\n");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");
+        }    
+    }
+
+    char data[flen+1];
+
+    int size = fread(data, 1, flen, fp);
+    
+    if (ferror(fp)) {
+        
+        fprintf(stderr, "fread() failed\n");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");
+        }   
+    }
+    
+    int r = fclose(fp);
+
+    if (r == EOF) {
+        fprintf(stderr, "Cannot close file handler\n");
+    }  
+
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        //return -1;
+    }
+    
+    char *sql = "INSERT INTO Employee VALUES(?, ?, ?, ?, ?, ?);";
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, firstname, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, name, -1, SQLITE_STATIC);
+        sqlite3_bind_blob(res, 3, data, size, SQLITE_STATIC);  
+        sqlite3_bind_text(res, 4, idtag, -1, SQLITE_STATIC);
+        sqlite3_bind_int(res, 5, role);
+        sqlite3_bind_int(res, 6, accessIntValue);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+    
+    //return 0;
 }
 
 static void Archivist_clearImages()

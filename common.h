@@ -45,12 +45,16 @@ typedef enum AuthResult {
     FACE_UNKNOWN
 }AuthResult;
 
-typedef struct User
-{
-    /* data */
-}User;
-
 typedef bool Access[NB_LOCK];
 typedef char* Picture;
+
+typedef struct {
+    char* name;
+    char* firstName;
+    Role role;
+    Access access;
+    char* idTag;
+    Picture picture;
+}User;
 
 #endif //COMMON_H
