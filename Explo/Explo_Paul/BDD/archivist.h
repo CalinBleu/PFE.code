@@ -15,17 +15,17 @@ char* Archivist_getPassword();
 
 char** Archivist_getTags(char* name);
 
-void Archivist_setName(char* name);
+void Archivist_setName(char* idtag, char* name);
 
-void Archivist_setFirstName(char* firstname);
+void Archivist_setFirstName(char* idtag, char* firstname);
 
-void Archivist_setPicture(Picture picture);
+void Archivist_setPicture(char* idtag, Picture picture);
 
-void Archivist_setRole(Role role);
+void Archivist_setRole(char* idtag, Role role);
 
-void Archivist_setAccess(Access access);
+void Archivist_setAccess(char* idtag, Access* access);
 
-void Archivist_setIdTag(char* idTag);
+void Archivist_setIdTag(char* oldtag, char* newtag);
 
 void Archivist_setUser(User user);
 

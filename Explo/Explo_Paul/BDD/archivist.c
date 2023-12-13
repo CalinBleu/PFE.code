@@ -5,21 +5,19 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <math.h>
 #include "common.h"
 #include "archivist.h"
 
 static void Archivist_clearImages();
+void Archivist_deleteEmployee(char* idtag);
 
 int main(void) {
 
-    /*
-    char* idtag = "1239";
+    char* idtag = "1234";
 
+    //getName
     char* name = Archivist_getName(idtag);
-    char* firstname = Archivist_getFirstName(idtag);
-    Role role = Archivist_getRole(idtag);
-    Access* access = Archivist_getAccess(idtag);
-    Picture pic = Archivist_getPicture(idtag);
 
     if (name != NULL) {
         printf("Name: %s\n", name);
@@ -28,17 +26,38 @@ int main(void) {
         fprintf(stderr, "No name found.\n");
     }
 
+    //getFirstName
+    char* firstname = Archivist_getFirstName(idtag);
+
     if (firstname != NULL) {
         printf("Firstname: %s\n", firstname);
         free(firstname); 
     } else {
         fprintf(stderr, "No firstname found.\n");
     }
+
+    //getPicture
+    Picture pic = Archivist_getPicture(idtag);
+
+    if (pic != NULL)
+    {
+        printf("Picture path : %s\n", pic);
+        free(pic);
+    } else {
+        fprintf(stderr, "No picture found.\n");
+    }
+
+    //getRole
+    Role role = Archivist_getRole(idtag);
+
     if (role != -1) {
         printf("Role: %d\n", role);
     } else {
         fprintf(stderr, "No role found.\n");
     }
+
+    //getAccess
+    Access* access = Archivist_getAccess(idtag);
 
     if (access != NULL)
     {
@@ -52,15 +71,9 @@ int main(void) {
         fprintf(stderr, "No access found.\n");
     }
 
-    if (pic != NULL)
-    {
-        printf("Picture path : %s\n", pic);
-        free(pic);
-    } else {
-        fprintf(stderr, "No picture found.\n");
-    }
-
+    //getPassword (/!\ version mdp unique)
     char* pswd = Archivist_getPassword();
+
     if (pswd != NULL) {
         printf("Password: %s\n", pswd);
         free(pswd);
@@ -68,10 +81,8 @@ int main(void) {
         fprintf(stderr, "No password found.\n");
     }
 
-    Archivist_clearImages();
-
+    //getTags
     char* aname = "test";
-
     char** idtags = Archivist_getTags(aname);
 
     if (idtags != NULL) {
@@ -88,18 +99,32 @@ int main(void) {
         }
         free(idtags);
     }
-    */
 
+    //set
+    Archivist_setName("1234", "Chiron");
+    Archivist_setFirstName("1234", "Paul");
+    //Archivist_setPicture("1234", "image_test.jpg");
+    Archivist_setRole("1234", 1);
+    Access newAccess;
+    newAccess[CURRENT_ZONE] = false;
+    Archivist_setAccess("1234", &newAccess);
+    //Archivist_setIdTag("1234", "9999");
+
+    //setUser et delete
     User new;
     new.firstName = "aaa";
     new.name = "bbb";
-    new.picture = "Pictures/image_test.jpg";
+    new.picture = "image_test.jpg";
     new.role = ADMIN;
     new.idTag = "1240";
     new.access[CURRENT_ZONE] = false;
 
     Archivist_setUser(new);
 
+    Archivist_deleteEmployee("1240");
+
+    //clean le dossier Pictures
+    Archivist_clearImages();
 
     return 0;
 }
@@ -425,7 +450,7 @@ Access* Archivist_getAccess(char* idtag) {
 
         for(int i = 0; i < NB_LOCK; i++)
         {
-            *rsl[i] = access%(2^i);
+            *rsl[i] = (access & (1 << i)) != 0;
         }
         
         free(result);
@@ -582,33 +607,102 @@ char** Archivist_getTags(char* name) {
     return results;
 }
 
-void Archivist_setUser(User user)
+void Archivist_setName(char* idtag, char* name)
 {
-    char* name = user.name;
-    char* firstname = user.firstName;
-    Role role = user.role;
-    Access access;
-    char* idtag = user.idTag;
-    Picture picture = user.picture;
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
 
-    for (int i = 0; i < NB_LOCK; ++i) {
-        access[i] = user.access[i];
+        return;
     }
+    
+    char *sql = "UPDATE Employee SET Name = ? WHERE IdTag = ?"; 
 
-    int accessIntValue;
-    for (int i = 0; i < NB_LOCK; ++i) {
-        if(access[i] == true)
-        {
-            accessIntValue += 2^(i);
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, name, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("Name updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
         }
+    } else {
+        fprintf(stderr, "Error during name update: %s\n", sqlite3_errmsg(db));
     }
 
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+}
 
+void Archivist_setFirstName(char* idtag, char* firstname)
+{
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
+    }
+    
+    char *sql = "UPDATE Employee SET Firstname = ? WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, firstname, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("Firstname updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during firstname update: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+}
+
+void Archivist_setPicture(char* idtag, Picture picture)
+{
     FILE *fp = fopen(picture, "rb");
     
     if (fp == NULL) {
         
-        fprintf(stderr, "Cannot open image file\n");    
+        fprintf(stderr, "Cannot open image file\n");
+        return; 
     }
         
     fseek(fp, 0, SEEK_END);
@@ -678,7 +772,275 @@ void Archivist_setUser(User user)
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
 
-        //return -1;
+        return;
+    }
+    
+    char *sql = "UPDATE Employee SET Picture = ? WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_blob(res, 1, data, size, SQLITE_STATIC);  
+        sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("Picture updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during picture update: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db); 
+}
+
+void Archivist_setRole(char* idtag, Role role)
+{
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
+    }
+    
+    char *sql = "UPDATE Employee SET Role = ? WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_int(res, 1, role);
+        sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("Role updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during role update: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+}
+
+void Archivist_setAccess(char* idtag, Access* access)
+{
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+
+    int accessIntValue = 0;
+    for (int i = 0; i < NB_LOCK; i++) {
+        if(*access[i] == true)
+        {
+            accessIntValue += (int)pow(2, i);
+        }
+    }
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
+    }
+    
+    char *sql = "UPDATE Employee SET Access = ? WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_int(res, 1, accessIntValue);
+        sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("Access updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during access update: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+}
+
+void Archivist_setIdTag(char* oldtag, char* newtag)
+{
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
+    }
+    
+    char *sql = "UPDATE Employee SET IdTag = ? WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, newtag, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, oldtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("IdTag updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during idtag update: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+}
+
+void Archivist_setUser(User user)
+{
+    char* name = user.name;
+    char* firstname = user.firstName;
+    Role role = user.role;
+    Access access;
+    char* idtag = user.idTag;
+    Picture picture = user.picture;
+
+    for (int i = 0; i < NB_LOCK; ++i) {
+        access[i] = user.access[i];
+    }
+
+    int accessIntValue = 0;
+    for (int i = 0; i < NB_LOCK; ++i) {
+        if(access[i] == true)
+        {
+            accessIntValue += (int)pow(2, i);
+        }
+    }
+
+
+    FILE *fp = fopen(picture, "rb");
+    
+    if (fp == NULL) {
+        
+        fprintf(stderr, "Cannot open image file\n");
+        return; 
+    }
+        
+    fseek(fp, 0, SEEK_END);
+    
+    if (ferror(fp)) {
+        
+        fprintf(stderr, "fseek() failed\n");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");          
+        }    
+    }  
+    
+    int flen = ftell(fp);
+    
+    if (flen == -1) {
+        
+        perror("error occurred");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");
+        }    
+    }
+    
+    fseek(fp, 0, SEEK_SET);
+    
+    if (ferror(fp)) {
+        
+        fprintf(stderr, "fseek() failed\n");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");
+        }    
+    }
+
+    char data[flen+1];
+
+    int size = fread(data, 1, flen, fp);
+    
+    if (ferror(fp)) {
+        
+        fprintf(stderr, "fread() failed\n");
+        int r = fclose(fp);
+
+        if (r == EOF) {
+            fprintf(stderr, "Cannot close file handler\n");
+        }   
+    }
+    
+    int r = fclose(fp);
+
+    if (r == EOF) {
+        fprintf(stderr, "Cannot close file handler\n");
+    }  
+
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
     }
     
     char *sql = "INSERT INTO Employee VALUES(?, ?, ?, ?, ?, ?);";
@@ -698,10 +1060,63 @@ void Archivist_setUser(User user)
     
     int step = sqlite3_step(res);
 
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("User added successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No row has been added.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during insertion: %s\n", sqlite3_errmsg(db));
+    }
+
     sqlite3_finalize(res);
     sqlite3_close(db);
     
-    //return 0;
+}
+
+void Archivist_deleteEmployee(char* idtag)
+{
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
+    }
+    
+    char *sql = "DELETE FROM Employee WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("User deleted successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for deletion.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during deletion: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
 }
 
 static void Archivist_clearImages()
