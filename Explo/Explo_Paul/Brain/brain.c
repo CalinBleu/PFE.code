@@ -27,6 +27,9 @@ typedef struct
 typedef struct
 {
 	Event event;
+    bool recognized;
+    char* idtag;
+    Mode mode;
 } MqMsgData;
 
 typedef union
@@ -44,6 +47,10 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg);
 static void * Brain_run(void * aParam);
 
 static void Brain_wakeUp();
+
+static void Brain_evaluateState(bool state);
+
+static void Brain_evaluateMode(Mode mode);
 
 static pthread_t brain_thread; 
 static mqd_t brain_mq;
@@ -128,12 +135,6 @@ int Brain_start(void)
     return 0;
 }
 
-void Brain_stopVisiolock(void)
-{
-	MqMsg msg = {.data.event = E_STOP}; //envoi de l'évènement STOP via mq
-	Brain_mqSend(&msg);
-}
-
 int Brain_free(void)
 {
     int check;
@@ -183,31 +184,31 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_TAG_READED:
             Brain_wakeUp();
-            //GUI_screenOn();
             //RFID_stopReading();
+            Brain_evaluateMode(mode);
             printf("A_TAG_READED\n");
             break;
         case A_MODE_CLASSIC:
-            //tagResult = Guard_checkTag(idTag);
+            //tagResult = Guard_checkTag(aMsg->data.idtag); PASSER EN ASYNCHRONE
             printf("A_MODE_CLASSIC\n");
             break;
         case A_MODE_ADMIN:
-            //GUI_setTag(idTag);
+            //GUI_setTag(aMsg->data.idtag);
             //RFID_startReading();
             printf("A_MODE_ADMIN\n");
             break;
         case A_CHANGE_MODE:
-            //mode = new_mode;
+            //mode = aMsg->data.mode;
             printf("A_CHANGE_MODE\n");
             break;
         case A_CHANGE_MODE_SPE:
-            //mode = new_mode;
+            //mode = MODE_ADMIN;
             //RFID_startReading();
             printf("A_CHANGE_MODE_SPE\n");
             break;
         case A_USER_TAG_OK:
             //GUI_displayHomeScreen(USER_TAG_OK);
-            //Guard_checkFace(idTag);
+            //Guard_checkFace(aMsg->data.idtag);
             printf("A_USER_TAG_OK\n");
             break;
         case A_USER_TAG_DENIED:
@@ -221,7 +222,36 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("A_USER_TAG_UNKNOWN\n");
             break;
         case A_FACE_ANALYSED:
-            //Brain_evaluateState()
+            Brain_evaluateState(aMsg->data.recognized);
+            printf("A_FACE_ANALYSED\n");
+            break;
+        case A_FACE_TRUE:
+            //GUI_displayHomeScreen(ALLOWED);
+            //Doorman_open();
+            printf("A_FACE_TRUE\n");
+            break;
+        case A_FACE_FALSE:
+            //GUI_displayHomeScreen(FACE_UNKNOWN);
+            //Doorman_userUnknown();
+            printf("A_FACE_FALSE\n");
+            break;
+        case A_TIMEOUT_LOCK:
+            //RFID_startReading();
+            printf("A_TIMEOUT_LOCK\n");
+            break;
+        case A_TIMEOUT_SCREEN:
+            //RFID_startReading();
+            printf("A_TIMEOUT_SCREEN\n");
+            break;
+        case A_STANDBY:
+            //GUI_screenOff();
+            //RFID_startReading();
+            printf("A_STANDBY\n");
+            break;
+        case A_STOP:
+            //GUI_screenOff();
+            printf("A_STOP\n");
+            break;
         default:
             printf("Action inconnue\n");
             break;
@@ -238,7 +268,6 @@ static void * Brain_run(void * aParam)
     {
         Brain_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
-        printf("action : %d\n", myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Brain_performAction(myTrans->action, &msg);
@@ -253,7 +282,36 @@ static void * Brain_run(void * aParam)
     return NULL;
 }
 
-int main(){
+static void Brain_evaluateState(bool state)
+{
+    MqMsg msg;
+    if(state)
+    {
+        msg.data.event = E_FACE_TRUE; 
+    }
+    else
+    {
+        msg.data.event = E_FACE_FALSE; 
+    }
+    Brain_mqSend(&msg);
+}
+
+static void Brain_evaluateMode(Mode mode)
+{
+    MqMsg msg;
+    if(mode == MODE_CLASSIC)
+    {
+        msg.data.event = E_MODE_CLASSIC; 
+    }
+    else
+    {
+        msg.data.event = E_MODE_ADMIN; 
+    }
+    Brain_mqSend(&msg);
+}
+
+void Brain_startVisiolock()
+{
     if(Brain_new() != 0) 
     {
         perror("Brain_launch error\n");
@@ -265,7 +323,78 @@ int main(){
         exit(EXIT_FAILURE);
     }
 
-    sleep(10);
+    Brain_wakeUp();
+    //RFID_startReading();
+}
+
+void Brain_stopVisiolock(void)
+{
+	MqMsg msg = {.data.event = E_STOP}; //envoi de l'évènement STOP via mq
+	Brain_mqSend(&msg);
+}
+
+void Brain_standBy(void)
+{
+	MqMsg msg = {.data.event = E_STANDBY}; //envoi de l'évènement STANDBY via mq
+	Brain_mqSend(&msg);
+}
+
+void Brain_tagReaded(char* idtag)
+{
+	MqMsg msg = {.data.event = E_TAG_READED, .data.idtag = idtag}; //envoi de l'évènement TAG_READED via mq
+	Brain_mqSend(&msg);
+}
+
+void Brain_changeMode(Mode mode)
+{
+    MqMsg msg;
+    if(mode == MODE_CLASSIC)
+    {
+        msg.data.event = E_CHANGE_MODE_CLASSIC; 
+        msg.data.mode = MODE_CLASSIC; 
+    }
+    else
+    {
+        msg.data.event = E_CHANGE_MODE_CLASSIC;
+        msg.data.mode = MODE_ADMIN; 
+    }
+    Brain_mqSend(&msg);
+}
+
+void Brain_faceAnalysed(bool recognized)
+{
+	MqMsg msg = {.data.event = E_FACE_ANALYSED, .data.recognized = recognized}; //envoi de l'évènement FACE_ANALYSED via mq
+	Brain_mqSend(&msg);
+}
+
+
+
+static void Brain_wakeUp()
+{
+    //GUI_screenOn();
+}
+
+int main(){
+    //simulation scénario
+    Brain_startVisiolock();
+
+    sleep(2);
+    Brain_tagReaded("1234");
+    sleep(1);
+    MqMsg msg = {.data.event = E_USER_TAG_OK}; 
+	Brain_mqSend(&msg);
+    sleep(2);
+    Brain_faceAnalysed(true);
+    sleep(5);
+    msg.data.event = E_TIMEOUT_LOCK; 
+	Brain_mqSend(&msg);
+    sleep(5);
+    Brain_tagReaded("1235");
+    sleep(1);
+    msg.data.event = E_USER_TAG_DENIED; 
+	Brain_mqSend(&msg);
+    sleep(5);
+
 
     Brain_free();
 }
