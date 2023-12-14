@@ -4,32 +4,20 @@
 import QtQuick 6.5
 import Ecrans
 import QtQuick.VirtualKeyboard 6.5
+import QtQuick.Controls
 
 Window {
-    width: mainScreen.width
-    height: mainScreen.height
+    width: Constants.width
+    height: Constants.height
 
     visible: true
     title: "Ecrans"
 
-    Screen01 {
-        id: mainScreen
+    StackView {
+        id: stack
+        initialItem: AccueilAdmin {}
+        anchors.fill: parent
     }
 
-    InputPanel {
-        id: inputPanel
-        property bool showKeyboard :  active
-        y: showKeyboard ? parent.height - height : parent.height
-        Behavior on y {
-            NumberAnimation {
-                duration: 200
-                easing.type: Easing.InOutQuad
-            }
-        }
-        anchors.leftMargin: Constants.width/10
-        anchors.rightMargin: Constants.width/10
-        anchors.left: parent.left
-        anchors.right: parent.right
-    }
 }
 

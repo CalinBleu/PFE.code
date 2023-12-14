@@ -5,10 +5,9 @@ It is supposed to be strictly declarative and only uses a subset of QML. If you 
 this file manually, you might introduce QML code that is not supported by Qt Design Studio.
 Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on .ui.qml files.
 */
-import QtQuick 2.5
+import QtQuick 6.5
 import Ecrans
 import QtMultimedia
-import QtQuick.Studio.Components
 
 Item {
     id: accueilresult
@@ -23,32 +22,32 @@ Item {
         color: "white"
 
         Image {
-            id: name
+            id: logo
             x: 342
             y: 25
             width: 117
             height: 15
-            source: "../content/images/Thales 3.png"
+            source: "../content/images/thales_logo.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Image {
-            id: image_top
+            id: top
             x: 488
             y: -52
             width: 308
             height: 308
-            source: "../content/images/Group 5.png"
+            source: "../content/images/top_image.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Image {
-            id: image_bot
+            id: bottom
             x: 4
             y: 114
             width: 372
             height: 362
-            source: "../content/images/Group 6.png"
+            source: "../content/images/bottom_image.png"
             fillMode: Image.PreserveAspectFit
         }
 

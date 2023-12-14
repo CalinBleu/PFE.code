@@ -8,7 +8,6 @@ Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on
 import QtQuick 6.5
 import Ecrans
 import QtMultimedia
-import QtQuick.Studio.Components
 import QtQuick.Controls 6.5
 
 Item {
@@ -30,32 +29,32 @@ Item {
         color: "white"
 
         Image {
-            id: nom
+            id: logo
             x: 342
             y: 25
             width: 117
             height: 15
-            source: "../content/images/Thales 3.png"
+            source: "../content/images/thales_logo.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Image {
-            id: image_top
+            id: top
             x: 488
             y: -52
             width: 308
             height: 308
-            source: "../content/images/Group 5.png"
+            source: "../content/images/top_image.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Image {
-            id: image_bot
+            id: bottom
             x: 4
             y: 114
             width: 372
             height: 362
-            source: "../content/images/Group 6.png"
+            source: "../content/images/bottom_image.png"
             fillMode: Image.PreserveAspectFit
         }
 
@@ -87,14 +86,14 @@ Item {
                 id: corner1
                 x: 73
                 y: 39
-                source: "../content/images/Group 1.png"
+                source: "../content/images/corner.png"
             }
 
             Image {
                 id: corner2
                 x: 225
                 y: 39
-                source: "../content/images/Group 1.png"
+                source: "../content/images/corner.png"
                 rotation: 90
             }
 
@@ -102,7 +101,7 @@ Item {
                 id: corner3
                 x: 225
                 y: 194
-                source: "../content/images/Group 1.png"
+                source: "../content/images/corner.png"
                 rotation: 180
             }
 
@@ -110,7 +109,7 @@ Item {
                 id: corner4
                 x: 73
                 y: 194
-                source: "../content/images/Group 1.png"
+                source: "../content/images/corner.png"
                 rotation: 270
             }
 
