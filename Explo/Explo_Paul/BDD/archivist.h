@@ -13,6 +13,8 @@ Access* Archivist_getAccess(char* idtag);
 
 char* Archivist_getPassword();
 
+char* newArchivist_getPassword(char* idtag);
+
 char** Archivist_getTags(char* name);
 
 void Archivist_setName(char* idtag, char* name);
@@ -26,6 +28,8 @@ void Archivist_setRole(char* idtag, Role role);
 void Archivist_setAccess(char* idtag, Access* access);
 
 void Archivist_setIdTag(char* oldtag, char* newtag);
+
+void Archivist_setPassword(char* idtag, char* password);
 
 void Archivist_setUser(User user);
 

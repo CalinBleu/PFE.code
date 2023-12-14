@@ -29,7 +29,8 @@ enum
     PICTURE,
     IDTAG,
     ROLE,
-    ACCESS
+    ACCESS,
+    PASSWORD
 }ColumnId;
 
 /**

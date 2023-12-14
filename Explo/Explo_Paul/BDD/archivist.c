@@ -81,6 +81,16 @@ int main(void) {
         fprintf(stderr, "No password found.\n");
     }
 
+    //getPassword (version mdp multiples)
+    char* newpswd = newArchivist_getPassword(idtag);
+
+    if (newpswd != NULL) {
+        printf("Password: %s\n", newpswd);
+        free(newpswd);
+    } else {
+        fprintf(stderr, "No password found.\n");
+    }
+
     //getTags
     char* aname = "test";
     char** idtags = Archivist_getTags(aname);
@@ -109,6 +119,7 @@ int main(void) {
     newAccess[CURRENT_ZONE] = false;
     Archivist_setAccess("1234", &newAccess);
     //Archivist_setIdTag("1234", "9999");
+    Archivist_setPassword("1234", "0000");
 
     //setUser et delete
     User new;
@@ -502,6 +513,73 @@ char* Archivist_getPassword() {
         }
 
         strcpy(result, (const char*)sqlite3_column_text(res, 0));
+
+        sqlite3_finalize(res);
+        sqlite3_close(db);
+        return result;
+    }
+    else
+    {
+        sqlite3_finalize(res);
+        sqlite3_close(db);
+        return NULL;
+    }
+}
+
+char* newArchivist_getPassword(char* idtag) {
+
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock_v2.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return NULL;
+    }
+    
+    char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (sqlite3_column_type(res, PASSWORD) == SQLITE_NULL)
+    {
+        sqlite3_finalize(res);
+        sqlite3_close(db);
+        return NULL;
+    }
+    
+    if (step == SQLITE_ROW) {
+        size_t len = strlen((const char*)sqlite3_column_text(res, PASSWORD));
+        printf("len : %ld\n", len);
+
+        if(len == 0)
+        {
+            return NULL;
+        }
+
+        char *result = (char*)malloc(len + 1);
+
+        if (result == NULL) {
+            fprintf(stderr, "Memory allocation error\n");
+            sqlite3_finalize(res);
+            sqlite3_close(db);
+            return NULL;
+        }
+
+        strcpy(result, (const char*)sqlite3_column_text(res, PASSWORD));
 
         sqlite3_finalize(res);
         sqlite3_close(db);
@@ -937,6 +1015,50 @@ void Archivist_setIdTag(char* oldtag, char* newtag)
         }
     } else {
         fprintf(stderr, "Error during idtag update: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+}
+
+void Archivist_setPassword(char* idtag, char* password)
+{
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open("visiolock_v2.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return;
+    }
+    
+    char *sql = "UPDATE Employee SET Password = ? WHERE IdTag = ?"; 
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, password, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+    
+    int step = sqlite3_step(res);
+
+    if (step == SQLITE_DONE) {
+        int rowsAffected = sqlite3_changes(db);
+        if (rowsAffected > 0) {
+            printf("Password updated successfully. Rows affected: %d\n", rowsAffected);
+        } else {
+            printf("No matching row found for update.\n");
+        }
+    } else {
+        fprintf(stderr, "Error during password update: %s\n", sqlite3_errmsg(db));
     }
 
     sqlite3_finalize(res);
