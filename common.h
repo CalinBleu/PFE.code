@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #include <stdbool.h>
+#include <errno.h>
 
 //Nombre de serrures supportées par cette instance Visiolock
 #define NB_LOCK 1
