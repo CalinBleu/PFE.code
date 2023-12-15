@@ -9,8 +9,6 @@
 #include "common.h"
 #include "archivist.h"
 
-static void Archivist_clearImages();
-
 char* Archivist_getName(char* idtag) {
 
     sqlite3 *db;
@@ -1062,12 +1060,12 @@ void Archivist_deleteEmployee(char* idtag)
     sqlite3_close(db);
 }
 
-static void Archivist_clearImages()
+void Archivist_clearImages()
 {
     DIR *dir;
     struct dirent *entry;
 
-    dir = opendir("/Pictures");
+    dir = opendir("Pictures/");
 
     if (dir == NULL) {
         perror("Error opening directory");
@@ -1080,7 +1078,7 @@ static void Archivist_clearImages()
         }
 
         char filePath[512];
-        snprintf(filePath, sizeof(filePath), "%s/%s", "/Pictures", entry->d_name);
+        snprintf(filePath, sizeof(filePath), "%s/%s", "Pictures/", entry->d_name);
 
         if (unlink(filePath) != 0) {
             perror("Error removing file");

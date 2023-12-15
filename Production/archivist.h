@@ -33,4 +33,6 @@ void Archivist_setUser(User user);
 
 void Archivist_deleteEmployee(char* idtag);
 
+void Archivist_clearImages();
+
 #endif //ARCHIVIST_H

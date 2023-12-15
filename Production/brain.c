@@ -52,6 +52,8 @@ static void Brain_evaluateState(bool state);
 
 static void Brain_evaluateMode(Mode mode);
 
+static void Brain_evaluateTag(AuthResult result);
+
 static pthread_t brain_thread; 
 static mqd_t brain_mq;
 
@@ -96,7 +98,8 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_OPEN_LOCK][E_STOP] = {S_DEATH, A_STOP},
     [S_USER_DENIED][E_STOP] = {S_DEATH, A_STOP},
     [S_USER_UNKNOWN][E_STOP] = {S_DEATH, A_STOP},
-    [S_IDLE][E_STOP] = {S_DEATH, A_STOP}
+    [S_IDLE][E_STOP] = {S_DEATH, A_STOP},
+    [S_OFF][E_STOP] = {S_DEATH, A_STOP}
 };
 
 int Brain_new(void)
@@ -131,7 +134,6 @@ int Brain_start(void)
         fflush(stderr);
         return 1;
     }
-    printf("thread created\n");
     return 0;
 }
 
@@ -189,7 +191,8 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("A_TAG_READED\n");
             break;
         case A_MODE_CLASSIC:
-            //tagResult = Guard_checkTag(aMsg->data.idtag); PASSER EN ASYNCHRONE
+            //tagResult = Guard_checkTag(aMsg->data.idtag);
+            //Brain_evaluateTag(tagResult);
             printf("A_MODE_CLASSIC\n");
             break;
         case A_MODE_ADMIN:
@@ -260,7 +263,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
 
 static void * Brain_run(void * aParam)
 {
-    printf("run\n");
+    printf("Brain run\n");
 	MqMsg msg;
     State myState = S_INIT;
     Transition * myTrans;
@@ -306,6 +309,28 @@ static void Brain_evaluateMode(Mode mode)
     else
     {
         msg.data.event = E_MODE_ADMIN; 
+    }
+    Brain_mqSend(&msg);
+}
+
+static void Brain_evaluateTag(AuthResult result)
+{
+    MqMsg msg;
+    if(result == USER_TAG_OK)
+    {
+        msg.data.event = E_USER_TAG_OK; 
+    }
+    else if(result == ADMIN_TAG)
+    {
+        msg.data.event = E_ADMIN_TAG; 
+    }
+    else if(result == USER_TAG_UNKNOWN)
+    {
+        msg.data.event = E_USER_TAG_UNKNOWN; 
+    }
+    else
+    {
+        msg.data.event = E_USER_TAG_DENIED; 
     }
     Brain_mqSend(&msg);
 }
