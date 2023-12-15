@@ -9,7 +9,7 @@
 #include "archivist.h"
 
 int main(){
-
+    /*
     //simulation scénario
     Brain_startVisiolock();
 
@@ -49,7 +49,6 @@ int main(){
 
     //Manager_modifyUser(user, "111");
 
-    /*
     User* user_get;
 
     user_get = Manager_getAllUsers();
@@ -66,7 +65,6 @@ int main(){
 
 
     free(user_get);    
-    */
 
     Archivist_clearImages();
 
@@ -83,5 +81,10 @@ int main(){
     }
 
     Archivist_clearImages();
+    */
+
+    int nbemployee = Archivist_getNbEmployee("Rav");
+    printf("%d\n", nbemployee);
+    
     return 0;
 }

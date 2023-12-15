@@ -277,7 +277,6 @@ Role Archivist_getRole(char* idtag) {
     }
 }
 
-
 Access* Archivist_getAccess(char* idtag) {
 
     Access* rsl = malloc(NB_LOCK);
@@ -1088,4 +1087,55 @@ void Archivist_clearImages()
     }
 
     closedir(dir);
+}
+
+int Archivist_getNbEmployee(char* inputString)
+{
+    char c = '%';
+    char final[strlen(inputString)+2];
+    sprintf(final, "%c%s%c", c,inputString,c);
+
+    // Copie le résultat dans la chaîne d'origine
+    printf("%s\n", final);
+
+    sqlite3 *db;
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+    int count = 0;
+    
+    int rc = sqlite3_open("visiolock.db", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        return -1;
+    }
+
+    char* sql;
+    if(inputString == NULL)
+    {
+        sql = "SELECT * FROM Employee";
+    }
+    else
+    {
+        sql = "SELECT * FROM Employee WHERE Name LIKE ? OR Firstname LIKE ?"; 
+    }
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    
+    if (rc == SQLITE_OK) { 
+        sqlite3_bind_text(res, 1, final, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, final, -1, SQLITE_STATIC);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+
+    while (sqlite3_step(res) == SQLITE_ROW) {
+        count++;
+    }
+
+    return count;
+
 }

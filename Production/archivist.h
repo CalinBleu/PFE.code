@@ -35,4 +35,6 @@ void Archivist_deleteEmployee(char* idtag);
 
 void Archivist_clearImages();
 
+int Archivist_getNbEmployee(char* inputString);
+
 #endif //ARCHIVIST_H
