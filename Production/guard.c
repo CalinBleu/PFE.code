@@ -1,8 +1,10 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 #include "common.h"
 #include "sha256.h"
 #include "guard.h"
 #include "archivist.h"
-
 
 void Guard_checkPassword(char* password, char* idTag ){
 
