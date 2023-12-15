@@ -26,20 +26,6 @@ typedef enum
 }Mode;
 
 /**
- * @brief Enumération correspondant aux indices des colonnes de la table SQL Employee
- * 
- */
-enum
-{
-    FIRSTNAME = 0,
-    NAME,
-    PICTURE,
-    IDTAG,
-    ROLE,
-    ACCESS
-}ColumnId;
-
-/**
  * @brief Enumération correspondant aux différents résultats d'authentification (RFID et reconaissance faciale)
  * 
  */
@@ -62,6 +48,7 @@ typedef struct {
     Access access;
     char* idTag;
     Picture picture;
+    char* password;
 }User;
 
 #endif //COMMON_H

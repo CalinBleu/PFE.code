@@ -56,6 +56,7 @@ typedef struct {
     Access access;
     char* idTag;
     Picture picture;
+    char* password;
 }User;
 
 #endif //COMMON_H
