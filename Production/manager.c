@@ -9,25 +9,9 @@
 int nombreUtilisateurs = 0; //à retirer plus tard
 
 
+static int taille_char_array(char **array);
 
-//fonction qui retourne la taille d'un tableau de char*
-static int taille_char_array(char **array){ 
-    int i = 0;
-    while(array[i] != NULL){
-        i++;
-    }
-    return i;
-}   
-
-//fonction qui libère la mémoire d'un tableau de char*
-static void free_tags(char **tags){ 
-    int i = 0;
-    while(tags[i] != NULL){
-        free(tags[i]);
-        i++;
-    }
-    free(tags);
-}
+static void free_tags(char **tags);
 
 void Manager_addUser(User user){
     Archivist_setUser(user);
@@ -117,6 +101,25 @@ static User* Manager_getUserByTag(char* idTag){
     user->picture = Archivist_getPicture(idTag);
 
     return user;
+}
+
+//fonction qui retourne la taille d'un tableau de char*
+static int taille_char_array(char **array){ 
+    int i = 0;
+    while(array[i] != NULL){
+        i++;
+    }
+    return i;
+}   
+
+//fonction qui libère la mémoire d'un tableau de char*
+static void free_tags(char **tags){ 
+    int i = 0;
+    while(tags[i] != NULL){
+        free(tags[i]);
+        i++;
+    }
+    free(tags);
 }
 
 
