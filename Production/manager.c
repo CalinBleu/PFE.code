@@ -6,26 +6,66 @@
 #include "manager.h"
 #include "archivist.h"
 
+int nombreUtilisateurs = 0; //à retirer plus tard
 
+
+
+//fonction qui retourne la taille d'un tableau de char*
+int taille_char_array(char **array){ 
+    int i = 0;
+    while(array[i] != NULL){
+        i++;
+    }
+    return i;
+}   
+
+//fonction qui libère la mémoire d'un tableau de char*
+void free_tags(char **tags){ 
+    int i = 0;
+    while(tags[i] != NULL){
+        free(tags[i]);
+        i++;
+    }
+    free(tags);
+}
+
+//fonction qui ajoute un utilisateur dans la base de données
 void Manager_addUser(User user){
     Archivist_setUser(user);
 }
 
+//fonction qui supprime un utilisateur de la base de données
 void Manager_removeUser(char* idTag){
     Archivist_deleteEmployee(idTag);
 }
 
-void Manager_searchUser(char* searchField){
-    char **tags;
+
+//fonction qui recherche un utilisateur dans la base de données
+User* Manager_searchUser(char* searchField){
+
+    nombreUtilisateurs = 0; // à retirer plus tard
+
+    char **tags = (char**)malloc(sizeof(char*));
+
     tags = Archivist_getTags(searchField);
-    User* user;
 
+    int taille_tags = taille_char_array(tags);
 
-    for(int i=0;i<sizeof(tags);i++){
-        Manager_getAllUsers(user->name);
+    User* user = (User*)malloc(taille_tags * sizeof(User));
+
+    for(int i=0;i<taille_tags;i++){
+        User* current_user = Manager_getUserByTag(tags[i]);
+
+        if(current_user != NULL){
+            user[i] = *current_user;
+            nombreUtilisateurs++;
+        }
     }
+
+    return user;
 }
 
+//fonction qui modifie un utilisateur dans la base de données
 void Manager_modifyUser(User user, char* idTag){
     Archivist_setIdTag(idTag, user.idTag);
     Archivist_setName(user.idTag, user.name);
@@ -36,39 +76,44 @@ void Manager_modifyUser(User user, char* idTag){
     Archivist_setAccess(user.idTag,&user.access);
 }
 
-int taille_char_array(char **array){
-    int i = 0;
-    while(array[i] != NULL){
-        i++;
-    }
-    return i;
-}   
+//fonction qui retourne tous les utilisateurs de la base de données
+User* Manager_getAllUsers(){
 
+    nombreUtilisateurs = 0; // à retirer plus tard
 
-User* Manager_getAllUsers(char* name){
-    char **tags;
+    char** tags = (char**)malloc(sizeof(char*));
 
-    tags = Archivist_getTags(name);
+    tags = Archivist_getTags(NULL);
 
     int taille = taille_char_array(tags);
 
-    User *users;
-    users = (User*)malloc(taille * sizeof(User));
+    User *users = (User*)malloc(taille * sizeof(User));
+
+    if(users == NULL){
+        printf("Erreur d'allocation mémoire\n");
+        free_tags(tags);
+        return NULL;
+    }   
 
     for(int i = 0;i<taille;i++){
-        users[i].name = Archivist_getName(tags[i]);
-        users[i].firstName = Archivist_getFirstName(tags[i]);
-        users[i].role = Archivist_getRole(tags[i]);
-        *users[i].access = Archivist_getAccess(tags[i]);
-        users[i].idTag = tags[i];
-        users[i].picture = Archivist_getPicture(tags[i]);
+       User* current_user = Manager_getUserByTag(tags[i]);
+
+       if (current_user != NULL)
+       {
+         users[i] = *current_user;
+         nombreUtilisateurs++;
+       }
+       
     }
 
     return users;
 }
 
+
+//fonction qui retourne un utilisateur de la base de données en fonction de son idTag
 static User* Manager_getUserByTag(char* idTag){
-    User *user;
+
+    User *user = (User*)malloc(sizeof(User));
 
     user->name = Archivist_getName(idTag);
     user->firstName = Archivist_getFirstName(idTag);
