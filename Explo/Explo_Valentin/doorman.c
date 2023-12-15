@@ -73,6 +73,7 @@ static void Doorman_init(){
 	gpiod_line_request_output(lineRed, "ex", 0);
 
 
+
     struct sigevent event;
 
 	event.sigev_notify = SIGEV_THREAD;
@@ -90,12 +91,14 @@ static void Doorman_init(){
  */
 void Doorman_open(){
 	gpiod_line_set_value(lineLock, 1);
+	//printf("open");
 }
 /**
  * brief Fonction permettant de fermer la porte
  */
 static void Doorman_close(){
-    gpiod_line_set_value(lineLock, 0); 
+    gpiod_line_set_value(lineLock, 0);
+	//printf("close"); 
 }
 
 
@@ -168,12 +171,15 @@ static void led_timeout(union sigval val){
 int main(){
     Doorman_init();
 
+	Doorman_open();
+	sleep(3);
+	Doorman_close();
+	//Doorman_userDenied();
+	Doorman_userUnknown();
+
     while (1)
     {
-        Doorman_open();
-        Doorman_close();
-        Doorman_userDenied();
-        Doorman_userUnknown();
+        
     }
     
 }
