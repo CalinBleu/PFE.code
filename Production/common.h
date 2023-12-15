@@ -10,6 +10,21 @@
 #define CURRENT_ZONE 0
 
 /**
+ * @brief Enumération correspondant aux indices des colonnes de la table SQL Employee
+ * 
+ */
+typedef enum
+{
+    FIRSTNAME = 0,
+    NAME,
+    PICTURE,
+    IDTAG,
+    ROLE,
+    ACCESS,
+    PASSWORD
+}ColumnId;
+
+/**
  * @brief Enumération correspondant aux différents rôles disponibles
  * 
  */

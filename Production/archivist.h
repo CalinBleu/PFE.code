@@ -1,21 +1,6 @@
 #ifndef ARCHIVIST_H
 #define ARCHIVIST_H
 
-/**
- * @brief Enumération correspondant aux indices des colonnes de la table SQL Employee
- * 
- */
-enum
-{
-    FIRSTNAME = 0,
-    NAME,
-    PICTURE,
-    IDTAG,
-    ROLE,
-    ACCESS,
-    PASSWORD
-}ColumnId;
-
 char* Archivist_getName(char* idtag);
 
 char* Archivist_getFirstName(char* idtag);
