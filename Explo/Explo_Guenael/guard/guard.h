@@ -29,6 +29,16 @@ typedef bool Access[NB_LOCK];
 
 typedef char Picture;
 
+
+typedef struct {
+    char* name;
+    char* firstName;
+    Role role;
+    Access access;
+    char* idTag;
+    Picture picture;
+}User;
+
 void Guard_checkPassword(char* password, char* idTag );
 AuthResult Guard_checkTag(char* idTag);
 void Guard_resultRecognition(AuthResult authResult);

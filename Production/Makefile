@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -std=c99
 LDFLAGS = -lsqlite3 -lm
 
-SRCS = starter.c brain.c archivist.c
+SRCS = starter.c brain.c archivist.c guard.c manager.c sha256.c
 OUT = Visiolock
 
 all: $(OUT)

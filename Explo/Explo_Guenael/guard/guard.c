@@ -7,7 +7,7 @@ void Guard_checkPassword(char* password, char* idTag ){
 
     char password_hash[SHA256_HEX_SIZE];
 
-    char *hash = Archivist_getPassword();
+    char *hash = Archivist_getPassword(idTag);
 
     sha256_hex(password, strlen(password), password_hash);
 
@@ -57,19 +57,23 @@ void Guard_checkFace(char* idTag){
 }
 */
 
+
+/*
 int main(void){
 
-    /*
+    
     char str[100];
     printf("\nEntrer votre mdp :");
     fgets(str, sizeof(str), stdin);
     Guard_checkPassword(str, "1234");
     return 0;
-    */
+    
    
     int result = Guard_checkTag("1239");
     printf("%d\n", result);
 }
+
+*/
 
 
 
