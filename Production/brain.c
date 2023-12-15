@@ -9,6 +9,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "common.h"
+#include "guard.h"
 #include "brain.h"
 
 #define NAME_MQ_BOX_BRAIN  "/mq_brain" //Boîte aux lettres liée à Brain
@@ -28,7 +29,6 @@ typedef struct
 {
 	Event event;
     bool recognized;
-    char* idtag;
     Mode mode;
 } MqMsgData;
 
@@ -59,6 +59,7 @@ static mqd_t brain_mq;
 
 static Mode mode;
 static AuthResult tagResult;
+static char* currentTag;
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
@@ -191,8 +192,8 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("A_TAG_READED\n");
             break;
         case A_MODE_CLASSIC:
-            //tagResult = Guard_checkTag(aMsg->data.idtag);
-            //Brain_evaluateTag(tagResult);
+            tagResult = Guard_checkTag(currentTag);
+            Brain_evaluateTag(tagResult);
             printf("A_MODE_CLASSIC\n");
             break;
         case A_MODE_ADMIN:
@@ -211,8 +212,13 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_USER_TAG_OK:
             //GUI_displayHomeScreen(USER_TAG_OK);
-            //Guard_checkFace(aMsg->data.idtag);
+            Guard_checkFace(currentTag);
             printf("A_USER_TAG_OK\n");
+            break;
+        case A_ADMIN_TAG:
+            //GUI_displayHomeScreen(ADMIN_TAG);
+            Guard_checkFace(currentTag);
+            printf("A_ADMIN_TAG\n");
             break;
         case A_USER_TAG_DENIED:
             //GUI_displayHomeScreen(USER_TAG_DENIED);
@@ -271,6 +277,10 @@ static void * Brain_run(void * aParam)
     {
         Brain_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
+        printf("myState : %d\n", myState);
+        printf("event : %d\n", msg.data.event);
+        printf("dest state : %d\n", myTrans->destinationState);
+        printf("action : %d\n", myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Brain_performAction(myTrans->action, &msg);
@@ -366,7 +376,8 @@ void Brain_standBy(void)
 
 void Brain_tagReaded(char* idtag)
 {
-	MqMsg msg = {.data.event = E_TAG_READED, .data.idtag = idtag}; //envoi de l'évènement TAG_READED via mq
+    currentTag = idtag;
+	MqMsg msg = {.data.event = E_TAG_READED}; //envoi de l'évènement TAG_READED via mq
 	Brain_mqSend(&msg);
 }
 

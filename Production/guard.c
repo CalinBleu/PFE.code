@@ -1,3 +1,4 @@
+#include "common.h"
 #include "sha256.h"
 #include "guard.h"
 #include "archivist.h"
@@ -28,7 +29,7 @@ AuthResult Guard_checkTag(char* idTag){
     }
     else if (role == USER)
     {
-        if(*access[zone] == true){
+        if(*access[CURRENT_ZONE] == true){
             return USER_TAG_OK;
         }
         else{
@@ -50,12 +51,12 @@ void Guard_resultRecognition(AuthResult authResult){
         faceAnalysed(false);
     }
 }
-
-void Guard_checkFace(char* idTag){
-    Picture picture = getPicture(idTag);
-    startRecognition(picture);
-}
 */
+void Guard_checkFace(char* idTag){
+    Picture picture = Archivist_getPicture(idTag);
+    //startRecognition(picture);
+}
+
 
 
 /*

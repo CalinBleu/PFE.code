@@ -1078,7 +1078,7 @@ void Archivist_clearImages()
         }
 
         char filePath[512];
-        snprintf(filePath, sizeof(filePath), "%s/%s", "Pictures/", entry->d_name);
+        snprintf(filePath, sizeof(filePath), "%s/%s", "Pictures", entry->d_name);
 
         if (unlink(filePath) != 0) {
             perror("Error removing file");
