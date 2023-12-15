@@ -17,6 +17,8 @@ Item {
 
     property alias button_password: admin_password
     property alias button_quit: admin_quit
+    property alias label_password: label_password
+    property alias password_input: password_input
 
     Rectangle {
         id: rectangle
@@ -125,16 +127,32 @@ Item {
             }
         }
 
-        TextInput {
-            id: password_input
+        Rectangle {
+            id: rectangle_name
             x: 368
             y: 226
             width: 254
             height: 35
-            text: qsTr("password")
-            color: "#171F69"
-            font.styleName: "Bold"
-            font.pixelSize: 14
+            color: "#D9D9D9"
+
+            TextInput {
+                id: password_input
+                x: 3
+                y: 3
+                width: 254
+                height: 35
+                echoMode: TextInput.Password
+                color: "#171F69"
+                font.styleName: "Bold"
+                font.pixelSize: 24
+            }
+
+            Label {
+                id: label_password
+                x: 6
+                y: 8
+                text: "Entrez votre mot de passe"
+            }
         }
     }
 

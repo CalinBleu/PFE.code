@@ -20,6 +20,9 @@ Item {
     property alias button_modify: admin_modify
     property alias button_quit: admin_quit
 
+    property alias label_search: label_search
+    property alias input_search: input_search
+
     Rectangle {
         id: rectangle
         x: 0
@@ -83,15 +86,21 @@ Item {
                 radius: 8
 
                 TextInput {
-                    id: textInput
+                    id: input_search
                     x: 15
                     y: 4
                     width: 291
                     height: 14
-                    text: "Rechercher Utilisateur"
                     font.pixelSize: 12
                     color: "#171F69"
                     font.italic: true
+                }
+
+                Label {
+                    id: label_search
+                    x: 15
+                    y: 4
+                    text: "Rechercher Utilisateur"
                 }
 
                 Image {

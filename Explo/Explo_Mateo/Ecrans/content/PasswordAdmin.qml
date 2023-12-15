@@ -8,4 +8,11 @@ PasswordAdminForm {
         stack.clear()
         stack.push("AccueilAdmin.qml")
     }
+    label_password.visible: {
+        if (password_input.text.length === 0) {
+            true
+        } else {
+            false
+        }
+    }
 }
