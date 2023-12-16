@@ -9,22 +9,25 @@
 #include "archivist.h"
 
 int main(){
-    /*
     //simulation scénario
     Brain_startVisiolock();
 
     sleep(2);
     Brain_tagReaded("1234");
     sleep(3);
-    Brain_faceAnalysed(true);
+    Brain_changeMode(MODE_ADMIN);
+    //Brain_faceAnalysed(false);
     sleep(2);
     Brain_tagReaded("1235");
-    sleep(5);
+    sleep(10);
+    Brain_faceAnalysed(true);
+    sleep(10);
 
-
+    Brain_stopVisiolock();
+    sleep(3);
     Brain_free();
     
-    
+    /*
     User user;
     user.name = "Ravus";
     user.firstName = "atroce";
@@ -79,12 +82,13 @@ int main(){
         printf("User %d : %s\n", i, user_search[i].idTag);
         printf("User %d : %d\n", i, user_search[i].access[CURRENT_ZONE]);
     }
-
-    Archivist_clearImages();
     */
+    Archivist_clearImages();
+    
 
     int nbemployee = Archivist_getNbEmployee(NULL);
     printf("%d\n", nbemployee);
+
     
     return 0;
 }

@@ -6,6 +6,7 @@
 #include <mqueue.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include "common.h"
@@ -16,8 +17,8 @@
 #define MQ_MSG_COUNT 10
 
 typedef enum  {S_FORGET = 0, S_INIT, S_ANALYSE, S_REGISTER, S_FACE_RECO, S_USER_DENIED, S_USER_UNKNOWN, S_OPEN_LOCK, S_IDLE, S_OFF, S_CHOICE_1, S_CHOICE_2, S_DEATH, STATE_NB} State; 
-typedef enum  {E_TAG_READED = 0, E_MODE_ADMIN, E_MODE_CLASSIC, E_CHANGE_MODE_CLASSIC, E_CHANGE_MODE_ADMIN, E_USER_TAG_OK, E_ADMIN_TAG, E_USER_TAG_DENIED, E_USER_TAG_UNKNOWN, E_FACE_ANALYSED, E_FACE_TRUE, E_FACE_FALSE, E_TIMEOUT_LOCK, E_TIMEOUT_SCREEN, E_STANDBY, E_STOP, EVENT_NB} Event; 
-typedef enum  {A_NOP = 0, A_TAG_READED, A_MODE_CLASSIC, A_MODE_ADMIN, A_CHANGE_MODE, A_CHANGE_MODE_SPE, A_USER_TAG_OK, A_ADMIN_TAG, A_USER_TAG_DENIED, A_USER_TAG_UNKNOWN, A_FACE_ANALYSED, A_FACE_TRUE, A_FACE_FALSE, A_TIMEOUT_LOCK, A_TIMEOUT_SCREEN, A_STANDBY, A_STOP} Action ; 
+typedef enum  {E_TAG_READED = 0, E_MODE_ADMIN, E_MODE_CLASSIC, E_CHANGE_MODE_CLASSIC, E_CHANGE_MODE_ADMIN, E_USER_TAG_OK, E_ADMIN_TAG, E_USER_TAG_DENIED, E_USER_TAG_UNKNOWN, E_FACE_ANALYSED, E_FACE_TRUE, E_FACE_FALSE, E_TIMEOUT, E_STANDBY, E_STOP, EVENT_NB} Event; 
+typedef enum  {A_NOP = 0, A_TAG_READED, A_MODE_CLASSIC, A_MODE_ADMIN, A_CHANGE_MODE, A_CHANGE_MODE_SPE, A_USER_TAG_OK, A_ADMIN_TAG, A_USER_TAG_DENIED, A_USER_TAG_UNKNOWN, A_FACE_ANALYSED, A_FACE_TRUE, A_FACE_FALSE, A_TIMEOUT, A_STANDBY, A_STOP} Action ; 
 
 typedef struct
 {
@@ -54,11 +55,17 @@ static void Brain_evaluateMode(Mode mode);
 
 static void Brain_evaluateTag(AuthResult result);
 
+static void Brain_timer_launch();
+
+static void Brain_cancel_timer();
+
+static void Brain_timeout(union sigval val);
+
 static pthread_t brain_thread; 
 static mqd_t brain_mq;
+static timer_t screen_lock_timer;
 
 static Mode mode;
-static AuthResult tagResult;
 static char* currentTag;
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
@@ -77,11 +84,14 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_FACE_RECO][E_FACE_ANALYSED] = {S_CHOICE_2, A_FACE_ANALYSED},
     [S_CHOICE_2][E_FACE_TRUE] = {S_OPEN_LOCK, A_FACE_TRUE},
     [S_CHOICE_2][E_FACE_FALSE] = {S_USER_UNKNOWN, A_FACE_FALSE},
-    [S_OPEN_LOCK][E_TIMEOUT_LOCK] = {S_IDLE, A_TIMEOUT_LOCK},
-    [S_USER_UNKNOWN][E_TIMEOUT_SCREEN] = {S_IDLE, A_TIMEOUT_SCREEN},
-    [S_USER_DENIED][E_TIMEOUT_SCREEN] = {S_IDLE, A_TIMEOUT_SCREEN},
+    [S_OPEN_LOCK][E_TIMEOUT] = {S_IDLE, A_TIMEOUT},
+    [S_USER_UNKNOWN][E_TIMEOUT] = {S_IDLE, A_TIMEOUT},
+    [S_USER_DENIED][E_TIMEOUT] = {S_IDLE, A_TIMEOUT},
     [S_REGISTER][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
     [S_FACE_RECO][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
+    [S_OPEN_LOCK][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
+    [S_USER_DENIED][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
+    [S_USER_UNKNOWN][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
     [S_IDLE][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
     //standBy()
     [S_ANALYSE][E_STANDBY] = {S_OFF, A_STANDBY},
@@ -124,6 +134,18 @@ int Brain_new(void)
 		return 1;
     }
 
+	struct sigevent event;
+
+	event.sigev_notify = SIGEV_THREAD;
+	event.sigev_value.sival_ptr = NULL;
+	event.sigev_notify_function = Brain_timeout;
+	event.sigev_notify_attributes = NULL;
+
+	if (timer_create(CLOCK_REALTIME, &event, &screen_lock_timer) != 0) {
+		perror("timer_create");
+        return 1;
+	}
+
     return 0;
 }
 
@@ -136,6 +158,12 @@ int Brain_start(void)
         return 1;
     }
     return 0;
+}
+
+static void Brain_timeout(union sigval val)
+{
+	MqMsg msg = {.data.event = E_TIMEOUT};
+	Brain_mqSend(&msg);
 }
 
 int Brain_free(void)
@@ -188,11 +216,12 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
         case A_TAG_READED:
             Brain_wakeUp();
             //RFID_stopReading();
+            Brain_cancel_timer();
             Brain_evaluateMode(mode);
             printf("A_TAG_READED\n");
             break;
         case A_MODE_CLASSIC:
-            tagResult = Guard_checkTag(currentTag);
+            AuthResult tagResult = Guard_checkTag(currentTag);
             Brain_evaluateTag(tagResult);
             printf("A_MODE_CLASSIC\n");
             break;
@@ -206,7 +235,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("A_CHANGE_MODE\n");
             break;
         case A_CHANGE_MODE_SPE:
-            //mode = MODE_ADMIN;
+            mode = MODE_ADMIN;
             //RFID_startReading();
             printf("A_CHANGE_MODE_SPE\n");
             break;
@@ -223,11 +252,13 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
         case A_USER_TAG_DENIED:
             //GUI_displayHomeScreen(USER_TAG_DENIED);
             //Doorman_userDenied();
+            Brain_timer_launch();
             printf("A_USER_TAG_DENIED\n");
             break;
         case A_USER_TAG_UNKNOWN:
             //GUI_displayHomeScreen(USER_TAG_UNKNOWN);
             //Doorman_userUnknown();
+            Brain_timer_launch();
             printf("A_USER_TAG_UNKNOWN\n");
             break;
         case A_FACE_ANALYSED:
@@ -237,20 +268,18 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
         case A_FACE_TRUE:
             //GUI_displayHomeScreen(ALLOWED);
             //Doorman_open();
+            Brain_timer_launch();
             printf("A_FACE_TRUE\n");
             break;
         case A_FACE_FALSE:
             //GUI_displayHomeScreen(FACE_UNKNOWN);
             //Doorman_userUnknown();
+            Brain_timer_launch();
             printf("A_FACE_FALSE\n");
             break;
-        case A_TIMEOUT_LOCK:
+        case A_TIMEOUT:
             //RFID_startReading();
-            printf("A_TIMEOUT_LOCK\n");
-            break;
-        case A_TIMEOUT_SCREEN:
-            //RFID_startReading();
-            printf("A_TIMEOUT_SCREEN\n");
+            printf("A_TIMEOUT\n");
             break;
         case A_STANDBY:
             //GUI_screenOff();
@@ -345,6 +374,34 @@ static void Brain_evaluateTag(AuthResult result)
     Brain_mqSend(&msg);
 }
 
+static void Brain_timer_launch()
+{
+	struct itimerspec itimer;
+
+	itimer.it_interval.tv_sec = 0;
+	itimer.it_interval.tv_nsec = 0;
+	itimer.it_value.tv_sec = 5;
+	itimer.it_value.tv_nsec = 0;
+
+	if (timer_settime(screen_lock_timer, 0, &itimer, NULL) != 0) {
+		perror("timer_settime launch");
+	}
+}
+
+static void Brain_cancel_timer()
+{
+	struct itimerspec itimer;
+
+	itimer.it_interval.tv_sec = 0;
+	itimer.it_interval.tv_nsec = 0;
+	itimer.it_value.tv_sec = 0;
+	itimer.it_value.tv_nsec = 0;
+
+	if (timer_settime(screen_lock_timer, 0, &itimer, NULL) != 0) {
+		perror("timer_settime cancel");
+	}
+}
+
 void Brain_startVisiolock()
 {
     if(Brain_new() != 0) 
@@ -391,7 +448,7 @@ void Brain_changeMode(Mode mode)
     }
     else
     {
-        msg.data.event = E_CHANGE_MODE_CLASSIC;
+        msg.data.event = E_CHANGE_MODE_ADMIN;
         msg.data.mode = MODE_ADMIN; 
     }
     Brain_mqSend(&msg);

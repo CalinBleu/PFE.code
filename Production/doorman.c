@@ -4,10 +4,11 @@
 #include <stdio.h>
 #include <gpiod.h>
 #include <unistd.h>
-#include "doorman.h"
 #include <signal.h>
 #include <time.h>
 #include <pthread.h>
+#include "common.h"
+#include "doorman.h"
 
 
 /*
