@@ -83,7 +83,7 @@ int main(){
     Archivist_clearImages();
     */
 
-    int nbemployee = Archivist_getNbEmployee("Rav");
+    int nbemployee = Archivist_getNbEmployee(NULL);
     printf("%d\n", nbemployee);
     
     return 0;

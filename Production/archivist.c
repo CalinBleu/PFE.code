@@ -1091,12 +1091,16 @@ void Archivist_clearImages()
 
 int Archivist_getNbEmployee(char* inputString)
 {
-    char c = '%';
-    char final[strlen(inputString)+2];
-    sprintf(final, "%c%s%c", c,inputString,c);
-
-    // Copie le résultat dans la chaîne d'origine
-    printf("%s\n", final);
+    int inputLength = 0;
+    if(inputString != NULL)
+    {
+        inputLength = strlen(inputString);
+    }
+    char final[inputLength+2];
+    if(inputString != NULL)
+    {
+        sprintf(final, "%c%s%c", '%',inputString,'%');
+    }
 
     sqlite3 *db;
     char *err_msg = 0;
