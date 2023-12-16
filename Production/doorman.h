@@ -2,7 +2,7 @@
  * brief Fonction permettant d'ouvrir la porte
  * 
  */
-void open();
+void Doorman_open();
 
 /**
  * brief Fonction permettant l'allumage de la LED correspondant à l'évènement "l'utilisateur est 

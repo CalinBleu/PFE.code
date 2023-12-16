@@ -13,6 +13,9 @@ static int taille_char_array(char **array);
 
 static void free_tags(char **tags);
 
+//fonction qui retourne un utilisateur de la base de données en fonction de son idTag
+static User* Manager_getUserByTag(char* idTag);
+
 void Manager_addUser(User user){
     Archivist_setUser(user);
 }
