@@ -34,6 +34,10 @@ typedef enum
     ADMIN
 }Role;
 
+/**
+ * @brief Enumération correspondant aux différents modes disponibles
+ * 
+ */
 typedef enum
 {
     MODE_CLASSIC = 0,
@@ -56,6 +60,10 @@ typedef enum AuthResult {
 typedef bool Access[NB_LOCK];
 typedef char* Picture;
 
+/**
+ * @brief Structure correpondant à un utilisateur général de Visiolock
+ * 
+ */
 typedef struct {
     char* name;
     char* firstName;
