@@ -3,7 +3,7 @@ CFLAGS = -std=c99
 LDFLAGS = -lsqlite3 -lm -lrt -lgpiod
 
 SRCS = starter.c brain.c archivist.c guard.c manager.c sha256.c
-OUT = Visiolock
+OUT = Visiolock.out
 
 all: $(OUT)
 
