@@ -19,6 +19,7 @@
 #define LED_RED 	27	
 #define LOCK		17
 #define TIMER_LED   5
+#define TIMER_LOCK	5
 
 /*
  * STRUCT
@@ -36,20 +37,21 @@ struct gpiod_chip *chipOrange;
 struct gpiod_line *lineOrange;
 
 static timer_t led_timer;
+static timer_t lock_timer;
 
 /*
  * LOCAL FUNCTIONS
  */
 
-static void Doorman_init();
-
 static void Doorman_close();
 
-static void led_timer_launch();
+static void Doorman_led_timer_launch();
 
-static void led_cancel_timer();
+static void Doorman_led_timeout(union sigval val);
 
-static void led_timeout(union sigval val);
+static void Doorman_lock_timer_launch();
+
+static void Doorman_lock_timeout(union sigval val);
 
 
 
@@ -60,7 +62,8 @@ static void led_timeout(union sigval val);
  * brief Fonction d'intialisation des ports GPIO
  *
  */
-static void Doorman_init(){
+void Doorman_init(){
+
 	chipLock = gpiod_chip_open_by_name(chipnameLock);
 	lineLock = gpiod_chip_get_line(chipLock, LOCK);
 	gpiod_line_request_output(lineLock, "ex", 0);
@@ -74,15 +77,25 @@ static void Doorman_init(){
 	gpiod_line_request_output(lineRed, "ex", 0);
 
 
-
     struct sigevent event;
 
 	event.sigev_notify = SIGEV_THREAD;
 	event.sigev_value.sival_ptr = NULL;
-	event.sigev_notify_function = led_timeout;
+	event.sigev_notify_function = Doorman_led_timeout;
 	event.sigev_notify_attributes = NULL;
 
-   if (timer_create(CLOCK_REALTIME, &event, &led_timer) != 0) {
+   	if (timer_create(CLOCK_REALTIME, &event, &led_timer) != 0) {
+		perror("timer_create");
+	}
+
+	struct sigevent event2;
+
+	event2.sigev_notify = SIGEV_THREAD;
+	event2.sigev_value.sival_ptr = NULL;
+	event2.sigev_notify_function = Doorman_lock_timeout;
+	event2.sigev_notify_attributes = NULL;
+
+   	if (timer_create(CLOCK_REALTIME, &event2, &lock_timer) != 0) {
 		perror("timer_create");
 	}
 }
@@ -92,14 +105,15 @@ static void Doorman_init(){
  */
 void Doorman_open(){
 	gpiod_line_set_value(lineLock, 1);
-	//printf("open");
+	Doorman_lock_timer_launch();
+	printf("open");
 }
 /**
  * brief Fonction permettant de fermer la porte
  */
 static void Doorman_close(){
     gpiod_line_set_value(lineLock, 0);
-	//printf("close"); 
+	printf("close"); 
 }
 
 
@@ -107,7 +121,7 @@ static void Doorman_close(){
  * brief Fonction d'initialisation du timer TIMER_LED
  * 
  */
-static void led_timer_launch()
+static void Doorman_led_timer_launch()
 {
 	struct itimerspec itimer;
 
@@ -121,21 +135,17 @@ static void led_timer_launch()
 	}
 }
 
-/**
- * brief Fonction d'annulation du timer TIMER_LED
- * 
- */
-static void led_cancel_timer()
+static void Doorman_lock_timer_launch()
 {
 	struct itimerspec itimer;
 
 	itimer.it_interval.tv_sec = 0;
 	itimer.it_interval.tv_nsec = 0;
-	itimer.it_value.tv_sec = 0;
+	itimer.it_value.tv_sec = TIMER_LOCK;
 	itimer.it_value.tv_nsec = 0;
 
-	if (timer_settime(led_timer, 0, &itimer, NULL) != 0) {
-		perror("timer_settime cancel");
+	if (timer_settime(lock_timer, 0, &itimer, NULL) != 0) {
+		perror("timer_settime launch");
 	}
 }
 
@@ -146,7 +156,7 @@ static void led_cancel_timer()
  */
 void Doorman_userDenied() {
     gpiod_line_set_value(lineOrange, 1);
-    led_timer_launch();    
+    Doorman_led_timer_launch();    
 }
 
 /**
@@ -155,7 +165,7 @@ void Doorman_userDenied() {
  */
 void Doorman_userUnknown() {
     gpiod_line_set_value(lineRed, 1);
-    led_timer_launch();
+    Doorman_led_timer_launch();
 }
 
 
@@ -164,9 +174,13 @@ void Doorman_userUnknown() {
  * 
  * param val Le signal déclenché par le timeout
  */
-static void led_timeout(union sigval val){
+static void Doorman_led_timeout(union sigval val){
     gpiod_line_set_value(lineRed, 0);
     gpiod_line_set_value(lineOrange, 0);
+}
+
+static void Doorman_lock_timeout(union sigval val){
+	Doorman_close();
 }
 
 

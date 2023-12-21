@@ -7,13 +7,15 @@
 #include "archivist.h"
 #include "manager.h"
 #include "archivist.h"
+#include "doorman.h"
 
 int main(){
 
-    /*
-    //simulation scénario
     Brain_startVisiolock();
+    //Doorman_init();
+    Archivist_open();
 
+    /*
     sleep(2);
     Brain_tagReaded("1234");
     sleep(3);
@@ -24,10 +26,6 @@ int main(){
     sleep(10);
     Brain_faceAnalysed(true);
     sleep(10);
-
-    Brain_stopVisiolock();
-    sleep(3);
-    Brain_free();
     
     */
 
@@ -48,8 +46,6 @@ int main(){
     user2.access[0] = true;
     user2.idTag = "123";
     user2.picture = "image_test.jpg";
-
-    Archivist_open();
 
     //Manager_addUser(user);
 
@@ -95,6 +91,10 @@ int main(){
     Archivist_clearImages();
 
     Archivist_close();
+
+    Brain_stopVisiolock();
+    sleep(3);
+    Brain_free();
     
 
     /*

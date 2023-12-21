@@ -16,3 +16,5 @@ void Doorman_userDenied();
  * 
  */
 void Doorman_userUnknown();
+
+void Doorman_init();
