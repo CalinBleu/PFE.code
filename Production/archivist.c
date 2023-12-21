@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <math.h>
 #include "common.h"
+#include "sha256.h"
 #include "archivist.h"
 
 char* Archivist_getName(char* idtag) {
@@ -839,6 +840,9 @@ void Archivist_setIdTag(char* oldtag, char* newtag)
 
 void Archivist_setPassword(char* idtag, char* password)
 {
+    char password_hash[SHA256_HEX_SIZE];
+    sha256_hex(password, strlen(password), password_hash);
+
     sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
@@ -858,7 +862,7 @@ void Archivist_setPassword(char* idtag, char* password)
     rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
     
     if (rc == SQLITE_OK) { 
-        sqlite3_bind_text(res, 1, password, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, password_hash, -1, SQLITE_STATIC);
         sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));

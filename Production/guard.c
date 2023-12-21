@@ -4,6 +4,7 @@
 #include "common.h"
 #include "sha256.h"
 #include "guard.h"
+#include "brain.h"
 #include "archivist.h"
 
 void Guard_checkPassword(char* password, char* idTag ){
@@ -16,9 +17,11 @@ void Guard_checkPassword(char* password, char* idTag ){
 
     if(strcmp(password_hash, hash)== 0){
         printf("Correct Password\n");
+        //GUI_validatePassword(true);
     }
     else{
         printf("Incorrect Password\n");
+        //GUI_validatePassword(false);
     }
 }
 
@@ -44,16 +47,15 @@ AuthResult Guard_checkTag(char* idTag){
     
 }
 
-/*
 void Guard_resultRecognition(AuthResult authResult){
     if(authResult == ALLOWED){
-        faceAnalysed(true);
+        Brain_faceAnalysed(true);
     }
     else{
-        faceAnalysed(false);
+        Brain_faceAnalysed(false);
     }
 }
-*/
+
 void Guard_checkFace(char* idTag){
     Picture picture = Archivist_getPicture(idTag);
     //startRecognition(picture);

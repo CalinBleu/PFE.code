@@ -47,7 +47,7 @@ void Manager_modifyUser(User user, char* idTag){
     Archivist_setIdTag(idTag, user.idTag);
     Archivist_setName(user.idTag, user.name);
     Archivist_setFirstName(user.idTag, user.firstName);
-    Archivist_getPassword(user.idTag);
+    Archivist_setPassword(user.idTag, user.password);
     Archivist_setPicture(user.idTag, user.picture);
     Archivist_setRole(user.idTag, user.role);
     Archivist_setAccess(user.idTag,&user.access);
@@ -93,6 +93,7 @@ static User* Manager_getUserByTag(char* idTag){
     *user->access = Archivist_getAccess(idTag);
     user->idTag = idTag;
     user->picture = Archivist_getPicture(idTag);
+    user->password = Archivist_getPassword(idTag);
 
     return user;
 }
