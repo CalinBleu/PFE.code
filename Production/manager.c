@@ -6,9 +6,6 @@
 #include "manager.h"
 #include "archivist.h"
 
-int nombreUtilisateurs = 0; //à retirer plus tard
-
-
 static int taille_char_array(char **array);
 
 static void free_tags(char **tags);
@@ -27,8 +24,6 @@ void Manager_removeUser(char* idTag){
 
 User* Manager_searchUser(char* searchField){
 
-    nombreUtilisateurs = 0; // à retirer plus tard
-
     char **tags = (char**)malloc(sizeof(char*));
 
     tags = Archivist_getTags(searchField);
@@ -42,7 +37,6 @@ User* Manager_searchUser(char* searchField){
 
         if(current_user != NULL){
             user[i] = *current_user;
-            nombreUtilisateurs++;
         }
     }
 
@@ -60,8 +54,6 @@ void Manager_modifyUser(User user, char* idTag){
 }
 
 User* Manager_getAllUsers(){
-
-    nombreUtilisateurs = 0; // à retirer plus tard
 
     char** tags = (char**)malloc(sizeof(char*));
 
@@ -83,7 +75,6 @@ User* Manager_getAllUsers(){
        if (current_user != NULL)
        {
          users[i] = *current_user;
-         nombreUtilisateurs++;
        }
        
     }

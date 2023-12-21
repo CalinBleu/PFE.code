@@ -9,6 +9,8 @@
 #include "archivist.h"
 
 int main(){
+
+    /*
     //simulation scénario
     Brain_startVisiolock();
 
@@ -27,7 +29,8 @@ int main(){
     sleep(3);
     Brain_free();
     
-    /*
+    */
+
     User user;
     user.name = "Ravus";
     user.firstName = "atroce";
@@ -51,14 +54,15 @@ int main(){
     //Manager_removeUser("12222");
 
     //Manager_modifyUser(user, "111");
-
+    
+    /*
     User* user_get;
 
     user_get = Manager_getAllUsers();
 
     printf("%s\n",user_get[0].idTag);
 
-    for(int i = 0; i<nombreUtilisateurs;i++){
+    for(int i = 0; i<Archivist_getNbEmployee(NULL);i++){
         printf("User %d : %s\n", i, user_get[i].name);
         printf("User %d : %s\n", i, user_get[i].firstName);
         printf("User %d : %d\n", i, user_get[i].role);
@@ -71,24 +75,28 @@ int main(){
 
     Archivist_clearImages();
 
+    */
+
     User* user_search;
 
     user_search = Manager_searchUser(user2.name);
     
-    for(int i = 0; i<nombreUtilisateurs;i++){
+    for(int i = 0; i<Archivist_getNbEmployee(user2.name);i++){
         printf("User %d : %s\n", i, user_search[i].name);
         printf("User %d : %s\n", i, user_search[i].firstName);
         printf("User %d : %d\n", i, user_search[i].role);
         printf("User %d : %s\n", i, user_search[i].idTag);
         printf("User %d : %d\n", i, user_search[i].access[CURRENT_ZONE]);
     }
-    */
+    
+
     Archivist_clearImages();
     
 
+    /*
     int nbemployee = Archivist_getNbEmployee(NULL);
     printf("%d\n", nbemployee);
-
+    */
     
     return 0;
 }

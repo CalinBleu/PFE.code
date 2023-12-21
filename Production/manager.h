@@ -1,7 +1,6 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
-extern int nombreUtilisateurs;
 
 //fonction qui ajoute un utilisateur dans la base de données
 void Manager_addUser(User user);
