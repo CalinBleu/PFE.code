@@ -12,4 +12,12 @@ ParametersAdminForm {
         stack.clear()
         stack.push("AccueilAdmin.qml")
     }
+
+    label_search.visible: {
+        if (input_search.text.length === 0) {
+            true
+        } else {
+            false
+        }
+    }
 }
