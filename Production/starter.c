@@ -49,6 +49,8 @@ int main(){
     user2.idTag = "123";
     user2.picture = "image_test.jpg";
 
+    Archivist_open();
+
     //Manager_addUser(user);
 
     //Manager_removeUser("12222");
@@ -91,6 +93,8 @@ int main(){
     
 
     Archivist_clearImages();
+
+    Archivist_close();
     
 
     /*

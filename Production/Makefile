@@ -1,4 +1,5 @@
 CC = gcc
+CPP = g++
 CFLAGS = -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -std=c99 -D_POSIX_C_SOURCE=199309L
 LDFLAGS = -lsqlite3 -lm -lrt -lgpiod
 

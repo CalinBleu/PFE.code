@@ -10,21 +10,29 @@
 #include "sha256.h"
 #include "archivist.h"
 
-char* Archivist_getName(char* idtag) {
+sqlite3 *db;
+int rc;
 
-    sqlite3 *db;
-    char *err_msg = 0;
-    sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
+void Archivist_open()
+{
+    rc = sqlite3_open("visiolock.db", &db);
     
     if (rc != SQLITE_OK) {
         
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
-
-        return NULL;
     }
+}
+
+void Archivist_close()
+{
+    sqlite3_close(db);
+}
+
+char* Archivist_getName(char* idtag) {
+
+    char *err_msg = 0;
+    sqlite3_stmt *res;
     
     char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
 
@@ -53,13 +61,11 @@ char* Archivist_getName(char* idtag) {
         strcpy(result, (const char*)sqlite3_column_text(res, NAME));
 
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return result;
     }
     else
     {
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return NULL;
     }
     
@@ -67,19 +73,8 @@ char* Archivist_getName(char* idtag) {
 
 char* Archivist_getFirstName(char* idtag) {
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return NULL;
-    }
     
     char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
 
@@ -108,13 +103,11 @@ char* Archivist_getFirstName(char* idtag) {
         strcpy(result, (const char*)sqlite3_column_text(res, FIRSTNAME));
 
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return result;
     }
     else
     {
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return NULL;
     }
     
@@ -156,19 +149,8 @@ Picture Archivist_getPicture(char* idtag) {
         
         return NULL;
     }    
-    
-    sqlite3 *db;
+
     char *err_msg = 0;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        
-        return NULL;
-    }
     
     char *sql = "SELECT Picture FROM Employee WHERE IdTag = ?";
         
@@ -216,27 +198,14 @@ Picture Archivist_getPicture(char* idtag) {
     }       
     
     rc = sqlite3_finalize(pStmt);   
-
-    sqlite3_close(db);
     
     return result;
 }
 
 Role Archivist_getRole(char* idtag) {
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return -1;
-    }
     
     char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
 
@@ -266,14 +235,12 @@ Role Archivist_getRole(char* idtag) {
         Role role = strtol(result, NULL, 10);
 
         sqlite3_finalize(res);
-        sqlite3_close(db);
         free(result);
         return role;
     }
     else
     {
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return -1;
     }
 }
@@ -282,19 +249,8 @@ Access* Archivist_getAccess(char* idtag) {
 
     Access* rsl = malloc(NB_LOCK);
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return false;
-    }
     
     char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
 
@@ -324,7 +280,6 @@ Access* Archivist_getAccess(char* idtag) {
         strcpy(result, (const char*)sqlite3_column_text(res, ACCESS));
 
         sqlite3_finalize(res);
-        sqlite3_close(db);
 
         int access = strtol(result, NULL, 10);
 
@@ -337,7 +292,6 @@ Access* Archivist_getAccess(char* idtag) {
         return rsl;
     } else {
         sqlite3_finalize(res);
-        sqlite3_close(db);
         free(rsl);
         return NULL;
     }
@@ -345,19 +299,8 @@ Access* Archivist_getAccess(char* idtag) {
 
 char* Archivist_getPassword(char* idtag) {
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return NULL;
-    }
     
     char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
 
@@ -374,7 +317,6 @@ char* Archivist_getPassword(char* idtag) {
     if (sqlite3_column_type(res, PASSWORD) == SQLITE_NULL)
     {
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return NULL;
     }
     
@@ -399,34 +341,21 @@ char* Archivist_getPassword(char* idtag) {
         strcpy(result, (const char*)sqlite3_column_text(res, PASSWORD));
 
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return result;
     }
     else
     {
         sqlite3_finalize(res);
-        sqlite3_close(db);
         return NULL;
     }
 }
 
 char** Archivist_getTags(char* name) {
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
 
     char** result;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return NULL;
-    }
     
     char* sql;
     if(name == NULL)
@@ -492,7 +421,6 @@ char** Archivist_getTags(char* name) {
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 
     if(resultCount)
     {
@@ -504,19 +432,8 @@ char** Archivist_getTags(char* name) {
 
 void Archivist_setName(char* idtag, char* name)
 {
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "UPDATE Employee SET Name = ? WHERE IdTag = ?"; 
 
@@ -543,24 +460,12 @@ void Archivist_setName(char* idtag, char* name)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_setFirstName(char* idtag, char* firstname)
 {
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "UPDATE Employee SET Firstname = ? WHERE IdTag = ?"; 
 
@@ -587,7 +492,6 @@ void Archivist_setFirstName(char* idtag, char* firstname)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_setPicture(char* idtag, Picture picture)
@@ -656,19 +560,8 @@ void Archivist_setPicture(char* idtag, Picture picture)
         fprintf(stderr, "Cannot close file handler\n");
     }  
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "UPDATE Employee SET Picture = ? WHERE IdTag = ?"; 
 
@@ -695,12 +588,10 @@ void Archivist_setPicture(char* idtag, Picture picture)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db); 
 }
 
 void Archivist_setRole(char* idtag, Role role)
 {
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
     
@@ -739,12 +630,10 @@ void Archivist_setRole(char* idtag, Role role)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_setAccess(char* idtag, Access* access)
 {
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
 
@@ -754,16 +643,6 @@ void Archivist_setAccess(char* idtag, Access* access)
         {
             accessIntValue += (int)pow(2, i);
         }
-    }
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
     }
     
     char *sql = "UPDATE Employee SET Access = ? WHERE IdTag = ?"; 
@@ -791,24 +670,12 @@ void Archivist_setAccess(char* idtag, Access* access)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_setIdTag(char* oldtag, char* newtag)
 {
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "UPDATE Employee SET IdTag = ? WHERE IdTag = ?"; 
 
@@ -835,7 +702,6 @@ void Archivist_setIdTag(char* oldtag, char* newtag)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_setPassword(char* idtag, char* password)
@@ -843,19 +709,8 @@ void Archivist_setPassword(char* idtag, char* password)
     char password_hash[SHA256_HEX_SIZE];
     sha256_hex(password, strlen(password), password_hash);
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "UPDATE Employee SET Password = ? WHERE IdTag = ?"; 
 
@@ -882,7 +737,6 @@ void Archivist_setPassword(char* idtag, char* password)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_setUser(User user)
@@ -972,19 +826,8 @@ void Archivist_setUser(User user)
         fprintf(stderr, "Cannot close file handler\n");
     }  
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "INSERT INTO Employee VALUES(?, ?, ?, ?, ?, ?, ?);";
 
@@ -1016,25 +859,13 @@ void Archivist_setUser(User user)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
     
 }
 
 void Archivist_deleteEmployee(char* idtag)
 {
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
     
     char *sql = "DELETE FROM Employee WHERE IdTag = ?"; 
 
@@ -1060,7 +891,6 @@ void Archivist_deleteEmployee(char* idtag)
     }
 
     sqlite3_finalize(res);
-    sqlite3_close(db);
 }
 
 void Archivist_clearImages()
@@ -1106,20 +936,9 @@ int Archivist_getNbEmployee(char* inputString)
         sprintf(final, "%c%s%c", '%',inputString,'%');
     }
 
-    sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
     int count = 0;
-    
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return -1;
-    }
 
     char* sql;
     if(inputString == NULL)
@@ -1143,6 +962,8 @@ int Archivist_getNbEmployee(char* inputString)
     while (sqlite3_step(res) == SQLITE_ROW) {
         count++;
     }
+
+    sqlite3_finalize(res);
 
     return count;
 

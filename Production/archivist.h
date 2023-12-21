@@ -1,6 +1,10 @@
 #ifndef ARCHIVIST_H
 #define ARCHIVIST_H
 
+void Archivist_open();
+
+void Archivist_close();
+
 /**
  * @brief Récupère le nom d'un utilisateur à partir de son tag RFID
  * 
