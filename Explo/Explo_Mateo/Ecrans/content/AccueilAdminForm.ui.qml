@@ -39,7 +39,7 @@ Item {
         }
 
         Image {
-            id: top_ytb
+            id: top
             x: 488
             y: -52
             width: 308
@@ -49,7 +49,7 @@ Item {
         }
 
         Image {
-            id: bottom_fhfh
+            id: bottom
             x: 4
             y: 114
             width: 372
@@ -73,7 +73,7 @@ Item {
         }
 
         Rectangle {
-            id: rectangle1
+            id: rectangle_video
             x: 244
             y: 127
             width: 328

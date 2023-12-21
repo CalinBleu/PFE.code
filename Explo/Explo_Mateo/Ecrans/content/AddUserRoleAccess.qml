@@ -8,4 +8,11 @@ AddUserRoleAccessForm {
         stack.clear()
         stack.push("ParametersAdmin.qml")
     }
+
+    role_input.onAccepted: {
+        if (find(currentText) === -1) {
+            model.append({text: editText})
+            currentIndex = find(editText)
+        }
+    }
 }

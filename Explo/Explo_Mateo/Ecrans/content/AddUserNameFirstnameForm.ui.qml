@@ -18,6 +18,12 @@ Item {
     property alias button_validate: validate
     property alias button_cancel: cancel
 
+    property alias name_label: name_label
+    property alias firstname_label: firstname_label
+    property alias name_input: name_input
+    property alias firstname_input: firstname_input
+
+
     Rectangle {
         id: rectangle
         x: 0
@@ -115,28 +121,58 @@ Item {
             }
         }
 
-        TextField {
-            id: name_input
+        Rectangle {
+            id: rectangle_name
             x: 286
             y: 172
             width: 228
             height: 33
-            text: qsTr("Nom")
-            color: "#171F69"
-            font.styleName: "Bold"
-            font.pixelSize: 14
+            color: "#D9D9D9"
+
+            TextInput {
+                id: name_input
+                x: 15
+                y: 8
+                width: 228
+                height: 33
+                color: "#171F69"
+                font.styleName: "Bold"
+                font.pixelSize: 14
+            }
+
+            Label {
+                id: name_label
+                x: 15
+                y: 8
+                text: "Nom"
+            }
         }
 
-        TextField {
-            id: firstname_input
+        Rectangle {
+            id: rectangle_firstname
             x: 286
             y: 223
             width: 228
             height: 33
-            text: qsTr("Prénom")
-            color: "#171F69"
-            font.styleName: "Bold"
-            font.pixelSize: 14
+            color: "#D9D9D9"
+
+            TextInput {
+                id: firstname_input
+                x: 15
+                y: 8
+                width: 228
+                height: 33
+                color: "#171F69"
+                font.styleName: "Bold"
+                font.pixelSize: 14
+            }
+
+            Label {
+                id: firstname_label
+                x: 15
+                y: 8
+                text: "Prénom"
+            }
         }
     }
 

@@ -15,7 +15,7 @@ Window {
 
     StackView {
         id: stack
-        initialItem: AccueilAdmin {}
+        initialItem: Accueil {}
         anchors.fill: parent
     }
 

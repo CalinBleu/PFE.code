@@ -8,4 +8,18 @@ AddUserNameFirstnameForm {
         stack.clear()
         stack.push("ParametersAdmin.qml")
     }
+    name_label.visible: {
+        if (name_input.text.length === 0) {
+            true
+        } else {
+            false
+        }
+    }
+    firstname_label.visible: {
+        if (firstname_input.text.length === 0) {
+            true
+        } else {
+            false
+        }
+    }
 }

@@ -15,6 +15,9 @@ Item {
     width: Constants.width
     height: Constants.height
 
+    property alias camera: camera
+    property alias mouse: mouse
+
     Rectangle {
         id: rectangle
         width: Constants.width
@@ -54,7 +57,7 @@ Item {
         }
 
         Text {
-            id: text1
+            id: messsage
             x: 207
             y: 71
             text: qsTr("Bienvenue, veuillez placer votre\n visage devant la camera")
@@ -68,12 +71,12 @@ Item {
         }
 
         Rectangle {
-            id: rectangle1
+            id: rectangle_video
             x: 217
             y: 133
             width: 328
             height: 267
-            color: "#ffffff"
+            color: "#000000"
             radius: 17
             border.color: "#171F69"
             border.width: 4
@@ -112,10 +115,27 @@ Item {
                 rotation: 270
             }
 
-            Video {
-                id: video
-                x: 0
-                y: 0
+            MediaDevices {
+                id: mediaDevices
+            }
+
+            Camera {
+                id: camera
+                active: true
+            }
+
+            VideoOutput {
+                id: videoOutput
+                x:0
+                y:0
+                width: 328
+                height: 267
+            }
+
+            MouseArea {
+                id: mouse
+                x:0
+                y:0
                 width: 328
                 height: 267
             }

@@ -18,6 +18,8 @@ Item {
     property alias button_validate: validate
     property alias button_cancel: cancel
 
+    property alias role_input: role_input
+
     Rectangle {
         id: rectangle
         x: 0
@@ -115,46 +117,28 @@ Item {
             }
         }
 
-        TextField {
+        ComboBox {
             id: role_input
             x: 286
             y: 172
             width: 228
             height: 33
-            text: qsTr("Rôle")
-            color: "#171F69"
             font.styleName: "Bold"
             font.pixelSize: 14
-
-            Image {
-                x: 197
-                y: 5
-                width: 24
-                height: 24
-                source: "../content/images/down.png"
-                fillMode: Image.PreserveAspectFit
-            }
+            editable: false
+            model: [ "<Rôle>", "Utilisateur", "Administrateur" ]
         }
 
-        TextField {
+        ComboBox {
             id: access_input
             x: 286
             y: 223
             width: 228
             height: 33
-            text: qsTr("Accès")
-            color: "#171F69"
             font.styleName: "Bold"
             font.pixelSize: 14
-
-            Image {
-                x: 197
-                y: 5
-                width: 24
-                height: 24
-                source: "../content/images/down.png"
-                fillMode: Image.PreserveAspectFit
-            }
+            editable: false
+            model: [ "<Accès>", "Zone 1", "Zones 1-2", "Zone 2", "Tout Accès" ]
         }
     }
 
