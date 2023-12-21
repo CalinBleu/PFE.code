@@ -5,10 +5,14 @@ import time
 import threading
 import sys
 from enum import Enum
+import os
 
 class AuthResult(Enum):
     USER_UNKNOWN = 0
     ALLOWED = 1
+
+#print the current process id
+print (os.getpid())
 
 # Charger l'image statique à comparer (à partir d'un fichier)
 image_path = str(sys.argv[1])
@@ -43,7 +47,7 @@ def detect_faces(shared_data):
                 match = face_recognition.compare_faces([image_to_compare_encoding], face_encoding)
                 if match[0]:
                     shared_data["running"] = False
-                    return AuthResult.ALLOWED.value
+                    print(AuthResult.ALLOWED.value)
 
 def display_video(shared_data):
     while shared_data["running"]:
