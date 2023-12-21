@@ -116,22 +116,3 @@ static void free_tags(char **tags){
     }
     free(tags);
 }
-
-
-/*
-int main(void){
-
-    User user;
-    user.name = "avczedvz";
-    user.firstName = "acacae";
-    user.role = USER;
-    user.access[0] = true;
-    user.idTag = "12222";
-    user.picture = "image_test.jpg";
-
-    Manager_addUser(user);
-
-    return 0;
-
-}
-*/

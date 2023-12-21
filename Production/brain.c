@@ -231,7 +231,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("A_MODE_ADMIN\n");
             break;
         case A_CHANGE_MODE:
-            //mode = aMsg->data.mode;
+            mode = aMsg->data.mode;
             printf("A_CHANGE_MODE\n");
             break;
         case A_CHANGE_MODE_SPE:

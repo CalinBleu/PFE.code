@@ -62,23 +62,3 @@ void Guard_checkFace(char* idTag){
 }
 
 
-
-/*
-int main(void){
-
-    
-    char str[100];
-    printf("\nEntrer votre mdp :");
-    fgets(str, sizeof(str), stdin);
-    Guard_checkPassword(str, "1234");
-    return 0;
-    
-   
-    int result = Guard_checkTag("1239");
-    printf("%d\n", result);
-}
-
-*/
-
-
-
