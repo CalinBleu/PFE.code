@@ -63,7 +63,7 @@ static void Doorman_lock_timeout(union sigval val);
  *
  */
 void Doorman_init(){
-
+	#if TARGET
 	chipLock = gpiod_chip_open_by_name(chipnameLock);
 	lineLock = gpiod_chip_get_line(chipLock, LOCK);
 	gpiod_line_request_output(lineLock, "ex", 0);
@@ -75,7 +75,7 @@ void Doorman_init(){
 	chipRed = gpiod_chip_open_by_name(chipnamRed);
 	lineRed = gpiod_chip_get_line(chipRed, LED_RED);
 	gpiod_line_request_output(lineRed, "ex", 0);
-
+	#endif
 
     struct sigevent event;
 
@@ -104,7 +104,9 @@ void Doorman_init(){
  * brief Fonction permettant d'ouvrir la porte
  */
 void Doorman_open(){
+	#if TARGET	
 	gpiod_line_set_value(lineLock, 1);
+	#endif
 	Doorman_lock_timer_launch();
 	printf("open");
 }
@@ -112,7 +114,9 @@ void Doorman_open(){
  * brief Fonction permettant de fermer la porte
  */
 static void Doorman_close(){
+	#if TARGET	
     gpiod_line_set_value(lineLock, 0);
+	#endif
 	printf("close"); 
 }
 
@@ -155,7 +159,9 @@ static void Doorman_lock_timer_launch()
  * 
  */
 void Doorman_userDenied() {
+	#if TARGET	
     gpiod_line_set_value(lineOrange, 1);
+	#endif
     Doorman_led_timer_launch();    
 }
 
@@ -164,7 +170,9 @@ void Doorman_userDenied() {
  * 
  */
 void Doorman_userUnknown() {
+	#if TARGET	
     gpiod_line_set_value(lineRed, 1);
+	#endif
     Doorman_led_timer_launch();
 }
 
@@ -175,8 +183,10 @@ void Doorman_userUnknown() {
  * param val Le signal déclenché par le timeout
  */
 static void Doorman_led_timeout(union sigval val){
+	#if TARGET	
     gpiod_line_set_value(lineRed, 0);
     gpiod_line_set_value(lineOrange, 0);
+	#endif
 }
 
 static void Doorman_lock_timeout(union sigval val){

@@ -12,6 +12,8 @@
 #include "common.h"
 #include "guard.h"
 #include "brain.h"
+#include "rfid.h"
+#include "doorman.h"
 
 #define NAME_MQ_BOX_BRAIN  "/mq_brain" //Boîte aux lettres liée à Brain
 #define MQ_MSG_COUNT 10
@@ -215,7 +217,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_TAG_READED:
             Brain_wakeUp();
-            //RFID_stopReading();
+            Rfid_stopReading();
             Brain_cancel_timer();
             Brain_evaluateMode(mode);
             printf("A_TAG_READED\n");
@@ -227,7 +229,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_MODE_ADMIN:
             //GUI_setTag(aMsg->data.idtag);
-            //RFID_startReading();
+            Rfid_startReading();
             printf("A_MODE_ADMIN\n");
             break;
         case A_CHANGE_MODE:
@@ -236,7 +238,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_CHANGE_MODE_SPE:
             mode = MODE_ADMIN;
-            //RFID_startReading();
+            Rfid_startReading();
             printf("A_CHANGE_MODE_SPE\n");
             break;
         case A_USER_TAG_OK:
@@ -251,13 +253,13 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_USER_TAG_DENIED:
             //GUI_displayHomeScreen(USER_TAG_DENIED);
-            //Doorman_userDenied();
+            Doorman_userDenied();
             Brain_timer_launch();
             printf("A_USER_TAG_DENIED\n");
             break;
         case A_USER_TAG_UNKNOWN:
             //GUI_displayHomeScreen(USER_TAG_UNKNOWN);
-            //Doorman_userUnknown();
+            Doorman_userUnknown();
             Brain_timer_launch();
             printf("A_USER_TAG_UNKNOWN\n");
             break;
@@ -267,23 +269,23 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_FACE_TRUE:
             //GUI_displayHomeScreen(ALLOWED);
-            //Doorman_open();
+            Doorman_open();
             Brain_timer_launch();
             printf("A_FACE_TRUE\n");
             break;
         case A_FACE_FALSE:
             //GUI_displayHomeScreen(FACE_UNKNOWN);
-            //Doorman_userUnknown();
+            Doorman_userUnknown();
             Brain_timer_launch();
             printf("A_FACE_FALSE\n");
             break;
         case A_TIMEOUT:
-            //RFID_startReading();
+            Rfid_startReading();
             printf("A_TIMEOUT\n");
             break;
         case A_STANDBY:
             //GUI_screenOff();
-            //RFID_startReading();
+            Rfid_startReading();
             printf("A_STANDBY\n");
             break;
         case A_STOP:
@@ -416,7 +418,7 @@ void Brain_startVisiolock()
     }
 
     Brain_wakeUp();
-    //RFID_startReading();
+    Rfid_startReading();
 }
 
 void Brain_stopVisiolock(void)
