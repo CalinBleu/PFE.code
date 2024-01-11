@@ -152,6 +152,7 @@ uint8_t Rfid_free(void)
 
 static void * Rfid_run(void * aParam)
 {
+    printf("RFID run\n");
 	MqMsg msg;
     State myState = S_STANDBY;
     Transition * myTrans;
@@ -210,11 +211,13 @@ static void Rfid_mqReceive(MqMsg * aMsg)
  * brief Fonction d'ouverture du processus python de lecture du tag RFID
  */
 static void Rfid_popen(){
+    #if TRAGET
     fp = popen("python3 read.py", "r");
     if (fp == NULL) {
         printf("Failed to run command\n" );
     }
     Rfid_showTag();
+    #endif
 }
 
 /**

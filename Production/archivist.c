@@ -127,7 +127,7 @@ Picture Archivist_getPicture(char* idtag) {
     if (name != NULL) {
         if(firstname != NULL) {
             snprintf(result, path_size, "%s%s%s%s%s", path, firstname, "_", name, ".jpg");
-            printf("path : %s\n", result);
+            //printf("path : %s\n", result);
             free(name);
             free(firstname);
         }
@@ -322,7 +322,6 @@ char* Archivist_getPassword(char* idtag) {
     
     if (step == SQLITE_ROW) {
         size_t len = strlen((const char*)sqlite3_column_text(res, PASSWORD));
-        printf("len : %ld\n", len);
 
         if(len == 0)
         {

@@ -12,11 +12,11 @@
 
 int main(){
 
+    Rfid_new();
+    Rfid_start();
     Brain_startVisiolock();
     Doorman_init();
     Archivist_open();
-    Rfid_new();
-    Rfid_start();
 
     /*
     sleep(2);
@@ -88,6 +88,7 @@ int main(){
         printf("User %d : %d\n", i, user_search[i].role);
         printf("User %d : %s\n", i, user_search[i].idTag);
         printf("User %d : %d\n", i, user_search[i].access[CURRENT_ZONE]);
+        printf("User %d : %s\n", i, user_search[i].password);
     }
     
 
