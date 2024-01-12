@@ -1,3 +1,6 @@
+#ifndef DOORMAN_H
+#define DOORMAN_H
+
 /**
  * brief Fonction permettant d'ouvrir la porte
  * 
@@ -18,3 +21,5 @@ void Doorman_userDenied();
 void Doorman_userUnknown();
 
 void Doorman_init();
+
+#endif //DOORMAN_H

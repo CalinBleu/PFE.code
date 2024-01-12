@@ -33,6 +33,8 @@ void GUI_setTag(char* idTag);
 
 void GUI_setPicture(Picture picture);
 
+void GUI_setPassword(char* password);  
+
 void GUI_askTakePicture();
 
 void GUI_adminMode();
