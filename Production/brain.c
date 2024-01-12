@@ -310,10 +310,10 @@ static void * Brain_run(void * aParam)
     {
         Brain_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
-        printf("myState : %d\n", myState);
-        printf("event : %d\n", msg.data.event);
-        printf("dest state : %d\n", myTrans->destinationState);
-        printf("action : %d\n", myTrans->action);
+        printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
+        printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
+        printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
+        printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Brain_performAction(myTrans->action, &msg);

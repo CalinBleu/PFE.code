@@ -159,7 +159,10 @@ static void * Rfid_run(void * aParam)
     {
         Rfid_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
-        //printf("action : %d\n", myTrans->action);
+        printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
+        printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
+        printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
+        printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Rfid_performAction(myTrans->action, &msg);
@@ -209,7 +212,7 @@ static void Rfid_mqReceive(MqMsg * aMsg)
  * brief Fonction d'ouverture du processus python de lecture du tag RFID
  */
 static void Rfid_popen(){
-    #if TRAGET
+    #if TARGET
     fp = popen("python3 read.py", "r");
     if (fp == NULL) {
         printf("Failed to run command\n" );
