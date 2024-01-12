@@ -88,7 +88,7 @@ FILE *fp;
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
     [S_STANDBY][E_START_READING] = {S_WAITING_FOR_TAG, A_START_READING}, 
-    [S_WAITING_FOR_TAG][E_SHOW_TAG] = {S_WAITING_FOR_TAG, A_TAG_READED},
+    [S_WAITING_FOR_TAG][E_SHOW_TAG] = {S_WAITING_FOR_TAG, A_SHOW_TAG},
     [S_WAITING_FOR_TAG][E_STOP_READING] = {S_STANDBY, A_STOP_READING},
     [S_STANDBY][E_STOP] = {S_DEATH, A_STOP},
     [S_WAITING_FOR_TAG][E_STOP] = {S_DEATH, A_STOP}    
