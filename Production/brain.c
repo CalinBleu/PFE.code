@@ -223,7 +223,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             Brain_evaluateMode(mode);
             printf("A_TAG_READED\n");
             break;
-        case A_MODE_CLASSIC:
+        case A_MODE_CLASSIC: ;
             AuthResult tagResult = Guard_checkTag(currentTag);
             Brain_evaluateTag(tagResult);
             printf("A_MODE_CLASSIC\n");
