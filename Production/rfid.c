@@ -233,7 +233,7 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
         case A_START_READING:
             Rfid_popen();
             break;
-        case A_TAG_READED:
+        case A_TAG_READED: ;
             char buff[20];
             while (fgets(buff, sizeof(buff)-1, fp) != NULL) {
                 printf("%s", buff);
