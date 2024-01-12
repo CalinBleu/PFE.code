@@ -105,6 +105,7 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_IDLE][E_STANDBY] = {S_OFF, A_STANDBY},
     [S_OFF][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
     //stopVisiolock()
+    [S_INIT][E_STOP] = {S_DEATH, A_STOP},
     [S_ANALYSE][E_STOP] = {S_DEATH, A_STOP},
     [S_REGISTER][E_STOP] = {S_DEATH, A_STOP},
     [S_FACE_RECO][E_STOP] = {S_DEATH, A_STOP},
@@ -289,6 +290,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("A_STANDBY\n");
             break;
         case A_STOP:
+            Rfid_stopReading();
             //GUI_screenOff();
             printf("A_STOP\n");
             break;
