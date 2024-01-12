@@ -239,20 +239,25 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_SHOW_TAG: ;
             char buff[20];
+            printf("%s : A_SHOW_TAG\n", __FILE__);
             while (fgets(buff, sizeof(buff)-1, fp) != NULL) {
                 printf("%s", buff);
             }
-            printf("%s : A_SHOW_TAG\n", __FILE__);
+            Brain_tagReaded(buff);
             break;
         case A_STOP_READING:
             #if TARGET
             pclose(fp);
+            fp = NULL;
             #endif
             printf("%s : A_STOP_READING\n", __FILE__);
             break;
         case A_STOP: //signale au thread principal l'arrêt d'RFID
             #if TARGET
-            pclose(fp);
+            if(fp != NULL)
+            {
+                pclose(fp);
+            }
             #endif
             printf("%s : A_STOP\n", __FILE__);
             break;

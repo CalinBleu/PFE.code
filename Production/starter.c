@@ -76,7 +76,7 @@ int main(){
 
     Archivist_clearImages();
 
-    */
+    
 
     User* user_search;
 
@@ -90,12 +90,13 @@ int main(){
         printf("User %d : %d\n", i, user_search[i].access[CURRENT_ZONE]);
         printf("User %d : %s\n", i, user_search[i].password);
     }
-    
 
+    */
+    
+    sleep(10);
     Archivist_clearImages();
 
     Archivist_close();
-
     Brain_stopVisiolock();
     Rfid_stop();
     sleep(3);
