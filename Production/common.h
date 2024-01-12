@@ -4,10 +4,9 @@
 #include <stdbool.h>
 #include <errno.h>
 
-//Nombre de serrures supportées par cette instance Visiolock
-#define NB_LOCK 1
-//Indice de la serrure courante
-#define CURRENT_ZONE 0
+#define NB_LOCK         1   //Nombre de serrures supportées par cette instance Visiolock
+#define CURRENT_ZONE    0   //Indice de la serrure courante
+#define TARGET          0   //Execution sur machine hôte / raspberry
 
 /**
  * @brief Enumération correspondant aux indices des colonnes de la table SQL Employee

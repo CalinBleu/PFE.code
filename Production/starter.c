@@ -8,11 +8,14 @@
 #include "manager.h"
 #include "archivist.h"
 #include "doorman.h"
+#include "rfid.h"
 
 int main(){
 
+    Rfid_new();
+    Rfid_start();
     Brain_startVisiolock();
-    //Doorman_init();
+    Doorman_init();
     Archivist_open();
 
     /*
@@ -27,7 +30,7 @@ int main(){
     Brain_faceAnalysed(true);
     sleep(10);
     
-    */
+    
 
     User user;
     user.name = "Ravus";
@@ -37,7 +40,7 @@ int main(){
     user.idTag = "000";
     user.picture = "image_test.jpg";
 
-
+    */
     
     User user2;
     user2.name = "Ravus";
@@ -85,6 +88,7 @@ int main(){
         printf("User %d : %d\n", i, user_search[i].role);
         printf("User %d : %s\n", i, user_search[i].idTag);
         printf("User %d : %d\n", i, user_search[i].access[CURRENT_ZONE]);
+        printf("User %d : %s\n", i, user_search[i].password);
     }
     
 
