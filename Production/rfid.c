@@ -31,7 +31,7 @@
 
 typedef enum  {S_FORGET = 0, S_STANDBY, S_WAITING_FOR_TAG, S_DEATH, STATE_NB} State; //Etats d'RFID
 typedef enum  {E_START_READING = 0, E_SHOW_TAG, E_STOP_READING , E_STOP, EVENT_NB} Event; //Evenements d'RFID
-typedef enum  {A_NOP = 0, A_START_READING, A_TAG_READED, A_STOP_READING ,A_STOP} Action ; //Actions réalisées par RFID
+typedef enum  {A_NOP = 0, A_START_READING, A_SHOW_TAG, A_STOP_READING ,A_STOP} Action ; //Actions réalisées par RFID
 
 /*
  * TYPEDEF
@@ -235,23 +235,26 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_START_READING:
             Rfid_popen();
+            printf("%s : A_START_READING\n", __FILE__);
             break;
-        case A_TAG_READED: ;
+        case A_SHOW_TAG: ;
             char buff[20];
             while (fgets(buff, sizeof(buff)-1, fp) != NULL) {
                 printf("%s", buff);
             }
+            printf("%s : A_SHOW_TAG\n", __FILE__);
             break;
         case A_STOP_READING:
             #if TARGET
             pclose(fp);
             #endif
+            printf("%s : A_STOP_READING\n", __FILE__);
             break;
         case A_STOP: //signale au thread principal l'arrêt d'RFID
             #if TARGET
             pclose(fp);
             #endif
-            printf("RFID : stop\n");
+            printf("%s : A_STOP\n", __FILE__);
             break;
         default:
             printf("Action inconnue\n");
