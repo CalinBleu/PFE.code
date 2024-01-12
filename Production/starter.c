@@ -97,8 +97,10 @@ int main(){
     Archivist_close();
 
     Brain_stopVisiolock();
+    Rfid_stop();
     sleep(3);
     Brain_free();
+    Rfid_free();
     
 
     /*

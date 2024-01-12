@@ -83,7 +83,6 @@ static void Rfid_popen();
 
 static pthread_t rfid_thread;
 static mqd_t rfid_mq; //Boîte aux lettres d'RFID
-static pthread_barrier_t start_barrier;
 FILE *fp;
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
@@ -116,7 +115,6 @@ uint8_t Rfid_new(void)
 		return 1;
     }
 
-    pthread_barrier_init(&start_barrier, NULL, 2);
     return 0;
 }
 
@@ -242,11 +240,14 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
             }
             break;
         case A_STOP_READING:
+            #if TARGET
             pclose(fp);
+            #endif
             break;
         case A_STOP: //signale au thread principal l'arrêt d'RFID
+            #if TARGET
             pclose(fp);
-            pthread_barrier_wait(&start_barrier);
+            #endif
             printf("RFID : stop\n");
             break;
         default:
@@ -301,7 +302,6 @@ int main() {
     rfid_startReading();
     
 
-    pthread_barrier_wait(&start_barrier);
     rfid_stopReading();
     //rfid_stop();
     rfid_free();
