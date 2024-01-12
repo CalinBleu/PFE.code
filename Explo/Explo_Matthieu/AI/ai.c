@@ -15,7 +15,7 @@
 #define MQ_MSG_COUNT 10
 
 typedef enum  {S_FORGET = 0, S_STANDBY, S_ANALYSE, S_DEATH, STATE_NB} State; 
-typedef enum  {E_START_RECO = 0, E_STOP_RECO, E_SUCCESSFUL_ANALYSIS, E_STOP, EVENT_NB} Event; 
+typedef enum  {E_START_RECO = 0, E_STOP_RECO, E_SUCCESSFUL_ANALYSIS, E_FACE_UNKNOWN, E_STOP, EVENT_NB} Event; 
 typedef enum  {A_NOP = 0, A_START_ANALYSE, A_RESULT_UNKNOWN, A_RESULT_ALLOWED, A_STOP} Action; 
 
 typedef struct
@@ -53,6 +53,7 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
 {
     [S_STANDBY][E_START_RECO] = {S_ANALYSE, A_START_ANALYSE},
     [S_ANALYSE][E_SUCCESSFUL_ANALYSIS] = {S_STANDBY, A_RESULT_ALLOWED},
+    [S_ANALYSE][E_FACE_UNKNOWN] = {S_STANDBY, A_RESULT_UNKNOWN},
     [S_ANALYSE][E_STOP_RECO] = {S_STANDBY, A_RESULT_UNKNOWN},
 
     [S_STANDBY][E_STOP] = {S_DEATH, A_STOP},    
@@ -193,7 +194,7 @@ int AI_startRecognition(char *picturePath)
     FILE *fp;
 
     char command[200];
-    sprintf(command, "python3 /home/pi/Documents/PFE.code/Explo/Explo_Matthieu/IA/face_reco.py %s", picturePath);
+    sprintf(command, "python3 /home/pi/Documents/PFE.code/Explo/Explo_Matthieu/AI/face_reco.py %s", picturePath);
     fp = popen(command, "r"); // Exécuter le script Python en lecture
 
     if (fp == NULL) {
@@ -201,8 +202,10 @@ int AI_startRecognition(char *picturePath)
         return -1;
     }
 
-    char pid_child[6];
-    fgets(pid_child, 6, fp);
+    char pid_child[8];
+    fgets(pid_child, 8, fp);
+    pid = strtol(pid_child, NULL, 8);
+    printf("pid : %s\n", pid_child);
 
     fgets(result, 3, fp); // Lire la sortie du script Python dans le buffer
 
@@ -214,14 +217,23 @@ int AI_startRecognition(char *picturePath)
     printf("Valeur renvoyée par le script Python : %d\n", (uint8_t)resultRecognition); // Afficher la valeur renvoyée
 
     MqMsg msg;
-    msg.data.event = E_SUCCESSFUL_ANALYSIS;
+    if(resultRecognition == ALLOWED) {
+        msg.data.event = E_SUCCESSFUL_ANALYSIS;
+    }
+    else if (resultRecognition == FACE_UNKNOWN){
+        msg.data.event = E_FACE_UNKNOWN;
+    }
+    else {
+        printf("Error : Result undefined %d\n", (uint8_t)resultRecognition);
+    }
     AI_mqSend(&msg);
-    printf("quit start recogition");
+
     return 0;
 }
 
 int AI_stopRecognition(void)
 {
+    printf("stop reco\n");
     if (pid > 0) {
         kill(pid, SIGKILL); // Interrompre le processus fils
     }
@@ -239,6 +251,7 @@ int main (void)
     msg.data.picturePath = DATASET_PATH;
     AI_mqSend(&msg);
     sleep(20);
+    AI_stopRecognition();
     msg.data.event = E_STOP;
     AI_mqSend(&msg);
     sleep(5);
