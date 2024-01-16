@@ -68,7 +68,7 @@ static mqd_t brain_mq;
 static timer_t screen_lock_timer;
 
 static Mode mode;
-static char* currentTag;
+static char currentTag[20];
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
@@ -217,6 +217,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_TAG_READED:
+            printf("a_tag_readed : %s\n", currentTag);
             Brain_wakeUp();
             Rfid_stopReading();
             Brain_cancel_timer();
@@ -224,6 +225,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_TAG_READED\n", __FILE__);
             break;
         case A_MODE_CLASSIC: ;
+            printf("a_mode_classic : %s\n", currentTag);
             AuthResult tagResult = Guard_checkTag(currentTag);
             Brain_evaluateTag(tagResult);
             printf("%s : A_MODE_CLASSIC\n", __FILE__);
@@ -242,14 +244,16 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             Rfid_startReading();
             printf("%s : A_CHANGE_MODE_SPE\n", __FILE__);
             break;
-        case A_USER_TAG_OK:
+        case A_USER_TAG_OK: ;
             //GUI_displayHomeScreen(USER_TAG_OK);
-            Guard_checkFace(currentTag);
+            char* localTag2 = (char*)currentTag;
+            Guard_checkFace(localTag2);
             printf("%s : A_USER_TAG_OK\n", __FILE__);
             break;
-        case A_ADMIN_TAG:
+        case A_ADMIN_TAG: ;
             //GUI_displayHomeScreen(ADMIN_TAG);
-            Guard_checkFace(currentTag);
+            char* localTag3 = (char*)currentTag;
+            Guard_checkFace(localTag3);
             printf("%s : A_ADMIN_TAG\n", __FILE__);
             break;
         case A_USER_TAG_DENIED:
@@ -437,7 +441,9 @@ void Brain_standBy(void)
 
 void Brain_tagReaded(char* idtag)
 {
-    currentTag = idtag;
+    printf("idtag param : %s\n", idtag);
+    strcpy(currentTag, idtag);
+    printf("tagReaded : %s\n", currentTag);
 	MqMsg msg = {.data.event = E_TAG_READED}; //envoi de l'évènement TAG_READED via mq
 	Brain_mqSend(&msg);
 }
