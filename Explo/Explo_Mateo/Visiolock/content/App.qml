@@ -16,17 +16,24 @@ Window {
 
     //visibility: Window.FullScreen
 
+    StackView {
+        id: stack
+        initialItem: AccueilAdmin {}
+        anchors.fill: parent
+    }
+
     InputPanel {
         id: inputPanel
-        x: 0
-        y: 0
         width: Constants.width
         height: Constants.height
 
-        StackView {
-            id: stack
-            initialItem: AccueilAdmin {}
-            anchors.fill: parent
+        property bool showKeyboard :  active
+        y: showKeyboard ? parent.height - height : parent.height
+        Behavior on y {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
         }
     }
 }
