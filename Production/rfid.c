@@ -240,9 +240,8 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
         case A_SHOW_TAG: ;
             char buff[20];
             printf("%s : A_SHOW_TAG\n", __FILE__);
-            while (fgets(buff, sizeof(buff)-1, fp) != NULL) {
-                printf("%s", buff);
-            }
+            fgets(buff, sizeof(buff)-1, fp);
+            buff[strlen(buff)-1] = '\0';
             Brain_tagReaded(buff);
             break;
         case A_STOP_READING:

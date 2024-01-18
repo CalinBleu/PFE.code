@@ -103,7 +103,7 @@ int main(){
     Brain_free();
     Rfid_free();
     
-
+    printf("clean\n");
     /*
     int nbemployee = Archivist_getNbEmployee(NULL);
     printf("%d\n", nbemployee);
