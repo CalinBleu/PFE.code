@@ -28,8 +28,6 @@ void Guard_checkPassword(char* password, char* idTag ){
 AuthResult Guard_checkTag(char* idTag){
     Role role = Archivist_getRole(idTag);
     Access* access = Archivist_getAccess(idTag);
-    printf("tag : %s\n", idTag);
-    printf("role : %d\n", role);
 
     if(role == ADMIN){
         return ADMIN_TAG;

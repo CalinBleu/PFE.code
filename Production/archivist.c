@@ -203,7 +203,6 @@ Picture Archivist_getPicture(char* idtag) {
 }
 
 Role Archivist_getRole(char* idtag) {
-    printf("archivist : %s\n", idtag);
     char *err_msg = 0;
     sqlite3_stmt *res;
     
