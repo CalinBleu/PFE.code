@@ -1,15 +1,41 @@
-CC = gcc
-CPP = g++
-CFLAGS = -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -std=c99 -D_POSIX_C_SOURCE=200112L
-LDFLAGS = -lsqlite3 -lm -lrt -lgpiod -lpthread
+# Compiler options
+CC := gcc
+CXX := g++
+CFLAGS := -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -std=c99 -D_POSIX_C_SOURCE=200112L
+CXXFLAGS := -Wall -Wextra
 
-SRCS = starter.c brain.c archivist.c guard.c manager.c sha256.c doorman.c rfid.c
-OUT = Visiolock.out
+# Source files
+SRCS := $(wildcard *.c) $(wildcard *.cpp)
 
-all: $(OUT)
+# Object files
+OBJS := $(SRCS:.c=.o)
+OBJS := $(OBJS:.cpp=.o)
 
-$(OUT): $(SRCS)
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+# Target executable
+TARGET := myprogram
 
+# Linker flags
+LDFLAGS := -lpthread -lrt -lgpiod -lsqlite3 -lm -lbcm2835
+
+# Default target
+all: $(TARGET)
+
+# Compile C source files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compile C++ source files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Link object files
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	sudo chown root.root $@
+	sudo chmod 4755 $@
+
+# Clean build artifacts
 clean:
-	rm -f $(OUT)
+	rm -f $(OBJS) $(TARGET)
+
+
