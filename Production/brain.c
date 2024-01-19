@@ -68,7 +68,7 @@ static mqd_t brain_mq;
 static timer_t screen_lock_timer;
 
 static Mode mode;
-static char* currentTag;
+static char currentTag[20];
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
@@ -221,78 +221,78 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             Rfid_stopReading();
             Brain_cancel_timer();
             Brain_evaluateMode(mode);
-            printf("A_TAG_READED\n");
+            printf("%s : A_TAG_READED\n", __FILE__);
             break;
         case A_MODE_CLASSIC: ;
             AuthResult tagResult = Guard_checkTag(currentTag);
             Brain_evaluateTag(tagResult);
-            printf("A_MODE_CLASSIC\n");
+            printf("%s : A_MODE_CLASSIC\n", __FILE__);
             break;
         case A_MODE_ADMIN:
             //GUI_setTag(aMsg->data.idtag);
             Rfid_startReading();
-            printf("A_MODE_ADMIN\n");
+            printf("%s : A_MODE_ADMIN\n", __FILE__);
             break;
         case A_CHANGE_MODE:
             mode = aMsg->data.mode;
-            printf("A_CHANGE_MODE\n");
+            printf("%s : A_CHANGE_MODE\n", __FILE__);
             break;
         case A_CHANGE_MODE_SPE:
             mode = MODE_ADMIN;
             Rfid_startReading();
-            printf("A_CHANGE_MODE_SPE\n");
+            printf("%s : A_CHANGE_MODE_SPE\n", __FILE__);
             break;
-        case A_USER_TAG_OK:
+        case A_USER_TAG_OK: ;
             //GUI_displayHomeScreen(USER_TAG_OK);
             Guard_checkFace(currentTag);
-            printf("A_USER_TAG_OK\n");
+            printf("%s : A_USER_TAG_OK\n", __FILE__);
             break;
-        case A_ADMIN_TAG:
+        case A_ADMIN_TAG: ;
             //GUI_displayHomeScreen(ADMIN_TAG);
             Guard_checkFace(currentTag);
-            printf("A_ADMIN_TAG\n");
+            printf("%s : A_ADMIN_TAG\n", __FILE__);
             break;
         case A_USER_TAG_DENIED:
             //GUI_displayHomeScreen(USER_TAG_DENIED);
             Doorman_userDenied();
             Brain_timer_launch();
-            printf("A_USER_TAG_DENIED\n");
+            printf("%s : A_USER_TAG_DENIED\n", __FILE__);
             break;
         case A_USER_TAG_UNKNOWN:
             //GUI_displayHomeScreen(USER_TAG_UNKNOWN);
             Doorman_userUnknown();
             Brain_timer_launch();
-            printf("A_USER_TAG_UNKNOWN\n");
+            printf("%s : A_USER_TAG_UNKNOWN\n", __FILE__);
             break;
         case A_FACE_ANALYSED:
             Brain_evaluateState(aMsg->data.recognized);
-            printf("A_FACE_ANALYSED\n");
+            printf("%s : A_FACE_ANALYSED\n", __FILE__);
             break;
         case A_FACE_TRUE:
             //GUI_displayHomeScreen(ALLOWED);
             Doorman_open();
             Brain_timer_launch();
-            printf("A_FACE_TRUE\n");
+            printf("%s : A_FACE_TRUE\n", __FILE__);
             break;
         case A_FACE_FALSE:
             //GUI_displayHomeScreen(FACE_UNKNOWN);
             Doorman_userUnknown();
             Brain_timer_launch();
-            printf("A_FACE_FALSE\n");
+            printf("%s : A_FACE_FALSE\n", __FILE__);
             break;
         case A_TIMEOUT:
             Rfid_startReading();
-            printf("A_TIMEOUT\n");
+            printf("%s : A_TIMEOUT\n", __FILE__);
             break;
         case A_STANDBY:
             //GUI_screenOff();
             Rfid_startReading();
-            printf("A_STANDBY\n");
+            printf("%s : A_STANDBY\n", __FILE__);
             break;
         case A_STOP:
             Rfid_stopReading();
             //GUI_screenOff();
-            printf("A_STOP\n");
+            printf("%s : A_STOP\n", __FILE__);
             break;
         default:
             printf("Action inconnue\n");
@@ -310,10 +310,10 @@ static void * Brain_run(void * aParam)
     {
         Brain_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
-        printf("myState : %d\n", myState);
-        printf("event : %d\n", msg.data.event);
-        printf("dest state : %d\n", myTrans->destinationState);
-        printf("action : %d\n", myTrans->action);
+        printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
+        printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
+        printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
+        printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Brain_performAction(myTrans->action, &msg);
@@ -437,7 +437,7 @@ void Brain_standBy(void)
 
 void Brain_tagReaded(char* idtag)
 {
-    currentTag = idtag;
+    strcpy(currentTag, idtag);
 	MqMsg msg = {.data.event = E_TAG_READED}; //envoi de l'évènement TAG_READED via mq
 	Brain_mqSend(&msg);
 }

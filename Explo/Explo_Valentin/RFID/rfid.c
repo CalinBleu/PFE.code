@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "rfid.h"
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,9 +18,12 @@
 #include <time.h>
 #include <signal.h>
 #include <stdint.h>
-#include "common.h"
-#include "brain.h"
+#include <math.h>
 
+//#include "common.h"
+//#include "brain.h"
+#include "MFRC522_wrapper.h"
+#include "rfid.h"
 /*
  * DEFINES
  */
@@ -32,6 +34,10 @@
 typedef enum  {S_FORGET = 0, S_STANDBY, S_WAITING_FOR_TAG, S_DEATH, STATE_NB} State; //Etats d'RFID
 typedef enum  {E_START_READING = 0, E_SHOW_TAG, E_STOP_READING , E_STOP, EVENT_NB} Event; //Evenements d'RFID
 typedef enum  {A_NOP = 0, A_START_READING, A_SHOW_TAG, A_STOP_READING ,A_STOP} Action ; //Actions réalisées par RFID
+
+//MFRC522 mfrc;//(SS_PIN, RST_PIN);
+MFRC522* mfrc;
+uint64_t finalid = 0;
 
 /*
  * TYPEDEF
@@ -79,7 +85,7 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg);
 
 static void * Rfid_run(void * aParam);
 
-static void Rfid_popen();
+static void Rfid_open();
 
 static pthread_t rfid_thread;
 static mqd_t rfid_mq; //Boîte aux lettres d'RFID
@@ -159,10 +165,10 @@ static void * Rfid_run(void * aParam)
     {
         Rfid_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
-        printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
-        printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
-        printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
-        printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
+        //printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
+        //printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
+        //printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
+        //printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Rfid_performAction(myTrans->action, &msg);
@@ -211,14 +217,9 @@ static void Rfid_mqReceive(MqMsg * aMsg)
 /**
  * brief Fonction d'ouverture du processus python de lecture du tag RFID
  */
-static void Rfid_popen(){
-    #if TARGET
-    fp = popen("python3 read.py", "r");
-    if (fp == NULL) {
-        printf("Failed to run command\n" );
-    }
-    Rfid_showTag();
-    #endif
+static void Rfid_open(){
+    if(!MRFC522_fct_PICC_IsNewCardPresent(&mfrc)) //mfrc.PICC_IsNewCardPresent())
+        Rfid_showTag();
 }
 
 /**
@@ -234,29 +235,34 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_START_READING:
-            Rfid_popen();
+            Rfid_open();
             printf("%s : A_START_READING\n", __FILE__);
             break;
-        case A_SHOW_TAG: ;
-            char buff[20];
-            printf("%s : A_SHOW_TAG\n", __FILE__);
-            fgets(buff, sizeof(buff)-1, fp);
-            buff[strlen(buff)-1] = '\0';
-            Brain_tagReaded(buff);
+        case A_SHOW_TAG: 
+            finalid = 0;
+            if(!MRFC522_fct_PICC_ReadCardSerial(&mfrc)){//mfrc.PICC_ReadCardSerial()) {
+                for (uint8_t i = 0; i < MFRC522_uid_size(&mfrc)/*mfrc.uid.size*/; ++i) {
+                    if (MFRC522_uid_uidByte(&mfrc, i)/*mfrc.uid.uidByte[i]*/ < 0x10) {
+                        printf("0%X", MFRC522_uid_uidByte(&mfrc, i)/*mfrc.uid.uidByte[i]*/);
+                    } else {
+                        printf("%X", MFRC522_uid_uidByte(&mfrc, i)/*mfrc.uid.uidByte[i]*/);
+                    }
+                    finalid += MFRC522_uid_uidByte(&mfrc, i)/*mfrc.uid.uidByte[i]*/ * pow(256, MFRC522_uid_size(&mfrc)/*mfrc.uid.size*/-1-i);
+                }
+                printf(" Final id : %010llu", finalid);
+                printf("\n");
+            }
+            sleep(1);
             break;
         case A_STOP_READING:
             #if TARGET
             pclose(fp);
-            fp = NULL;
             #endif
             printf("%s : A_STOP_READING\n", __FILE__);
             break;
         case A_STOP: //signale au thread principal l'arrêt d'RFID
             #if TARGET
-            if(fp != NULL)
-            {
-                pclose(fp);
-            }
+            pclose(fp);
             #endif
             printf("%s : A_STOP\n", __FILE__);
             break;
@@ -305,16 +311,51 @@ void Rfid_showTag(){
 	Rfid_mqSend(&msg);
 }
 
-/*
+
 int main() {
-    rfid_new();
-    rfid_start();
-    rfid_startReading();
+    
+    int current_uid = getuid();
+    printf("My UID is: %d. My GID is: %d\n", getuid(), getgid());
+    if(setuid(0)){
+        printf("My UID is: %d. My GID is: %d\n", getuid(), getgid());
+        perror("setuid");
+        return 1;
+    }
+    mfrc = newMRFC522();
+    //mfrc.PCD_Init();
+    MFRC522_fct_PCD_Init(&mfrc);
+
+    Rfid_new();
+    Rfid_start();
+
+    Rfid_startReading();
     
 
-    rfid_stopReading();
+    while(1){
+        finalid = 0;
+        Rfid_showTag();
+    }
+
+    setuid(current_uid);
+    
+
+    //rfid_stopReading();
     //rfid_stop();
-    rfid_free();
+    //rfid_free();
     return 0;
 }
+
+
+
+/* READ ME :
+
+Pour compiler 
+gcc -c rfid.c -o rfid.o
+g++ -c MFRC522_wrapper.cpp -o MFRC522_wrapper.o
+g++ -c MFRC522.cpp -o MFRC522.o
+
+sudo chown root.root RFID
+sudo chmod 4755 RFID
+./RFID
+
 */

@@ -108,7 +108,7 @@ void Doorman_open(){
 	gpiod_line_set_value(lineLock, 1);
 	#endif
 	Doorman_lock_timer_launch();
-	printf("open");
+	printf("open\n");
 }
 /**
  * brief Fonction permettant de fermer la porte
@@ -117,7 +117,7 @@ static void Doorman_close(){
 	#if TARGET	
     gpiod_line_set_value(lineLock, 0);
 	#endif
-	printf("close"); 
+	printf("close\n"); 
 }
 
 
