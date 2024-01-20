@@ -81,9 +81,13 @@ static void * Rfid_run(void * aParam);
 
 static void Rfid_popen();
 
+static void * Rfid_read(void * aParam);
+
 static pthread_t rfid_thread;
+static pthread_t read_thread;
 static mqd_t rfid_mq; //Boîte aux lettres d'RFID
 FILE *fp;
+char tag_buff[20];
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
@@ -217,7 +221,6 @@ static void Rfid_popen(){
     if (fp == NULL) {
         printf("Failed to run command\n" );
     }
-    Rfid_showTag();
     #endif
 }
 
@@ -234,21 +237,25 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_START_READING:
+            if(pthread_create(&read_thread, NULL, Rfid_read, NULL) != 0) //création du thread run d'RFID
+            {
+                fprintf(stderr, "pthread_create RFID error\n");
+                fflush(stderr);
+            }
             Rfid_popen();
             printf("%s : A_START_READING\n", __FILE__);
             break;
         case A_SHOW_TAG: ;
-            char buff[20];
+            Brain_tagReaded(tag_buff);
             printf("%s : A_SHOW_TAG\n", __FILE__);
-            fgets(buff, sizeof(buff)-1, fp);
-            buff[strlen(buff)-1] = '\0';
-            Brain_tagReaded(buff);
             break;
         case A_STOP_READING:
             #if TARGET
             pclose(fp);
             fp = NULL;
             #endif
+            pthread_cancel(read_thread);
+            pthread_join(read_thread, NULL);
             printf("%s : A_STOP_READING\n", __FILE__);
             break;
         case A_STOP: //signale au thread principal l'arrêt d'RFID
@@ -258,6 +265,8 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
                 pclose(fp);
             }
             #endif
+            pthread_cancel(read_thread);
+            pthread_join(read_thread, NULL);
             printf("%s : A_STOP\n", __FILE__);
             break;
         default:
@@ -303,6 +312,19 @@ void Rfid_stop(){
 void Rfid_showTag(){
     MqMsg msg = {.data.event = E_SHOW_TAG}; //envoi de l'évènement E_SHOW_TAG via mq
 	Rfid_mqSend(&msg);
+}
+
+static void * Rfid_read(void * aParam){
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
+
+    while (1) {
+        sleep(1);
+        fgets(tag_buff, sizeof(tag_buff)-1, fp);
+        tag_buff[strlen(tag_buff)-1] = '\0';
+        Rfid_showTag();
+    }
+    return NULL;
 }
 
 /*
