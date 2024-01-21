@@ -182,6 +182,22 @@ static void * Rfid_run(void * aParam)
     return NULL;
 }
 
+static void * Rfid_read(void * aParam){
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
+
+    if(fp != NULL)
+    {
+        while (1) {
+            sleep(1);
+            fgets(tag_buff, sizeof(tag_buff)-1, fp);
+            tag_buff[strlen(tag_buff)-1] = '\0';
+            Rfid_showTag();
+        }
+    }
+    return NULL;
+}
+
 /**
  * brief Fonction d'envoi des messages sur la boîte aux lettres
  * 
@@ -312,19 +328,6 @@ void Rfid_stop(){
 void Rfid_showTag(){
     MqMsg msg = {.data.event = E_SHOW_TAG}; //envoi de l'évènement E_SHOW_TAG via mq
 	Rfid_mqSend(&msg);
-}
-
-static void * Rfid_read(void * aParam){
-    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
-
-    while (1) {
-        sleep(1);
-        fgets(tag_buff, sizeof(tag_buff)-1, fp);
-        tag_buff[strlen(tag_buff)-1] = '\0';
-        Rfid_showTag();
-    }
-    return NULL;
 }
 
 /*

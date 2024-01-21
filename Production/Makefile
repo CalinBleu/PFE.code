@@ -12,7 +12,7 @@ OBJS := $(SRCS:.c=.o)
 OBJS := $(OBJS:.cpp=.o)
 
 # Target executable
-TARGET := myprogram
+TARGET := Visiolock.out
 
 # Linker flags
 LDFLAGS := -lpthread -lrt -lgpiod -lsqlite3 -lm -lbcm2835
