@@ -69,11 +69,11 @@ typedef union
 /*
  * LOCAL FUNCTIONS
  */
-static void * postman_run();
-static void postman_mqReceive(MqMsg * aMsg);
-static void postman_mqSend(MqMsg * aMsg);
-static void postman_performAction(Action anAction, MqMsg * aMsg);
-static void * postman_setUpConnection();
+static void * Postman_run();
+static void Postman_mqReceive(MqMsg * aMsg);
+static void Postman_mqSend(MqMsg * aMsg);
+static void Postman_performAction(Action anAction, MqMsg * aMsg);
+static void * Postman_setUpConnection();
 
  /*
  * LOCAL VARIABLES
@@ -92,9 +92,9 @@ static Transition mySm [STATE_NB-1][EVENT_NB] =
 };
 
 /*******************************************************************************************/
-uint8_t postman_start()
+uint8_t Postman_start()
 {
-    if(pthread_create(&connection_thread, NULL, postman_setUpConnection, NULL) != 0)
+    if(pthread_create(&connection_thread, NULL, Postman_setUpConnection, NULL) != 0)
     {
         perror("pthread_create postman connection error\n");
 		return 1;
@@ -103,7 +103,7 @@ uint8_t postman_start()
     {
         pthread_detach(connection_thread);
     }
-    if(pthread_create(&postman_thread, NULL, postman_run, NULL) != 0)
+    if(pthread_create(&postman_thread, NULL, Postman_run, NULL) != 0)
     {
 		perror("pthread_create postman read error\n");
 		return 1;
@@ -113,12 +113,12 @@ uint8_t postman_start()
         pthread_detach(postman_thread);
     }
 
-    dispatcher_start();
+    Dispatcher_start();
 
     return 0;
 }
 
-uint8_t postman_new()
+uint8_t Postman_new()
 {
     int check;
     struct mq_attr mqa = {
@@ -138,15 +138,15 @@ uint8_t postman_new()
 		return 1;
     }
 
-    if(dispatcher_new() != 0)
+    if(Dispatcher_new() != 0)
     {
-        postman_free();
+        Postman_free();
         return 1;
     }
     return 0;
 }
 
-uint8_t postman_free()
+uint8_t Postman_free()
 {
 	int check;
     check = mq_close(postman_mq);
@@ -164,14 +164,14 @@ uint8_t postman_free()
     return 0;
 }
 
-void postman_stop(void)
+void Postman_stop(void)
 {
     MqMsg msg = {.data.event = E_STOP};
-    postman_mqSend(&msg);
-    dispatcher_stop();
+    Postman_mqSend(&msg);
+    Dispatcher_stop();
 }
 
-char* postman_readMessage(int size) 
+char* Postman_readMessage(int size) 
 {
     char* msg = malloc(size);
     int bytesRead = 0;
@@ -193,22 +193,22 @@ char* postman_readMessage(int size)
 }
 
 
-void postman_askSendMessage(char* frame)
+void Postman_askSendMessage(char* frame)
 {
     MqMsg msg;
     msg.data.event = E_SEND;
-    msg.data.frameSize = protocol_getIntLength(frame[1], frame[0]);
+    msg.data.frameSize = Protocol_getIntLength(frame[1], frame[0]);
     memcpy(msg.data.frame, frame, msg.data.frameSize);
 
-    postman_mqSend(&msg);
-    protocol_hexdump(msg.data.frame, msg.data.frameSize);
+    Postman_mqSend(&msg);
+    Protocol_hexdump(msg.data.frame, msg.data.frameSize);
 }
 
 /**
  * @brief Fonction d'initialisation du serveur
  * 
  */
-static void * postman_setUpConnection()
+static void * Postman_setUpConnection()
 {
     socketVisiolock = socket(AF_INET, SOCK_STREAM, 0); //initialisation de la socket d'écoute
     memset(&my_address, 0, sizeof(my_address));
@@ -228,7 +228,7 @@ static void * postman_setUpConnection()
     if (socketGUI>0)
     {
         printf("connection established\n");
-        dispatcher_setConnected(true);
+        Dispatcher_setConnected(true);
     }
 
     return NULL;
@@ -239,7 +239,7 @@ static void * postman_setUpConnection()
  * 
  * @param aMsg Le message à lire
  */
-static void postman_mqReceive(MqMsg * aMsg)
+static void Postman_mqReceive(MqMsg * aMsg)
 {
 	int check;
 	check = mq_receive(postman_mq, aMsg->buffer, sizeof(MqMsg), NULL);
@@ -257,7 +257,7 @@ static void postman_mqReceive(MqMsg * aMsg)
  * 
  * @param aMsg Le message à envoyer
  */
-static void postman_mqSend(MqMsg * aMsg)
+static void Postman_mqSend(MqMsg * aMsg)
 {
 	int check;
     check = mq_send(postman_mq, aMsg->buffer, sizeof(MqMsg), 0);
@@ -276,7 +276,7 @@ static void postman_mqSend(MqMsg * aMsg)
  * @param anAction L'action courante à traiter
  * @param aMsg Le message associé, utilisé s'il contient des trames
  */
-static void postman_performAction(Action anAction, MqMsg * aMsg)
+static void Postman_performAction(Action anAction, MqMsg * aMsg)
 {
 	switch (anAction)
     {
@@ -305,14 +305,14 @@ static void postman_performAction(Action anAction, MqMsg * aMsg)
  * @param aParam Paramètre non utilisé
  * @return void* 
  */
-static void * postman_run()
+static void * Postman_run()
 {
 	MqMsg msg;
     State myState = S_ON;
     Transition * myTrans;
 	while (myState != S_DEATH)
     {
-        postman_mqReceive(&msg);
+        Postman_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
         //TRACE("myState : %d\n", myState);
         //TRACE("event : %d\n", msg.data.event);
@@ -320,7 +320,7 @@ static void * postman_run()
         printf("action : %d\n", myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
-            postman_performAction(myTrans->action, &msg);
+            Postman_performAction(myTrans->action, &msg);
             myState = myTrans->destinationState;
         }
         else

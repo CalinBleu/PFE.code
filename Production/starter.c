@@ -9,11 +9,14 @@
 #include "archivist.h"
 #include "doorman.h"
 #include "rfid.h"
+#include "postman.h"
 
 int main(){
 
     Rfid_new();
+    Postman_new();
     Rfid_start();
+    Postman_start();
     Brain_startVisiolock();
     Doorman_init();
     Archivist_open();
@@ -99,7 +102,10 @@ int main(){
     Archivist_close();
     Brain_stopVisiolock();
     Rfid_stop();
+    Postman_stop();
+
     sleep(3);
+    Postman_free();
     Brain_free();
     Rfid_free();
     

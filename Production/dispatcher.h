@@ -20,36 +20,36 @@
  */
 
 /**
- * @brief Fonction d'allocation de la mémoire liée au dispatcheur AOP
+ * @brief Fonction d'allocation de la mémoire liée au dispatcheur
  *
  * @return uint8_t Potentiel code d'erreur
  */
-uint8_t dispatcher_new();
+uint8_t Dispatcher_new();
 
 /**
- * @brief Fonction d'initialisation et de démarrage du dispatcheur AOP
+ * @brief Fonction d'initialisation et de démarrage du dispatcheur
  * 
  * @return uint8_t Potentiel code d'erreur
  */
-uint8_t dispatcher_start();
+uint8_t Dispatcher_start();
 
 /**
- * @brief Fonction d'arrêt du dispatcheur AOP
+ * @brief Fonction d'arrêt du dispatcheur
  */
-void dispatcher_stop();
+void Dispatcher_stop();
 
 /**
- * @brief Fonction de libération de la mémoire liée au dispatcheur AOP
+ * @brief Fonction de libération de la mémoire liée au dispatcheur
  *
  * @return uint8_t Potentiel code d'erreur
  */
-uint8_t dispatcher_free();
+uint8_t Dispatcher_free();
 
 /**
- * @brief Fonction de notification de l'état de la connexion avec AOP
+ * @brief Fonction de notification de l'état de la connexion avec GUI
  * 
  * @param state état de la connexion
  */
-void dispatcher_setConnected(bool state);
+void Dispatcher_setConnected(bool state);
 
 #endif //DISPATCHER_H

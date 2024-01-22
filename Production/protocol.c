@@ -32,7 +32,7 @@
 /*******************************************************************************************/
 
 
-char* protocol_encode(int cmd_id, int nbargs, char *data)
+char* Protocol_encode(int cmd_id, int nbargs, char *data)
 {
     //Initialisation de la trame
     Frame frame;
@@ -49,7 +49,7 @@ char* protocol_encode(int cmd_id, int nbargs, char *data)
         int frameSize;
 
         //création et affichage de la trame
-        protocol_buildRawFrame(frame, &bytes, &frameSize);
+        Protocol_buildRawFrame(frame, &bytes, &frameSize);
 
         return(bytes);
     }
@@ -62,7 +62,7 @@ char* protocol_encode(int cmd_id, int nbargs, char *data)
         int dataSize;
 
         //création de la trame de donnée intermédiaire
-        protocol_buildData(frame, &dataBytes, &dataSize, data);
+        Protocol_buildData(frame, &dataBytes, &dataSize, data);
         frame.dataLength = dataSize; //réaffectation de la taille à cause des bits de contrôle/séparation
         frame.data = dataBytes; //réaffectation de la data pour la même raison
 
@@ -70,13 +70,13 @@ char* protocol_encode(int cmd_id, int nbargs, char *data)
         int frameSize;
 
         //création et affichage de la trame
-        protocol_buildFrame(frame, &bytes, &frameSize);
+        Protocol_buildFrame(frame, &bytes, &frameSize);
 
         return(bytes);
     }
 }
 
-void protocol_buildFrame(Frame frame, char **bytes, int *frameSize)
+void Protocol_buildFrame(Frame frame, char **bytes, int *frameSize)
 {
 
     //calcul de la taille de la trame selon les bits de début/fin de trame, les arguments de frame et la longueur de la trame (sur 2 octets)
@@ -104,7 +104,7 @@ void protocol_buildFrame(Frame frame, char **bytes, int *frameSize)
     *frameSize = size;
 }
 
-void protocol_buildRawFrame(Frame frame, char **bytes, int *frameSize)
+void Protocol_buildRawFrame(Frame frame, char **bytes, int *frameSize)
 {
 
     //calcul de la taille de la trame selon les bits de début/fin de trame, les arguments de frame et la longueur de la trame (sur 2 octets)
@@ -131,7 +131,7 @@ void protocol_buildRawFrame(Frame frame, char **bytes, int *frameSize)
     *frameSize = size;
 }
 
-void protocol_destroyFrame(char* frame, char* allArgs)
+void Protocol_destroyFrame(char* frame, char* allArgs)
 {
     //libération de la mémoire liée aux arguments
     if(allArgs != NULL)
@@ -144,7 +144,7 @@ void protocol_destroyFrame(char* frame, char* allArgs)
     printf("destroy ok\n");
 }
 
-void protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[])
+void Protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[])
 {
 
     int nbSeparator = (frame.nbArgs - 1)*sizeof(uint8_t); //détermination du nombre de caractère de séparation '|' 
@@ -189,7 +189,7 @@ void protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[
     *dataSize = size;
 }
 
-Decoded_Frame protocol_decode(char* frame, uint16_t frameSize)
+Decoded_Frame Protocol_decode(char* frame, uint16_t frameSize)
 {
     uint8_t nbArgs = (uint8_t)frame[0]; //déclaration des paramètres à récupérer dans la trame
     uint16_t lenArgs[nbArgs];
@@ -207,7 +207,7 @@ Decoded_Frame protocol_decode(char* frame, uint16_t frameSize)
     for(int i = 0; i < nbArgs; i++)
     {
         //affectation des paramètres selon les flags de lecture 
-        lenArgs[i] = protocol_getIntLength(frame[index + 1], frame[index]);
+        lenArgs[i] = Protocol_getIntLength(frame[index + 1], frame[index]);
         args[i] = malloc(lenArgs[i]);
         index+=2;
         for(uint16_t currentArgIndex = index; currentArgIndex < index + lenArgs[i]; currentArgIndex++)
@@ -236,21 +236,21 @@ Decoded_Frame protocol_decode(char* frame, uint16_t frameSize)
     return result;
 }
 
-Decoded_Header protocol_decodeHeader(char* header)
+Decoded_Header Protocol_decodeHeader(char* header)
 {
     Decoded_Header result;
-    result.size = protocol_getIntLength(header[1], header[0]);
+    result.size = Protocol_getIntLength(header[1], header[0]);
     result.cmdId = header[2];
 
     return result;
 }
 
-uint16_t protocol_getIntLength(unsigned char lowByte, unsigned char highByte) {
+uint16_t Protocol_getIntLength(unsigned char lowByte, unsigned char highByte) {
     uint16_t result = (uint16_t)(highByte << 8) + (uint16_t)lowByte;
     return result;
 }
 
-uint16_t protocol_getIntFromString(char* byteString)
+uint16_t Protocol_getIntFromString(char* byteString)
 {
     char* endPtr; // pointeur vers la fin de la conversion
     uint16_t value = strtol(byteString, &endPtr, 10); //conversion en entier en base 10
@@ -264,7 +264,7 @@ uint16_t protocol_getIntFromString(char* byteString)
     return value;
 }
 
-void protocol_hexdump(const void* data, size_t size) //fonction d'affichage utilisée en debug
+void Protocol_hexdump(const void* data, size_t size) //fonction d'affichage utilisée en debug
 {
     const unsigned char* p = data;
     size_t i;

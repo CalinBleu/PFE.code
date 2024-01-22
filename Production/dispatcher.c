@@ -72,7 +72,7 @@ typedef union
 /**
  * @brief Fonction de dispatch. Joue le rôle de décodeur des trames reçues et répartit les messages selon les destinataires.
  */
-static void * dispatcher_dispatch();
+static void * Dispatcher_dispatch();
 
 /*
  * LOCAL VARIABLES
@@ -86,9 +86,9 @@ static volatile bool gui_connected = false;
 
 /*******************************************************************************************/
 
-uint8_t dispatcher_start()
+uint8_t Dispatcher_start()
 {
-    if(pthread_create(&dispatcher_thread, NULL, dispatcher_dispatch, NULL) != 0) //création du thread du dispatcher
+    if(pthread_create(&dispatcher_thread, NULL, Dispatcher_dispatch, NULL) != 0) //création du thread du dispatcher
     {
 		perror("pthread_create dispatcher error\n");
 		return 1;
@@ -100,7 +100,7 @@ uint8_t dispatcher_start()
     return 0;
 }
 
-uint8_t dispatcher_new()
+uint8_t Dispatcher_new()
 {
     int check;
     struct mq_attr mqa = {
@@ -128,12 +128,12 @@ uint8_t dispatcher_new()
     return 0;
 }
 
-void dispatcher_stop()
+void Dispatcher_stop()
 {
-    dispatcher_setConnected(false);
+    Dispatcher_setConnected(false);
 }
 
-uint8_t dispatcher_free()
+uint8_t Dispatcher_free()
 {
     int check;
     check = mq_close(dispatcher_mq);
@@ -157,7 +157,7 @@ uint8_t dispatcher_free()
     return 0;
 }
 
-static void * dispatcher_dispatch()
+static void * Dispatcher_dispatch()
 {
     while(sem_wait(&connection_sem) == -1)
     {
@@ -176,13 +176,13 @@ static void * dispatcher_dispatch()
 
     while(gui_connected) //tant que la connexion est active
     {
-        char* header = postman_readMessage(HEADER_SIZE); //attente de la réception d'une trame
+        char* header = Postman_readMessage(HEADER_SIZE); //attente de la réception d'une trame
         char* frame;
         uint16_t frameSize;
 
         if(header != NULL)
         {
-            protocol_hexdump(header, HEADER_SIZE);
+            Protocol_hexdump(header, HEADER_SIZE);
             printf("start decoding the header\n");
         }
         else
@@ -191,7 +191,7 @@ static void * dispatcher_dispatch()
             frameSize = 0;
         }
 
-        Decoded_Header decodedHeader = protocol_decodeHeader(header);
+        Decoded_Header decodedHeader = Protocol_decodeHeader(header);
         printf("Cmd : %d\n", decodedHeader.cmdId);
         printf("Taille : %d\n", decodedHeader.size);
         if(decodedHeader.cmdId > NB_CMD) //Cmd en dehors des limites, header non conforme
@@ -202,13 +202,13 @@ static void * dispatcher_dispatch()
         else
         {
             frameSize = decodedHeader.size - HEADER_SIZE; //decodedHeader.size est la taille totale de la trame
-            frame = postman_readMessage(frameSize);
-            protocol_hexdump(frame, frameSize);
+            frame = Postman_readMessage(frameSize);
+            Protocol_hexdump(frame, frameSize);
         }
 
         if(frame != NULL) //On ne décode que si le header est conforme
         {
-            Decoded_Frame decodedFrame = protocol_decode(frame, frameSize); //décodage de la trame en une instance de la structure Decoded_Frame
+            Decoded_Frame decodedFrame = Protocol_decode(frame, frameSize); //décodage de la trame en une instance de la structure Decoded_Frame
             printf("decoded\n");
             char* arg1 = NULL; 
             char* arg2 = NULL;
@@ -301,7 +301,7 @@ static void * dispatcher_dispatch()
     return NULL;
 }
 
-void dispatcher_setConnected(bool state)
+void Dispatcher_setConnected(bool state)
 {
     if(state)
     {

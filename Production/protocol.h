@@ -54,7 +54,7 @@ typedef struct {
  * @param [in] data La chaîne de caractères contenant les arguments convertis 
  * @return char* La trame encodée 
  */
-char* protocol_encode(int cmd_id, int nbargs, char *data);
+char* Protocol_encode(int cmd_id, int nbargs, char *data);
 
 /**
  * @brief Fonction de décodage de la trame. Reconstruit la trame via une instance de Decoded_Frame.
@@ -62,9 +62,9 @@ char* protocol_encode(int cmd_id, int nbargs, char *data);
  * @param [in] frame La trame à décoder
  * @return Decoded_Frame La structure de trame décodée
  */
-Decoded_Frame protocol_decode(char* frame, uint16_t frameSize);
+Decoded_Frame Protocol_decode(char* frame, uint16_t frameSize);
 
-Decoded_Header protocol_decodeHeader(char* header);
+Decoded_Header Protocol_decodeHeader(char* header);
 
 /**
  * @brief Fonction de création d'une trame comprenant au moins 1 argument.
@@ -73,7 +73,7 @@ Decoded_Header protocol_decodeHeader(char* header);
  * @param [in, out] bytes La chaîne d'octets à utiliser
  * @param [in,out] frameSize La taille de la trame complète
  */
-void protocol_buildFrame(Frame frame, char **bytes, int *frameSize);
+void Protocol_buildFrame(Frame frame, char **bytes, int *frameSize);
 
 /**
  * @brief Fonction de création d'une trame brute ne comprenant pas d'arguments (ou donnée).
@@ -82,7 +82,7 @@ void protocol_buildFrame(Frame frame, char **bytes, int *frameSize);
  * @param [in,out] bytes La chaîne d'octets à utiliser
  * @param [in,out] frameSize La taille de la trame complète
  */
-void protocol_buildRawFrame(Frame frame, char **bytes, int *frameSize);
+void Protocol_buildRawFrame(Frame frame, char **bytes, int *frameSize);
 
 /**
  * @brief Fonction de destruction de la trame. Libère la mémoire allouée dynamiquement.
@@ -90,7 +90,7 @@ void protocol_buildRawFrame(Frame frame, char **bytes, int *frameSize);
  * @param [in] frame La trame TCP à détruire
  * @param [in] allArgs La chaîne de caractère comprenant les arguments convertis
  */
-void protocol_destroyFrame(char* frame, char* allArgs);
+void Protocol_destroyFrame(char* frame, char* allArgs);
 
 /**
  * @brief Fonction de création de la trame intermédiaire de données.
@@ -100,7 +100,7 @@ void protocol_destroyFrame(char* frame, char* allArgs);
  * @param [in,out] dataSize La taille de la chaîne d'octets
  * @param [in] args La chaîne de caractères contenant les arguments convertis, utilisée pour remplir dataBytes
  */
-void protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[]);
+void Protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[]);
 
 /**
  * @brief Fonction d'affichage de la trame complète.
@@ -108,7 +108,7 @@ void protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[
  * @param data La chaîne d'octets correspondant à la trame 
  * @param size La taille de la trame 
  */
-void protocol_hexdump(const void* data, size_t size);
+void Protocol_hexdump(const void* data, size_t size);
 
 /**
  * @brief Fonction retournant l'entier correspondant à l'addition de deux octets
@@ -117,7 +117,7 @@ void protocol_hexdump(const void* data, size_t size);
  * @param lowByte L'octet de poids faible 
  * @return uint16_t Le résultat entier de l'opération
  */
-uint16_t protocol_getIntLength(unsigned char highByte, unsigned char lowByte);
+uint16_t Protocol_getIntLength(unsigned char highByte, unsigned char lowByte);
 
 /**
  * @brief Fonction retournant l'entier correspondant à un chaîne de caractère 
@@ -125,6 +125,6 @@ uint16_t protocol_getIntLength(unsigned char highByte, unsigned char lowByte);
  * @param byteString La chaîne des caractères devant être convertis
  * @return uint16_t Le résultat entier de l'opération
  */
-uint16_t protocol_getIntFromString(char* byteString);
+uint16_t Protocol_getIntFromString(char* byteString);
 
 #endif //PROTOCOL_H
