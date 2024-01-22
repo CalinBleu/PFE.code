@@ -253,12 +253,12 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_START_READING:
+            Rfid_popen();
             if(pthread_create(&read_thread, NULL, Rfid_read, NULL) != 0) //création du thread run d'RFID
             {
                 fprintf(stderr, "pthread_create RFID error\n");
                 fflush(stderr);
             }
-            Rfid_popen();
             printf("%s : A_START_READING\n", __FILE__);
             break;
         case A_SHOW_TAG: ;
@@ -266,23 +266,26 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_SHOW_TAG\n", __FILE__);
             break;
         case A_STOP_READING:
-            #if TARGET
-            pclose(fp);
-            fp = NULL;
-            #endif
             pthread_cancel(read_thread);
             pthread_join(read_thread, NULL);
+            #if TARGET
+            int ret = pclose(fp);
+            fp = NULL;
+            #endif
             printf("%s : A_STOP_READING\n", __FILE__);
             break;
         case A_STOP: //signale au thread principal l'arrêt d'RFID
+            pthread_cancel(read_thread);
+            pthread_join(read_thread, NULL);
             #if TARGET
             if(fp != NULL)
             {
-                pclose(fp);
+                int res = system(COMMAND);
+                if (res == -1) {
+                    perror("kill read.py error");
+                }
             }
             #endif
-            pthread_cancel(read_thread);
-            pthread_join(read_thread, NULL);
             printf("%s : A_STOP\n", __FILE__);
             break;
         default:
