@@ -253,12 +253,12 @@ static void Rfid_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_START_READING:
+            Rfid_popen();
             if(pthread_create(&read_thread, NULL, Rfid_read, NULL) != 0) //création du thread run d'RFID
             {
                 fprintf(stderr, "pthread_create RFID error\n");
                 fflush(stderr);
             }
-            Rfid_popen();
             printf("%s : A_START_READING\n", __FILE__);
             break;
         case A_SHOW_TAG: ;
