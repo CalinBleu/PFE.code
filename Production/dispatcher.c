@@ -13,6 +13,8 @@
 
 //include objets
 #include "guard.h"
+#include "brain.h"
+#include "manager.h"
 #include "dispatcher.h"
 
 //include facteur et trame
@@ -172,7 +174,6 @@ static void * Dispatcher_dispatch()
             return NULL;
         }
     }
-    printf("exit sem_wait\n");
 
     while(gui_connected) //tant que la connexion est active
     {
@@ -194,7 +195,7 @@ static void * Dispatcher_dispatch()
         Decoded_Header decodedHeader = Protocol_decodeHeader(header);
         printf("Cmd : %d\n", decodedHeader.cmdId);
         printf("Taille : %d\n", decodedHeader.size);
-        if(decodedHeader.cmdId > NB_CMD) //Cmd en dehors des limites, header non conforme
+        if(decodedHeader.cmdId > NB_CMD || decodedHeader.size > MAX_TCP_LENGTH) //Cmd en dehors des limites, header non conforme
         {
             frame = NULL;
             frameSize = 0;
@@ -209,12 +210,14 @@ static void * Dispatcher_dispatch()
         if(frame != NULL) //On ne décode que si le header est conforme
         {
             Decoded_Frame decodedFrame = Protocol_decode(frame, frameSize); //décodage de la trame en une instance de la structure Decoded_Frame
-            printf("decoded\n");
             char* arg1 = NULL; 
             char* arg2 = NULL;
             char* arg3 = NULL;
             char* arg4 = NULL;
             char* arg5 = NULL;
+            char* arg6 = NULL;
+            char* arg7 = NULL;
+            char* arg8 = NULL;
 
             //initilaisation des potentiels arguments selon la variable de nombre d'arguments nbArgs
             if (decodedFrame.nbArgs >= 1) {
@@ -241,10 +244,28 @@ static void * Dispatcher_dispatch()
                     printf("Erreur d'allocation de mémoire pour arg4\n");
                 }
             }
-            if (decodedFrame.nbArgs == 5) {
+            if (decodedFrame.nbArgs >= 5) {
                 arg5 = malloc(decodedFrame.lenArgs[4] + 1); 
                 if (arg5 == NULL) {
                     printf("Erreur d'allocation de mémoire pour arg5\n");
+                }
+            }
+            if (decodedFrame.nbArgs >= 6) {
+                arg6 = malloc(decodedFrame.lenArgs[5] + 1); 
+                if (arg6 == NULL) {
+                    printf("Erreur d'allocation de mémoire pour arg6\n");
+                }
+            }
+            if (decodedFrame.nbArgs >= 7) {
+                arg7 = malloc(decodedFrame.lenArgs[6] + 1); 
+                if (arg7 == NULL) {
+                    printf("Erreur d'allocation de mémoire pour arg7\n");
+                }
+            }
+            if (decodedFrame.nbArgs == 8) {
+                arg8 = malloc(decodedFrame.lenArgs[7] + 1); 
+                if (arg8 == NULL) {
+                    printf("Erreur d'allocation de mémoire pour arg8\n");
                 }
             }
             
@@ -256,30 +277,76 @@ static void * Dispatcher_dispatch()
                     break;
                 case CMD_CHANGE_MODE:
                     printf("%s : CHANGE_MODE\n", __FILE__);
+                    Mode mode = atoi(decodedFrame.args[0]);
+                    Brain_changeMode(mode);
                     break;
                 case CMD_STANDBY:
                     printf("%s : STANDBY\n", __FILE__);
+                    Brain_standBy();
                     break;
                 case CMD_CHECK_PASSWORD:
                     printf("%s : CHECK_PASSWORD\n", __FILE__);
+                    strcpy(arg1, decodedFrame.args[0]);
+                    strcpy(arg2, decodedFrame.args[1]);
+                    Guard_checkPassword(arg1, arg2);
                     break;
                 case CMD_SET_PICTURE:
                     printf("%s : SET_PICTURE\n", __FILE__);
+                    //TODO
                     break;
                 case CMD_ADD_USER:
                     printf("%s : ADD_USER\n", __FILE__);
+                    User userToAdd;
+                    memset(&userToAdd, 0, sizeof(userToAdd));
+                    Access accessToAdd;
+                    strncpy(userToAdd.firstName, decodedFrame.args[0], sizeof(arg1));
+                    strncpy(userToAdd.name, decodedFrame.args[1], sizeof(arg2));
+                    userToAdd.role = atoi(decodedFrame.args[2]);
+                    for(int i = 0; i < NB_LOCK; i++)
+                    {
+                        accessToAdd[i] = atoi(&(decodedFrame.args[3][i]));
+                    }
+                    strncpy(userToAdd.idTag, decodedFrame.args[4], sizeof(arg5)); 
+                    strncpy(userToAdd.picture, decodedFrame.args[5], sizeof(arg6)); 
+                    if(userToAdd.role == ADMIN)
+                    {
+                        strncpy(userToAdd.password, decodedFrame.args[6], sizeof(arg7)); 
+                    }
+                    Manager_addUser(userToAdd);
                     break;
                 case CMD_MODIFY_USER:
                     printf("%s : MODIFY_USER\n", __FILE__);
+                    strcpy(arg1, decodedFrame.args[0]);
+                    User userToModify;
+                    memset(&userToModify, 0, sizeof(userToModify)); 
+                    Access accessToModify;
+                    strncpy(userToModify.firstName, decodedFrame.args[1], sizeof(arg2));
+                    strncpy(userToModify.name, decodedFrame.args[2], sizeof(arg3));
+                    userToModify.role = atoi(decodedFrame.args[3]);
+                    for(int i = 0; i < NB_LOCK; i++)
+                    {
+                        accessToModify[i] = atoi(&(decodedFrame.args[4][i]));
+                    }
+                    strncpy(userToModify.idTag, decodedFrame.args[5], sizeof(arg6)); 
+                    strncpy(userToModify.picture, decodedFrame.args[6], sizeof(arg7)); 
+                    if(userToModify.role == ADMIN)
+                    {
+                        strncpy(userToModify.password, decodedFrame.args[7], sizeof(arg8)); 
+                    }
+                    Manager_modifyUser(userToModify, arg1);
                     break;
                 case CMD_REMOVE_USER:
                     printf("%s : REMOVE_USER\n", __FILE__);
+                    strcpy(arg1, decodedFrame.args[0]);
+                    Manager_removeUser(arg1);
                     break;
                 case CMD_ASK_ALL_USERS:
                     printf("%s : ASK_ALL_USERS\n", __FILE__);
+                    //TODO
                     break;
                 case CMD_ASK_SEARCH_USER:
                     printf("%s : ASK_SEARCH_USER\n", __FILE__);
+                    //TODO
                     break;
                 default:
                     printf("Cmd_Id n°%d non traité pour l'instant\n", decodedHeader.cmdId);
@@ -291,6 +358,9 @@ static void * Dispatcher_dispatch()
             if(arg3 != NULL) free(arg3);
             if(arg4 != NULL) free(arg4);
             if(arg5 != NULL) free(arg5);
+            if(arg6 != NULL) free(arg6);
+            if(arg7 != NULL) free(arg7);
+            if(arg8 != NULL) free(arg8);
 
             if(frame != NULL) free(frame); //libération de la mémoire allouée aux chaînes de caractères contenant la trame et le header
         }
@@ -307,7 +377,6 @@ void Dispatcher_setConnected(bool state)
     {
         gui_connected = true;
         sem_post(&connection_sem);
-        printf("sem_post\n");
     }
     else
     {

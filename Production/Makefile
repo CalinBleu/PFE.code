@@ -1,7 +1,7 @@
 # Compiler options
 CC := gcc
 CXX := g++
-CFLAGS := -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -std=c99 -D_POSIX_C_SOURCE=200112L
+CFLAGS := -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -Wno-unused-but-set-variable -std=c99 -D_POSIX_C_SOURCE=200112L
 CXXFLAGS := -Wall -Wextra
 
 # Source files
@@ -15,7 +15,7 @@ OBJS := $(OBJS:.cpp=.o)
 TARGET := Visiolock.out
 
 # Linker flags
-LDFLAGS := -lpthread -lrt -lgpiod -lsqlite3 -lm -lbcm2835
+LDFLAGS := -lpthread -lrt -lgpiod -lsqlite3 -lm
 
 # Default target
 all: $(TARGET)

@@ -8,7 +8,6 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include "protocol.h"
-#include "postman.h"
 #include "common.h"
 
 
@@ -21,7 +20,7 @@ int main()
     un_socket = socket(PF_INET, SOCK_STREAM, 0);
 
     adresse_du_serveur.sin_family = AF_INET;
-    adresse_du_serveur.sin_port = htons(SERVER_PORT);
+    adresse_du_serveur.sin_port = htons(1253);
     adresse_du_serveur.sin_addr = *((struct in_addr *)gethostbyname ("127.0.0.1")->h_addr_list[0]);
 
     connect(un_socket, (struct sockaddr *)&adresse_du_serveur, sizeof(adresse_du_serveur));
@@ -29,7 +28,8 @@ int main()
 
     char* frame = Protocol_encode(CMD_STANDBY,0,NULL); //encodage de la trame
 
-    Postman_askSendMessage(frame); //demande d'envoi du message au facteur
+    int frameLen = Protocol_getIntLength(frame[2], frame[1]);
+    int quantite_envoyee = write(un_socket, frame, frameLen);
 
     Protocol_destroyFrame(frame, NULL);
 

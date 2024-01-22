@@ -266,33 +266,36 @@ uint16_t Protocol_getIntFromString(char* byteString)
 
 void Protocol_hexdump(const void* data, size_t size) //fonction d'affichage utilisée en debug
 {
-    const unsigned char* p = data;
-    size_t i;
-    size_t j;
-    //affichage de l'adresse en hexa selon des lignes de 16 octets
-    for (i = 0; i < size; ++i) {
-        if (i % 16 == 0) {
-            printf("%08x ", (unsigned int)i);
+    if(TRAMES)
+    {
+        const unsigned char* p = data;
+        size_t i;
+        size_t j;
+        //affichage de l'adresse en hexa selon des lignes de 16 octets
+        for (i = 0; i < size; ++i) {
+            if (i % 16 == 0) {
+                printf("%08x ", (unsigned int)i);
+            }
+            //affichage en hexa de chaque octets
+            printf("%02x ", p[i]);
+            if (i % 16 - 15 == 0) {
+                for (j = 0; j < 16; ++j) {
+                    int c = p[i - 15 + j];
+                    printf("%c", isprint(c) ? c : '.');
+                }
+                printf("\n");
+            }
         }
-        //affichage en hexa de chaque octets
-        printf("%02x ", p[i]);
-        if (i % 16 - 15 == 0) {
-            for (j = 0; j < 16; ++j) {
-                int c = p[i - 15 + j];
+        //affichage en chaîne de caractère
+        if (i % 16 != 0) {
+            size_t padding = (16 - i % 16) * 3;
+            printf("%*s", (int)padding, "");
+            for (j = i - i % 16; j < size; ++j) {
+                int c = p[j];
                 printf("%c", isprint(c) ? c : '.');
             }
             printf("\n");
         }
-    }
-    //affichage en chaîne de caractère
-    if (i % 16 != 0) {
-        size_t padding = (16 - i % 16) * 3;
-        printf("%*s", (int)padding, "");
-        for (j = i - i % 16; j < size; ++j) {
-            int c = p[j];
-            printf("%c", isprint(c) ? c : '.');
-        }
-        printf("\n");
     }
 }
 
