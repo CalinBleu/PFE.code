@@ -73,4 +73,29 @@ typedef struct {
     char* password;
 }User;
 
+/**
+ * @brief Enumération des identifiants de commande entre GUI et Visiolock
+ * 
+ */
+typedef enum {
+    CMD_ERR = 0,
+    CMD_SCREEN_ON,
+    CMD_SCREEN_OFF,
+    CMD_DISPLAY_HOME_SCREEN,
+    CMD_SET_TAG,
+    CMD_CHANGE_MODE,
+    CMD_STANDBY,
+    CMD_CHECK_PASSWORD,
+    CMD_VALIDATE_PASSWORD,
+    CMD_SET_PICTURE,
+    CMD_ADD_USER,
+    CMD_MODIFY_USER,
+    CMD_REMOVE_USER,
+    CMD_ASK_SEARCH_USER,
+    CMD_SET_SEARCH_USER,
+    CMD_ASK_ALL_USERS,
+    CMD_SET_ALL_USERS,
+    NB_CMD
+} GuiCommand;
+
 #endif //COMMON_H

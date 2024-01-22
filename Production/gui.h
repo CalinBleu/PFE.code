@@ -1,6 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <common.h>
+
 void GUI_screenOn();
 
 void GUI_screenOff();

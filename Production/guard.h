@@ -1,6 +1,8 @@
 #ifndef GUARD_H
 #define GUARD_H
 
+#include "common.h"
+
 //fonction qui vérifie le mot de passe
 void Guard_checkPassword(char* password, char* idTag );
 
