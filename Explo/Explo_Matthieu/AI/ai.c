@@ -16,7 +16,7 @@
 
 typedef enum  {S_FORGET = 0, S_STANDBY, S_ANALYSE, S_DEATH, STATE_NB} State; 
 typedef enum  {E_START_RECO = 0, E_STOP_RECO, E_SUCCESSFUL_ANALYSIS, E_FACE_UNKNOWN, E_STOP, EVENT_NB} Event; 
-typedef enum  {A_NOP = 0, A_START_ANALYSE, A_RESULT_UNKNOWN, A_RESULT_ALLOWED, A_STOP} Action; 
+typedef enum  {A_NOP = 0, A_START_ANALYSE, A_RESULT_UNKNOWN, A_RESULT_ALLOWED, A_STOP_ANALYSE, A_STOP} Action; 
 
 typedef struct
 {
@@ -28,6 +28,8 @@ typedef struct
 {
 	Event event;
     char *picturePath;
+    pid_t pid; // Champs pour stocker le PID du processus du script python
+    bool analysing;
 } MqMsgData;
 
 typedef union
@@ -42,11 +44,13 @@ static void AI_mqSend(MqMsg * aMsg);
 
 static void AI_performAction(Action anAction, MqMsg * aMsg);
 
+static void *AI_analyse(void *picturePath);
+
 static void *AI_run(void * aParam);
 
-static pid_t pid; // Variable pour stocker le PID du processus fils
-
 static pthread_t AI_thread; 
+static pthread_t analyse_thread; 
+
 static mqd_t AI_mq;
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
@@ -54,7 +58,7 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_STANDBY][E_START_RECO] = {S_ANALYSE, A_START_ANALYSE},
     [S_ANALYSE][E_SUCCESSFUL_ANALYSIS] = {S_STANDBY, A_RESULT_ALLOWED},
     [S_ANALYSE][E_FACE_UNKNOWN] = {S_STANDBY, A_RESULT_UNKNOWN},
-    [S_ANALYSE][E_STOP_RECO] = {S_STANDBY, A_RESULT_UNKNOWN},
+    [S_ANALYSE][E_STOP_RECO] = {S_STANDBY, A_STOP_ANALYSE},
 
     [S_STANDBY][E_STOP] = {S_DEATH, A_STOP},    
     [S_ANALYSE][E_STOP] = {S_DEATH, A_STOP}
@@ -115,6 +119,14 @@ int AI_free(void)
     return 0;
 }
 
+int AI_stop(void)
+{
+    MqMsg msg;
+    msg.data.event = E_STOP;
+    AI_mqSend(&msg);
+    return 0;
+}
+
 static void AI_mqReceive(MqMsg * aMsg)
 {
 	int check;
@@ -145,7 +157,11 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_START_ANALYSE:
-            AI_startRecognition(aMsg->data.picturePath);
+            if(pthread_create(&analyse_thread, NULL, AI_analyse, (void *)aMsg->data.picturePath) != 0) //création du thread run d'RFID
+            {
+                fprintf(stderr, "pthread_create AI error\n");
+                fflush(stderr);
+            }
             printf("A_START_ANALYSE\n");
             break;
         case A_RESULT_UNKNOWN:
@@ -156,14 +172,22 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
             //Guard_resultRecognition(ALLOWED);
             printf("A_RESULT_ALLOWED\n");
             break;
+        case A_STOP_ANALYSE:
+            pthread_cancel(analyse_thread);
+            pthread_join(analyse_thread, NULL);
+            printf("A_STOP_ANALYSE\n");
+            break;
         case A_STOP:
+            pthread_cancel(analyse_thread);
+            pthread_join(analyse_thread, NULL);
+            pthread_join(AI_thread, NULL);
             printf("A_STOP\n");
             break;
 
     }
 }
 
-void *AI_run(void *aParam)
+static void *AI_run(void *aParam)
 {
     printf("run\n");
 	MqMsg msg;
@@ -187,36 +211,55 @@ void *AI_run(void *aParam)
     return NULL;
 }
 
-int AI_startRecognition(char *picturePath)
+
+void AI_startRecognition(char *picturePath)
 {
-    char result[3];
+    MqMsg msg;
+    msg.data.event = E_START_RECO;
+    msg.data.picturePath = picturePath;
+    AI_mqSend(&msg);
+}
+
+
+static void *AI_analyse(void *picturePath)
+{
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
+    
+    char result[2];
     AuthResult resultRecognition = FACE_UNKNOWN;
     FILE *fp;
+    int pid;
 
     char command[200];
-    sprintf(command, "python3 /home/pi/Documents/PFE.code/Explo/Explo_Matthieu/AI/face_reco.py %s", picturePath);
-    fp = popen(command, "r"); // Exécuter le script Python en lecture
+    sprintf(command, "python3 /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/AI/face_reco.py %s %s", (char *)picturePath, CAMERA_IMAGES_PATH);
+    
+    while(resultRecognition != ALLOWED) {
+        fp = popen(command, "r"); // Exécuter le script Python en lecture
 
-    if (fp == NULL) {
-        perror("Erreur lors de l'exécution du script Python");
-        return -1;
+        if (fp == NULL) {
+            perror("Erreur lors de l'exécution du script Python");
+            return (void *)EXIT_FAILURE;
+        }
+
+        char pid_child[8];
+        fgets(pid_child, 8, fp);
+
+        pid = atoi(pid_child);
+        printf("pid : %d\n", pid);
+
+        fgets(result, 2, fp); // Lire la sortie du script Python dans le buffer
+
+        pclose(fp); // Fermer le flux
+
+        resultRecognition = atoi(result);
+
+        printf("Valeur renvoyée par le script Python : %d\n", (uint8_t)resultRecognition); // Afficher la valeur renvoyée
     }
 
-    char pid_child[8];
-    fgets(pid_child, 8, fp);
-    pid = strtol(pid_child, NULL, 8);
-    printf("pid : %s\n", pid_child);
-
-    fgets(result, 3, fp); // Lire la sortie du script Python dans le buffer
-
-    pclose(fp); // Fermer le flux
-
-    resultRecognition = (uint8_t)(result[0] - '0');
-
-    printf("pid : %s\n", pid_child);
-    printf("Valeur renvoyée par le script Python : %d\n", (uint8_t)resultRecognition); // Afficher la valeur renvoyée
-
     MqMsg msg;
+    msg.data.pid = pid;
+
     if(resultRecognition == ALLOWED) {
         msg.data.event = E_SUCCESSFUL_ANALYSIS;
     }
@@ -228,15 +271,11 @@ int AI_startRecognition(char *picturePath)
     }
     AI_mqSend(&msg);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
-int AI_stopRecognition(void)
+void AI_stopRecognition(void)
 {
-    printf("stop reco\n");
-    if (pid > 0) {
-        kill(pid, SIGKILL); // Interrompre le processus fils
-    }
     MqMsg msg;
     msg.data.event = E_STOP_RECO;
     AI_mqSend(&msg);
@@ -246,15 +285,14 @@ int main (void)
 {
     AI_new();
     AI_start();
-    MqMsg msg;
-    msg.data.event = E_START_RECO;
-    msg.data.picturePath = DATASET_PATH;
-    AI_mqSend(&msg);
-    sleep(20);
+    AI_startRecognition(DATASET_PATH);
+    sleep(9);
     AI_stopRecognition();
-    msg.data.event = E_STOP;
-    AI_mqSend(&msg);
-    sleep(5);
+    sleep(2);
+    AI_startRecognition(DATASET_PATH1);
+    sleep(3);
+    AI_stop();
+    sleep(3);
     AI_free();
     return 0;
 }
