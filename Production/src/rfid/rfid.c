@@ -89,6 +89,10 @@ static mqd_t rfid_mq; //Boîte aux lettres d'RFID
 FILE *fp;
 char tag_buff[20];
 
+/**
+ * brief Tableau des transitions de la machine à états d'RFID
+ * 
+ */
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
     [S_STANDBY][E_START_READING] = {S_WAITING_FOR_TAG, A_START_READING}, 
@@ -98,6 +102,10 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_WAITING_FOR_TAG][E_STOP] = {S_DEATH, A_STOP}    
 };
 
+/**
+ * brief Fonction permettant d'initialiser la boite aux lettres
+ * 
+ */
 uint8_t Rfid_new(void)
 {
     int check;
@@ -122,6 +130,9 @@ uint8_t Rfid_new(void)
     return 0;
 }
 
+/**
+ * brief Fonction permettant de lancer le thread RFID
+ */
 uint8_t Rfid_start(void)
 {
     if(pthread_create(&rfid_thread, NULL, Rfid_run, NULL) != 0) //création du thread run d'RFID
@@ -134,6 +145,10 @@ uint8_t Rfid_start(void)
     return 0;
 }
 
+/**
+ * brief Fonction permettant de libérer la mémoire et la boite aux lettres
+ * 
+ */
 uint8_t Rfid_free(void)
 {
     int check;
@@ -152,6 +167,11 @@ uint8_t Rfid_free(void)
     return 0;
 }
 
+/**
+ * brief Fonction permettant la gestion de la machine à états d'RFID
+ * 
+ * param aParam Paramètre du thread
+ */
 static void * Rfid_run(void * aParam)
 {
     printf("RFID run\n");
@@ -333,16 +353,3 @@ void Rfid_showTag(){
 	Rfid_mqSend(&msg);
 }
 
-/*
-int main() {
-    rfid_new();
-    rfid_start();
-    rfid_startReading();
-    
-
-    rfid_stopReading();
-    //rfid_stop();
-    rfid_free();
-    return 0;
-}
-*/

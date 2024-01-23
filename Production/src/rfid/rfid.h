@@ -17,10 +17,25 @@ void Rfid_showTag();
  */
 void Rfid_startReading();
 
+/**
+ * brief Fonction permettant d'initialiser la boite aux lettres
+ * 
+ */
 uint8_t Rfid_new(void);
 
+/**
+ * brief Fonction permettant de lancer le thread RFID
+ */
 uint8_t Rfid_start(void);
 
+/**
+ * brief Fonction permettant de stopper la lecture des badges RFID
+ * 
+ */
 void Rfid_stop();
 
+/**
+ * brief Fonction permettant de libérer la mémoire et la boite aux lettres
+ * 
+ */
 uint8_t Rfid_free(void);
