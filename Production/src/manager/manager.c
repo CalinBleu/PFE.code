@@ -10,18 +10,37 @@ static int taille_char_array(char **array);
 
 static void free_tags(char **tags);
 
-//fonction qui retourne un utilisateur de la base de données en fonction de son idTag
+ 
+/**
+ * brief Fonction qui retourne un utilisateur de la base de données en fonction de son idTag
+ * 
+ * param idTag L'idTag de l'utilisateur à retourner
+ */
 static User* Manager_getUserByTag(char* idTag);
 
+/**
+ * brief Fonction qui ajoute un utilisateur dans la base de données
+ * 
+ * param user L'utilisateur à ajouter
+ */
 void Manager_addUser(User user){
     Archivist_setUser(user);
 }
 
+/**
+ * brief Fonction qui supprime un utilisateur de la base de données
+ * 
+ * param idTag L'idTag de l'utilisateur à supprimer
+ */
 void Manager_removeUser(char* idTag){
     Archivist_deleteEmployee(idTag);
 }
 
-
+/**
+ * brief Fonction qui recherche un utilisateur dans la base de données
+ * 
+ * param searchField Le champ de recherche
+ */
 User* Manager_searchUser(char* searchField){
 
     char **tags = (char**)malloc(sizeof(char*));
@@ -43,6 +62,11 @@ User* Manager_searchUser(char* searchField){
     return user;
 }
 
+/**
+ * brief Fonction qui modifie un utilisateur dans la base de données
+ * 
+ * param user L'utilisateur à modifier, idTag L'idTag de l'utilisateur à modifier
+ */
 void Manager_modifyUser(User user, char* idTag){
     Archivist_setIdTag(idTag, user.idTag);
     Archivist_setName(user.idTag, user.name);
@@ -53,6 +77,10 @@ void Manager_modifyUser(User user, char* idTag){
     Archivist_setAccess(user.idTag,&user.access);
 }
 
+/**
+ * brief Fonction qui retourne tous les utilisateurs de la base de données
+ * 
+ */
 User* Manager_getAllUsers(){
 
     char** tags = (char**)malloc(sizeof(char*));
@@ -82,7 +110,12 @@ User* Manager_getAllUsers(){
     return users;
 }
 
-
+/**
+ * brief Fonction qui retourne tous les tags de la base de données
+ * 
+ * param searchField Le champ de recherche
+ */
+ */
 static User* Manager_getUserByTag(char* idTag){
 
     User *user = (User*)malloc(sizeof(User));
@@ -98,7 +131,12 @@ static User* Manager_getUserByTag(char* idTag){
     return user;
 }
 
-//fonction qui retourne la taille d'un tableau de char*
+ 
+/**
+ * brief Fonction qui retourne la taille d'un tableau de char*
+ * 
+ * param array Le tableau de char*
+ */
 static int taille_char_array(char **array){ 
     int i = 0;
     while(array[i] != NULL){
@@ -107,7 +145,11 @@ static int taille_char_array(char **array){
     return i;
 }   
 
-//fonction qui libère la mémoire d'un tableau de char*
+/**
+ * brief Fonction qui libère la mémoire d'un tableau de char*
+ * 
+ * param array Le tableau de char*
+ */
 static void free_tags(char **tags){ 
     int i = 0;
     while(tags[i] != NULL){

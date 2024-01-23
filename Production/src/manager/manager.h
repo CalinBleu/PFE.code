@@ -2,19 +2,42 @@
 #define MANAGER_H
 
 
-//fonction qui ajoute un utilisateur dans la base de données
+/**
+ * brief Fonction qui ajoute un utilisateur dans la base de données
+ * 
+ * param user L'utilisateur à ajouter
+ */
 void Manager_addUser(User user);
 
-//fonction qui supprime un utilisateur de la base de données
+
+/**
+ * brief Fonction qui supprime un utilisateur de la base de données
+ * 
+ * param idTag L'idTag de l'utilisateur à supprimer
+ */
 void Manager_removeUser(char* idTag);
 
-//fonction qui recherche un utilisateur dans la base de données
+
+/**
+ * brief Fonction qui recherche un utilisateur dans la base de données
+ * 
+ * param searchField Le champ de recherche
+ */
 User* Manager_searchUser(char* searchField);
 
-//fonction qui modifie un utilisateur dans la base de données
+
+/**
+ * brief Fonction qui modifie un utilisateur dans la base de données
+ * 
+ * param user L'utilisateur à modifier, idTag L'idTag de l'utilisateur à modifier
+ */
 void Manager_modifyUser(User user, char* idTag);
 
-//fonction qui retourne tous les utilisateurs de la base de données
+
+/**
+ * brief Fonction qui retourne tous les utilisateurs de la base de données
+ * 
+ */
 User* Manager_getAllUsers();
 
 #endif //MANAGER_H
