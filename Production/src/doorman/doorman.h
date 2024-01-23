@@ -20,6 +20,10 @@ void Doorman_userDenied();
  */
 void Doorman_userUnknown();
 
+/**
+ * brief Fonction permettant d'intialiser les gpio
+ * 
+ */
 void Doorman_init();
 
 #endif //DOORMAN_H
