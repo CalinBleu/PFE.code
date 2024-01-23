@@ -98,7 +98,6 @@ int AI_start(void)
 		fflush(stderr);
 		return 1;
 	}
-	printf("thread created\n");
 	return 0;
 }
 
@@ -185,26 +184,26 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
                 fprintf(stderr, "pthread_create AI error\n");
                 fflush(stderr);
             }
-            printf("A_START_ANALYSE\n");
+            printf("%s : A_START_ANALYSE\n", __FILE__);
             break;
         case A_RESULT_UNKNOWN:
             Guard_resultRecognition(FACE_UNKNOWN);
-            printf("A_RESULT_UNKNOWN\n");
+            printf("%s : A_RESULT_UNKNOWN\n", __FILE__);
             break;
         case A_RESULT_ALLOWED:
             Guard_resultRecognition(ALLOWED);
-            printf("A_RESULT_ALLOWED\n");
+            printf("%s : A_RESULT_ALLOWED\n", __FILE__);
             break;
         case A_STOP_ANALYSE:
             pthread_cancel(analyse_thread);
             pthread_join(analyse_thread, NULL);
-            printf("A_STOP_ANALYSE\n");
+            printf("%s : A_STOP_ANALYSE\n", __FILE__);
             break;
         case A_STOP:
             pthread_cancel(analyse_thread);
             pthread_join(analyse_thread, NULL);
             pthread_join(AI_thread, NULL);
-            printf("A_STOP\n");
+            printf("%s : A_STOP\n", __FILE__);
             break;
 
     }
@@ -213,7 +212,6 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
 
 static void *AI_run(void *aParam)
 {
-    printf("run\n");
 	MqMsg msg;
     State myState = S_STANDBY;
     Transition * myTrans;

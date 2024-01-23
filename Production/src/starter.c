@@ -8,11 +8,14 @@
 #include "manager/manager.h"
 #include "doorman/doorman.h"
 #include "rfid/rfid.h"
+#include "ai/ai.h"
 
 int main(){
 
     Rfid_new();
     Rfid_start();
+    AI_new();
+    AI_start();
     Brain_startVisiolock();
     Doorman_init();
     Archivist_open();
@@ -98,9 +101,11 @@ int main(){
     Archivist_close();
     Brain_stopVisiolock();
     Rfid_stop();
+    AI_stop();
     sleep(3);
     Brain_free();
     Rfid_free();
+    AI_free();
     
     printf("clean\n");
     /*
