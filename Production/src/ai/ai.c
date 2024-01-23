@@ -247,7 +247,7 @@ static void *AI_analyse(void *picturePath)
     int pid;
 
     char command[200];
-    sprintf(command, "python3 face_reco.py %s %s", (char *)picturePath, CAMERA_IMAGES_PATH);
+    sprintf(command, "/home/facesecure/venv-python/bin/python3 face_reco.py %s %s", (char *)picturePath, CAMERA_IMAGES_PATH);
     
     while(resultRecognition != ALLOWED) {
         FILE *fp;
