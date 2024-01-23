@@ -76,7 +76,7 @@ User* Manager_getAllUsers(){
        {
          users[i] = *current_user;
        }
-       
+       free(current_user);
     }
 
     return users;

@@ -8,6 +8,7 @@
 #include <mqueue.h>
 
 #include "ai.h"
+#include "guard/guard.h"
 #include "../common.h"
 
 #define NAME_MQ_BOX_AI  "/mq_AI" //Boîte aux lettres liée à AI

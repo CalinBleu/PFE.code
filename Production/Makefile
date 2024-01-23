@@ -58,7 +58,7 @@ endif
 
 export CCFLAGS += -MMD -MP # gestion automatique des dépendances
 export CCFLAGS += -D_BSD_SOURCE -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE -D_DEFAULT_SOURCE -D_GNU_SOURCE -D_POSIX_C_SOURCE=200112L
-export CCFLAGS += -std=c99 -Wall -pedantic -lpthread -Wextra -Wno-unused-variable -Wno-unused-parameter
+export CCFLAGS += -std=c99 -Wall -pedantic -lpthread -Wextra -Wno-unused-variable -Wno-unused-parameter -Wno-unused-but-set-variable
 
 export LDFLAGS += -lrt -lm -lpthread -lsqlite3 -lgpiod
 

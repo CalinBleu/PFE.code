@@ -3,8 +3,8 @@ from mfrc522 import SimpleMFRC522
 
 
 def read_card():
-    reader = SimpleMFRC522()
     GPIO.setwarnings(False)
+    reader = SimpleMFRC522()
     try:
         id, text = reader.read()
         print(id)

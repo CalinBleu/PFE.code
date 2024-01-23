@@ -593,16 +593,6 @@ void Archivist_setRole(char* idtag, Role role)
     char *err_msg = 0;
     sqlite3_stmt *res;
     
-    int rc = sqlite3_open("visiolock.db", &db);
-    
-    if (rc != SQLITE_OK) {
-        
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-
-        return;
-    }
-    
     char *sql = "UPDATE Employee SET Role = ? WHERE IdTag = ?"; 
 
     rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
