@@ -7,6 +7,7 @@
 #define NB_LOCK         1   //Nombre de serrures supportées par cette instance Visiolock
 #define CURRENT_ZONE    0   //Indice de la serrure courante
 #define TARGET          0   //Execution sur machine hôte / raspberry
+#define COMMAND         "ps aux | grep 'R.* read.py' | awk '{print $2}' | head -n 1 | xargs kill -SIGTERM"
 
 /**
  * @brief Enumération correspondant aux indices des colonnes de la table SQL Employee
