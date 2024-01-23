@@ -253,7 +253,7 @@ static void Rfid_mqReceive(MqMsg * aMsg)
  */
 static void Rfid_popen(){
     #if TARGET
-    fp = popen("python3 read.py", "r");
+    fp = popen("/home/facesecure/venv-python/bin/python3 read.py", "r");
     if (fp == NULL) {
         printf("Failed to run command\n" );
     }
