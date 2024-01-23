@@ -115,7 +115,6 @@ User* Manager_getAllUsers(){
  * 
  * param searchField Le champ de recherche
  */
- */
 static User* Manager_getUserByTag(char* idTag){
 
     User *user = (User*)malloc(sizeof(User));
