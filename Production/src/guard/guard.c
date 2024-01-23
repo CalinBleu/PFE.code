@@ -1,11 +1,27 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdbool.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <signal.h>
+#include <sys/wait.h>
 #include "common.h"
 #include "sha256.h"
 #include "guard.h"
 #include "brain/brain.h"
 #include "archivist/archivist.h"
+#include "ai/ai.h"
+
+static void Guard_timer_launch();
+
+static void Guard_cancel_timer();
+
+static void Guard_timeout(union sigval val);
+
+static timer_t ai_process_timer;
 
 void Guard_checkPassword(char* password, char* idTag ){
 
@@ -48,6 +64,7 @@ AuthResult Guard_checkTag(char* idTag){
 }
 
 void Guard_resultRecognition(AuthResult authResult){
+    Guard_cancel_timer();
     if(authResult == ALLOWED){
         Brain_faceAnalysed(true);
     }
@@ -57,8 +74,53 @@ void Guard_resultRecognition(AuthResult authResult){
 }
 
 void Guard_checkFace(char* idTag){
+	struct sigevent event;
+
+	event.sigev_notify = SIGEV_THREAD;
+	event.sigev_value.sival_ptr = NULL;
+	event.sigev_notify_function = Guard_timeout;
+	event.sigev_notify_attributes = NULL;
+
+	if (timer_create(CLOCK_REALTIME, &event, &ai_process_timer) != 0) {
+		perror("timer_create");
+        return 1;
+	}
     Picture picture = Archivist_getPicture(idTag);
-    //startRecognition(picture);
+    AI_startRecognition(picture);
+    Guard_timer_launch();
+}
+
+static void Guard_timer_launch()
+{
+	struct itimerspec itimer;
+
+	itimer.it_interval.tv_sec = 0;
+	itimer.it_interval.tv_nsec = 0;
+	itimer.it_value.tv_sec = 10;
+	itimer.it_value.tv_nsec = 0;
+
+	if (timer_settime(ai_process_timer, 0, &itimer, NULL) != 0) {
+		perror("timer_settime launch");
+	}
+}
+
+static void Guard_cancel_timer()
+{
+	struct itimerspec itimer;
+
+	itimer.it_interval.tv_sec = 0;
+	itimer.it_interval.tv_nsec = 0;
+	itimer.it_value.tv_sec = 0;
+	itimer.it_value.tv_nsec = 0;
+
+	if (timer_settime(ai_process_timer, 0, &itimer, NULL) != 0) {
+		perror("timer_settime cancel");
+	}
+}
+
+static void Guard_timeout(union sigval val)
+{
+    AI_stopRecognition();
 }
 
 

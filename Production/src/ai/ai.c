@@ -52,11 +52,13 @@ static pthread_t AI_thread;
 static pthread_t analyse_thread; 
 
 static mqd_t AI_mq;
+FILE *fp;
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
     [S_STANDBY][E_START_RECO] = {S_ANALYSE, A_START_ANALYSE},
     [S_ANALYSE][E_SUCCESSFUL_ANALYSIS] = {S_STANDBY, A_RESULT_ALLOWED},
+    [S_STANDBY][E_FACE_UNKNOWN] = {S_STANDBY, A_RESULT_UNKNOWN},
     [S_ANALYSE][E_FACE_UNKNOWN] = {S_STANDBY, A_RESULT_UNKNOWN},
     [S_ANALYSE][E_STOP_RECO] = {S_STANDBY, A_STOP_ANALYSE},
 
@@ -198,6 +200,9 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
             pthread_cancel(analyse_thread);
             pthread_join(analyse_thread, NULL);
             printf("%s : A_STOP_ANALYSE\n", __FILE__);
+            MqMsg msg;
+            msg.data.event = E_FACE_UNKNOWN;
+            AI_mqSend(&msg);
             break;
         case A_STOP:
             pthread_cancel(analyse_thread);
@@ -241,11 +246,10 @@ static void *AI_analyse(void *picturePath)
     
     char result[2];
     AuthResult resultRecognition = FACE_UNKNOWN;
-    FILE *fp;
     int pid;
 
     char command[200];
-    snprintf(command, "python3 /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/AI/face_reco.py %s %s", (char *)picturePath, CAMERA_IMAGES_PATH, sizeof(command));
+    sprintf(command, "python3 face_reco.py %s %s", (char *)picturePath, CAMERA_IMAGES_PATH);
     
     while(resultRecognition != ALLOWED) {
         fp = popen(command, "r"); // Exécuter le script Python en lecture
@@ -259,11 +263,11 @@ static void *AI_analyse(void *picturePath)
         fgets(pid_child, 8, fp);
 
         pid = atoi(pid_child);
-        printf("pid : %d\n", pid);
 
         fgets(result, 2, fp); // Lire la sortie du script Python dans le buffer
 
         pclose(fp); // Fermer le flux
+        fp = NULL;
 
         resultRecognition = atoi(result);
 
