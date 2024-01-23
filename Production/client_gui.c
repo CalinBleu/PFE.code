@@ -25,13 +25,18 @@ int main()
 
     connect(un_socket, (struct sockaddr *)&adresse_du_serveur, sizeof(adresse_du_serveur));
 
+    Mode mode = MODE_ADMIN;
+    char* allArgs = malloc(sizeof(mode) + 1);
+    allArgs[0] = '\0';
+    sprintf(allArgs, "%d", mode);
 
-    char* frame = Protocol_encode(CMD_STANDBY,0,NULL); //encodage de la trame
+    char* frame = Protocol_encode(CMD_CHANGE_MODE,1,allArgs); //encodage de la trame
 
-    int frameLen = Protocol_getIntLength(frame[2], frame[1]);
+    int frameLen = Protocol_getIntLength(frame[1], frame[0]);
+    printf("framelen : %d\n", frameLen);
     int quantite_envoyee = write(un_socket, frame, frameLen);
 
-    Protocol_destroyFrame(frame, NULL);
+    Protocol_destroyFrame(frame, allArgs);
 
     close(un_socket);
 

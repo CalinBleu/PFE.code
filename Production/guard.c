@@ -6,6 +6,7 @@
 #include "guard.h"
 #include "brain.h"
 #include "archivist.h"
+#include "proxyGui.h"
 
 void Guard_checkPassword(char* password, char* idTag ){
 
@@ -17,11 +18,11 @@ void Guard_checkPassword(char* password, char* idTag ){
 
     if(strcmp(password_hash, hash)== 0){
         printf("Correct Password\n");
-        //GUI_validatePassword(true);
+        ProxyGui_validatePassword(true);
     }
     else{
         printf("Incorrect Password\n");
-        //GUI_validatePassword(false);
+        ProxyGui_validatePassword(false);
     }
 }
 
