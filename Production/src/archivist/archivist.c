@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <math.h>
 #include "common.h"
-#include "sha256.h"
+#include "guard/sha256.h"
 #include "archivist.h"
 
 sqlite3 *db;

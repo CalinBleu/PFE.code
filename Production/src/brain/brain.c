@@ -10,10 +10,10 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "common.h"
-#include "guard.h"
+#include "guard/guard.h"
 #include "brain.h"
-#include "rfid.h"
-#include "doorman.h"
+#include "rfid/rfid.h"
+#include "doorman/doorman.h"
 
 #define NAME_MQ_BOX_BRAIN  "/mq_brain" //Boîte aux lettres liée à Brain
 #define MQ_MSG_COUNT 10

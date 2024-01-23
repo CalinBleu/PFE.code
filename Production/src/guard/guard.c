@@ -4,8 +4,8 @@
 #include "common.h"
 #include "sha256.h"
 #include "guard.h"
-#include "brain.h"
-#include "archivist.h"
+#include "brain/brain.h"
+#include "archivist/archivist.h"
 
 void Guard_checkPassword(char* password, char* idTag ){
 

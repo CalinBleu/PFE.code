@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "common.h"
 #include "manager.h"
-#include "archivist.h"
+#include "archivist/archivist.h"
 
 static int taille_char_array(char **array);
 

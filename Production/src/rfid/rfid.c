@@ -20,7 +20,7 @@
 #include <signal.h>
 #include <stdint.h>
 #include "common.h"
-#include "brain.h"
+#include "brain/brain.h"
 
 /*
  * DEFINES

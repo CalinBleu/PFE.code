@@ -3,12 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 #include "common.h"
-#include "brain.h"
-#include "archivist.h"
-#include "manager.h"
-#include "archivist.h"
-#include "doorman.h"
-#include "rfid.h"
+#include "brain/brain.h"
+#include "archivist/archivist.h"
+#include "manager/manager.h"
+#include "doorman/doorman.h"
+#include "rfid/rfid.h"
 
 int main(){
 
