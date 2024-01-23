@@ -6,14 +6,13 @@
 
 # Répertoire d'installation des outils de développement
 # pour Raspberry Pi à modifier suivant votre propre chemin
-export RASPBERRY_TOOLS = ~/Documents/ProSE/tools/
 
 
 # Compilateur croisé à utiliser
-export RASPBERRY_GCC_x86_64 = $(RASPBERRY_TOOLS)arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-gcc
+export RASPBERRY_GCC_x86_64 = /usr/bin/aarch64-linux-gnu-gcc
 
 # Adresse de la Raspberry :
-RASPBERRY_ADDRESS = 10.42.0.1
+RASPBERRY_ADDRESS = 172.21.10.214
 
 # Login/mot de passe de connexion à la Raspberry :
 RASPBERRY_LOGIN = facesecure
@@ -37,7 +36,7 @@ export DOC = doc
 SUBDIRS = $(SRCDIR)
 
 # Sysroot à modifier selon le chemin des librairies de la Raspberry.
-export RASPBERRY_SYSROOT = $(shell realpath ~/Documents/ProSE/rootfs_zero/)
+export RASPBERRY_SYSROOT = /home/pfe/rpi-sysroot
 
 # Définitions des outils.
 #
@@ -98,7 +97,7 @@ $(SUBDIRS):
 
 upload:
 ifeq ($(TARGET), raspberry)
-	@sshpass -p '$(RASPBERRY_PASSWORD)' scp $(PROG) $(RASPBERRY_LOGIN)@$(RASPBERRY_ADDRESS):$(RASPBERRY_PROG_LOCATION)/$(PROG_NAME)
+	@sshpass -p '$(RASPBERRY_PASSWORD)' scp $(PROG) $(RASPBERRY_LOGIN)@$(RASPBERRY_ADDRESS):$(PROG_NAME)
 endif
 
 #
