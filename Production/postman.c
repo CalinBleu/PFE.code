@@ -246,10 +246,6 @@ static void Postman_mqReceive(MqMsg * aMsg)
     if (check != sizeof(MqMsg)) {
         perror("Error receiving message via postman mqueue");
     }
-    else
-    {
-        printf("Message received from postman mq\n");
-    }
 }
 
 /**
@@ -288,7 +284,6 @@ static void Postman_performAction(Action anAction, MqMsg * aMsg)
         {
             bytes_sent+= write(socketGUI, &aMsg->data.frame, aMsg->data.frameSize);
         }
-        printf("MESSAGE SENT : %d\n", bytes_sent);
         break;
     case A_STOP:
         close(socketVisiolock);

@@ -141,7 +141,6 @@ void Protocol_destroyFrame(char* frame, char* allArgs)
     }
     //libération de la mémoire liée à la trame
     free(frame);
-    printf("destroy ok\n");
 }
 
 void Protocol_buildData(Frame frame, char **dataBytes, int *dataSize, char args[])
