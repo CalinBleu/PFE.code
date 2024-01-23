@@ -139,6 +139,10 @@ static void Doorman_led_timer_launch()
 	}
 }
 
+/**
+ * brief Fonction d'initialisation du timer de la serrure
+ * 
+ */
 static void Doorman_lock_timer_launch()
 {
 	struct itimerspec itimer;
@@ -189,6 +193,11 @@ static void Doorman_led_timeout(union sigval val){
 	#endif
 }
 
+/**
+ * brief Fonction de timeout du timer pour la fermerture de la porte
+ * 
+ * param val Le signal déclenché par le timeout
+ */
 static void Doorman_lock_timeout(union sigval val){
 	Doorman_close();
 }
