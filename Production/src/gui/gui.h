@@ -9,7 +9,7 @@ extern "C" {
  * @brief Méthode publique permettant l’allumage de l’écran.
  * 
  */
-void void Gui_screenOn();
+void Gui_screenOn();
 
 /**
  * @brief Méthode publique permettant d’éteindre l’écran.

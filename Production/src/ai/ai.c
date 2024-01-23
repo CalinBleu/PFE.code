@@ -52,7 +52,6 @@ static pthread_t AI_thread;
 static pthread_t analyse_thread; 
 
 static mqd_t AI_mq;
-FILE *fp;
 
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
@@ -207,7 +206,6 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
         case A_STOP:
             pthread_cancel(analyse_thread);
             pthread_join(analyse_thread, NULL);
-            pthread_join(AI_thread, NULL);
             printf("%s : A_STOP\n", __FILE__);
             break;
 
@@ -252,6 +250,7 @@ static void *AI_analyse(void *picturePath)
     sprintf(command, "python3 face_reco.py %s %s", (char *)picturePath, CAMERA_IMAGES_PATH);
     
     while(resultRecognition != ALLOWED) {
+        FILE *fp;
         fp = popen(command, "r"); // Exécuter le script Python en lecture
 
         if (fp == NULL) {

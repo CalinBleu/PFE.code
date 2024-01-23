@@ -95,14 +95,14 @@ int main(){
 
     */
     
-    sleep(10);
-    Archivist_clearImages();
+    sleep(30);
+    //Archivist_clearImages();
 
     Archivist_close();
     Brain_stopVisiolock();
     Rfid_stop();
     AI_stop();
-    sleep(3);
+    sleep(10);
     Brain_free();
     Rfid_free();
     AI_free();
