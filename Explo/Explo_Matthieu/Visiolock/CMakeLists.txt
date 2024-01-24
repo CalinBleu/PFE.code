@@ -13,7 +13,18 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(VisiolockApp src/main.cpp
+qt_add_executable(VisiolockApp
+    src/main.cpp
+    src/GuiController.h
+    src/gui/gui.o
+    src/ai/ai.o
+    src/manager/manager.o
+    src/guard/guard.o
+    src/brain/brain.o
+    src/archivist/archivist.o
+    src/doorman/doorman.o
+    src/rfid/rfid.o
+    src/guard/sha256.o
 )
 
 qt_add_resources(VisiolockApp "configuration"

@@ -1,0 +1,81 @@
+{
+    "classes": [
+        {
+            "className": "GuiController",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "screenStatus",
+                    "notify": "screenStatusChanged",
+                    "read": "getScreenStatus",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "write": "GuiController_activateScreen"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "passResult",
+                    "notify": "passResultChanged",
+                    "read": "getPassResult",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "write": "GuiController_passResult"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "newUserTag",
+                    "notify": "newUserTagChanged",
+                    "read": "getNewUserTag",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "GuiController_displayNewUserTag"
+                }
+            ],
+            "qualifiedClassName": "GuiController",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "screenStatusChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "passResultChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "newUserTagChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "GuiController.h",
+    "outputRevision": 68
+}
