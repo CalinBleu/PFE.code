@@ -1,0 +1,472 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineSystem.cmake:206 (message)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      The target system is: Linux -  - arm
+      The host system is: Linux -  - unknown
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: /usr/bin/aarch64-linux-gnu-g++ 
+      Build flags: -isystem=/usr/include;-isystem=/usr/local/include;-isystem=/usr/include/aarch64-linux-gnu
+      Id flags: -c;--target=aarch64-linux-gnu 
+      
+      The output was:
+      1
+      aarch64-linux-gnu-g++: error: unrecognized command-line option ‘--target=aarch64-linux-gnu’
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/aarch64-linux-gnu-g++ 
+      Build flags: -isystem=/usr/include;-isystem=/usr/local/include;-isystem=/usr/include/aarch64-linux-gnu
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.27.7/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-gEPPEP"
+      binary: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-gEPPEP"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS: " -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_C_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib"
+      CMAKE_MODULE_PATH: "/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms"
+      CMAKE_SYSROOT: "/home/matthieu/rpi-sysroot"
+      QT_ADDITIONAL_PACKAGES_PREFIX_PATH: ""
+      QT_CHAINLOAD_TOOLCHAIN_FILE: ""
+      QT_TOOLCHAIN_INCLUDE_FILE: ""
+      QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR: "/home/matthieu/qt6/pi/lib/cmake"
+      QT_TOOLCHAIN_RELOCATABLE_PREFIX: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-gEPPEP'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_afc9f
+        [1/2] /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot   -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu  -fdiagnostics-color=always   -v -o CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o -c /home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/aarch64-linux-gnu-g++
+        Target: aarch64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.4.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-libquadmath --disable-libquadmath-support --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --without-target-system-zlib --enable-multiarch --enable-fix-cortex-a53-843419 --disable-werror --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=aarch64-linux-gnu --program-prefix=aarch64-linux-gnu- --includedir=/usr/aarch64-linux-gnu/include --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_afc9f.dir/'
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -isysroot /home/matthieu/rpi-sysroot -D_GNU_SOURCE -isystem =/usr/include -isystem =/usr/local/include -isystem =/usr/include/aarch64-linux-gnu /home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_afc9f.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fdiagnostics-color=always -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc10TObs.s
+        GNU C++17 (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (aarch64-linux-gnu)
+        	compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/home/matthieu/rpi-sysroot/usr/local/include/aarch64-linux-gnu"
+        ignoring nonexistent directory "/usr/lib/gcc-cross/aarch64-linux-gnu/11/include-fixed"
+        ignoring duplicate directory "/home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu"
+        ignoring duplicate directory "/home/matthieu/rpi-sysroot/usr/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/matthieu/rpi-sysroot/usr/include
+         /home/matthieu/rpi-sysroot/usr/local/include
+         /home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/aarch64-linux-gnu
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/backward
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/include
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include
+        End of search list.
+        GNU C++17 (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (aarch64-linux-gnu)
+        	compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        Compiler executable checksum: fbc882a9ce49446607e846bb30e5b470
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_afc9f.dir/'
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/bin/as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc10TObs.s
+        GNU assembler version 2.38 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
+        COMPILER_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/bin/
+        LIBRARY_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/:/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/lib/../lib/:/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/usr/lib/../lib/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/:/home/matthieu/rpi-sysroot/lib/:/home/matthieu/rpi-sysroot/usr/lib/
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] : && /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib -v CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_afc9f  -Wl,-rpath,/home/matthieu/rpi-sysroot && :
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/aarch64-linux-gnu-g++
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc-cross/aarch64-linux-gnu/11/lto-wrapper
+        Target: aarch64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.4.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-libquadmath --disable-libquadmath-support --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --without-target-system-zlib --enable-multiarch --enable-fix-cortex-a53-843419 --disable-werror --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=aarch64-linux-gnu --program-prefix=aarch64-linux-gnu- --includedir=/usr/aarch64-linux-gnu/include --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
+        COMPILER_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/bin/
+        LIBRARY_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/:/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/lib/../lib/:/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/usr/lib/../lib/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/:/home/matthieu/rpi-sysroot/lib/:/home/matthieu/rpi-sysroot/usr/lib/
+        COLLECT_GCC_OPTIONS='-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'cmTC_afc9f' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_afc9f.'
+         /usr/lib/gcc-cross/aarch64-linux-gnu/11/collect2 -plugin /usr/lib/gcc-cross/aarch64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc-cross/aarch64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccqiQ12Y.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/home/matthieu/rpi-sysroot --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_afc9f /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/Scrt1.o /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crti.o /usr/lib/gcc-cross/aarch64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc-cross/aarch64-linux-gnu/11 -L/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib -L/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu -L/home/matthieu/rpi-sysroot/lib/../lib -L/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -L/home/matthieu/rpi-sysroot/usr/lib/../lib -L/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib -L/home/matthieu/rpi-sysroot/lib -L/home/matthieu/rpi-sysroot/usr/lib -O1 --hash-style=gnu --as-needed -rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -rpath-link=/home/facesecure/qt6/pi/lib CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o -rpath /home/matthieu/rpi-sysroot -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc-cross/aarch64-linux-gnu/11/crtendS.o /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crtn.o
+        COLLECT_GCC_OPTIONS='-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'cmTC_afc9f' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_afc9f.'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/matthieu/rpi-sysroot/usr/include]
+          add: [/home/matthieu/rpi-sysroot/usr/local/include]
+          add: [/home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu]
+          add: [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11]
+          add: [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/aarch64-linux-gnu]
+          add: [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/backward]
+          add: [/usr/lib/gcc-cross/aarch64-linux-gnu/11/include]
+          add: [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include]
+        end of search list found
+        collapse include dir [/home/matthieu/rpi-sysroot/usr/include] ==> [/home/matthieu/rpi-sysroot/usr/include]
+        collapse include dir [/home/matthieu/rpi-sysroot/usr/local/include] ==> [/home/matthieu/rpi-sysroot/usr/local/include]
+        collapse include dir [/home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu] ==> [/home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu]
+        collapse include dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11] ==> [/usr/aarch64-linux-gnu/include/c++/11]
+        collapse include dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/aarch64-linux-gnu] ==> [/usr/aarch64-linux-gnu/include/c++/11/aarch64-linux-gnu]
+        collapse include dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/backward] ==> [/usr/aarch64-linux-gnu/include/c++/11/backward]
+        collapse include dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/include] ==> [/usr/lib/gcc-cross/aarch64-linux-gnu/11/include]
+        collapse include dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include] ==> [/usr/aarch64-linux-gnu/include]
+        implicit include dirs: [/home/matthieu/rpi-sysroot/usr/include;/home/matthieu/rpi-sysroot/usr/local/include;/home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu;/usr/aarch64-linux-gnu/include/c++/11;/usr/aarch64-linux-gnu/include/c++/11/aarch64-linux-gnu;/usr/aarch64-linux-gnu/include/c++/11/backward;/usr/lib/gcc-cross/aarch64-linux-gnu/11/include;/usr/aarch64-linux-gnu/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDetermineCompilerABI.cmake:152 (message)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(aarch64-linux-gnu-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-gEPPEP']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_afc9f]
+        ignore line: [[1/2] /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot   -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu  -fdiagnostics-color=always   -v -o CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o -c /home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/aarch64-linux-gnu-g++]
+        ignore line: [Target: aarch64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.4.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c ada c++ go d fortran objc obj-c++ m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-libquadmath --disable-libquadmath-support --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --without-target-system-zlib --enable-multiarch --enable-fix-cortex-a53-843419 --disable-werror --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=aarch64-linux-gnu --program-prefix=aarch64-linux-gnu- --includedir=/usr/aarch64-linux-gnu/include --with-build-config=bootstrap-lto-lean --enable-link-serialization=2]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_afc9f.dir/']
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -isysroot /home/matthieu/rpi-sysroot -D_GNU_SOURCE -isystem =/usr/include -isystem =/usr/local/include -isystem =/usr/include/aarch64-linux-gnu /home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_afc9f.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fdiagnostics-color=always -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc10TObs.s]
+        ignore line: [GNU C++17 (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (aarch64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 11.4.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring nonexistent directory "/home/matthieu/rpi-sysroot/usr/local/include/aarch64-linux-gnu"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc-cross/aarch64-linux-gnu/11/include-fixed"]
+        ignore line: [ignoring duplicate directory "/home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu"]
+        ignore line: [ignoring duplicate directory "/home/matthieu/rpi-sysroot/usr/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/matthieu/rpi-sysroot/usr/include]
+        ignore line: [ /home/matthieu/rpi-sysroot/usr/local/include]
+        ignore line: [ /home/matthieu/rpi-sysroot/usr/include/aarch64-linux-gnu]
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11]
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/aarch64-linux-gnu]
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include/c++/11/backward]
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/include]
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include]
+        ignore line: [End of search list.]
+        ignore line: [GNU C++17 (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (aarch64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 11.4.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [Compiler executable checksum: fbc882a9ce49446607e846bb30e5b470]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_afc9f.dir/']
+        ignore line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/bin/as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc10TObs.s]
+        ignore line: [GNU assembler version 2.38 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/bin/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/:/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/lib/../lib/:/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/usr/lib/../lib/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/:/home/matthieu/rpi-sysroot/lib/:/home/matthieu/rpi-sysroot/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] : && /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -Wl -O1 -Wl --hash-style=gnu -Wl --as-needed -Wl -rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl -rpath-link=$HOME/qt6/pi/lib -v CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_afc9f  -Wl -rpath /home/matthieu/rpi-sysroot && :]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/aarch64-linux-gnu-g++]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc-cross/aarch64-linux-gnu/11/lto-wrapper]
+        ignore line: [Target: aarch64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.4.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c ada c++ go d fortran objc obj-c++ m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-libquadmath --disable-libquadmath-support --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --without-target-system-zlib --enable-multiarch --enable-fix-cortex-a53-843419 --disable-werror --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=aarch64-linux-gnu --program-prefix=aarch64-linux-gnu- --includedir=/usr/aarch64-linux-gnu/include --with-build-config=bootstrap-lto-lean --enable-link-serialization=2]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/bin/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc-cross/aarch64-linux-gnu/11/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/:/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/lib/../lib/:/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/:/home/matthieu/rpi-sysroot/usr/lib/../lib/:/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/:/home/matthieu/rpi-sysroot/lib/:/home/matthieu/rpi-sysroot/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-isystem' '=/usr/include' '-isystem' '=/usr/local/include' '-isystem' '=/usr/include/aarch64-linux-gnu' '-v' '-o' 'cmTC_afc9f' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_afc9f.']
+        link line: [ /usr/lib/gcc-cross/aarch64-linux-gnu/11/collect2 -plugin /usr/lib/gcc-cross/aarch64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc-cross/aarch64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccqiQ12Y.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/home/matthieu/rpi-sysroot --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_afc9f /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/Scrt1.o /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crti.o /usr/lib/gcc-cross/aarch64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc-cross/aarch64-linux-gnu/11 -L/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib -L/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu -L/home/matthieu/rpi-sysroot/lib/../lib -L/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -L/home/matthieu/rpi-sysroot/usr/lib/../lib -L/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib -L/home/matthieu/rpi-sysroot/lib -L/home/matthieu/rpi-sysroot/usr/lib -O1 --hash-style=gnu --as-needed -rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -rpath-link=/home/facesecure/qt6/pi/lib CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o -rpath /home/matthieu/rpi-sysroot -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc-cross/aarch64-linux-gnu/11/crtendS.o /usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crtn.o]
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc-cross/aarch64-linux-gnu/11/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccqiQ12Y.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--sysroot=/home/matthieu/rpi-sysroot] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib/ld-linux-aarch64.so.1] ==> ignore
+          arg [-X] ==> ignore
+          arg [-EL] ==> ignore
+          arg [-maarch64linux] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_afc9f] ==> ignore
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/Scrt1.o] ==> obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/Scrt1.o]
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crti.o] ==> obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crti.o]
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/crtbeginS.o] ==> obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/crtbeginS.o]
+          arg [-L/usr/lib/gcc-cross/aarch64-linux-gnu/11] ==> dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11]
+          arg [-L/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib] ==> dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib]
+          arg [-L/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu] ==> dir [/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu]
+          arg [-L/home/matthieu/rpi-sysroot/lib/../lib] ==> dir [/home/matthieu/rpi-sysroot/lib/../lib]
+          arg [-L/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu] ==> dir [/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu]
+          arg [-L/home/matthieu/rpi-sysroot/usr/lib/../lib] ==> dir [/home/matthieu/rpi-sysroot/usr/lib/../lib]
+          arg [-L/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib] ==> dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib]
+          arg [-L/home/matthieu/rpi-sysroot/lib] ==> dir [/home/matthieu/rpi-sysroot/lib]
+          arg [-L/home/matthieu/rpi-sysroot/usr/lib] ==> dir [/home/matthieu/rpi-sysroot/usr/lib]
+          arg [-O1] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu] ==> ignore
+          arg [-rpath-link=/home/facesecure/qt6/pi/lib] ==> ignore
+          arg [CMakeFiles/cmTC_afc9f.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-rpath] ==> ignore
+          arg [/home/matthieu/rpi-sysroot] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/crtendS.o] ==> obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/crtendS.o]
+          arg [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crtn.o] ==> obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crtn.o]
+        collapse obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/Scrt1.o] ==> [/usr/aarch64-linux-gnu/lib/Scrt1.o]
+        collapse obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crti.o] ==> [/usr/aarch64-linux-gnu/lib/crti.o]
+        collapse obj [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib/crtn.o] ==> [/usr/aarch64-linux-gnu/lib/crtn.o]
+        collapse library dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11] ==> [/usr/lib/gcc-cross/aarch64-linux-gnu/11]
+        collapse library dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib/../lib] ==> [/usr/aarch64-linux-gnu/lib]
+        collapse library dir [/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu] ==> [/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu]
+        collapse library dir [/home/matthieu/rpi-sysroot/lib/../lib] ==> [/home/matthieu/rpi-sysroot/lib]
+        collapse library dir [/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu] ==> [/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu]
+        collapse library dir [/home/matthieu/rpi-sysroot/usr/lib/../lib] ==> [/home/matthieu/rpi-sysroot/usr/lib]
+        collapse library dir [/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/lib] ==> [/usr/aarch64-linux-gnu/lib]
+        collapse library dir [/home/matthieu/rpi-sysroot/lib] ==> [/home/matthieu/rpi-sysroot/lib]
+        collapse library dir [/home/matthieu/rpi-sysroot/usr/lib] ==> [/home/matthieu/rpi-sysroot/usr/lib]
+        implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+        implicit objs: [/usr/aarch64-linux-gnu/lib/Scrt1.o;/usr/aarch64-linux-gnu/lib/crti.o;/usr/lib/gcc-cross/aarch64-linux-gnu/11/crtbeginS.o;/usr/lib/gcc-cross/aarch64-linux-gnu/11/crtendS.o;/usr/aarch64-linux-gnu/lib/crtn.o]
+        implicit dirs: [/usr/lib/gcc-cross/aarch64-linux-gnu/11;/usr/aarch64-linux-gnu/lib;/home/matthieu/rpi-sysroot/lib/aarch64-linux-gnu;/home/matthieu/rpi-sysroot/lib;/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu;/home/matthieu/rpi-sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/Qt6Dependencies.cmake:24 (_qt_internal_find_third_party_dependencies)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/Qt6Config.cmake:112 (include)"
+      - "CMakeLists.txt:10 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-5J6oAq"
+      binary: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-5J6oAq"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS: " -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_C_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib"
+      CMAKE_MODULE_PATH: "/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/kwin"
+      CMAKE_SYSROOT: "/home/matthieu/rpi-sysroot"
+      QT_ADDITIONAL_PACKAGES_PREFIX_PATH: ""
+      QT_CHAINLOAD_TOOLCHAIN_FILE: ""
+      QT_TOOLCHAIN_INCLUDE_FILE: ""
+      QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR: "/home/matthieu/qt6/pi/lib/cmake"
+      QT_TOOLCHAIN_RELOCATABLE_PREFIX: ""
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-5J6oAq'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_fd1e2
+        [1/2] /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu  -fdiagnostics-color=always -o CMakeFiles/cmTC_fd1e2.dir/src.cxx.o -c /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-5J6oAq/src.cxx
+        [2/2] : && /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib CMakeFiles/cmTC_fd1e2.dir/src.cxx.o -o cmTC_fd1e2  -Wl,-rpath,/home/matthieu/rpi-sysroot && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/FindWrapAtomic.cmake:36 (check_cxx_source_compiles)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:30 (_qt_internal_find_third_party_dependencies)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:40 (include)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/Qt6Config.cmake:157 (find_package)"
+      - "CMakeLists.txt:10 (find_package)"
+    checks:
+      - "Performing Test HAVE_STDATOMIC"
+    directories:
+      source: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-6xjarL"
+      binary: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-6xjarL"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS: " -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_C_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib"
+      CMAKE_MODULE_PATH: "/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/kwin"
+      CMAKE_SYSROOT: "/home/matthieu/rpi-sysroot"
+      QT_ADDITIONAL_PACKAGES_PREFIX_PATH: ""
+      QT_CHAINLOAD_TOOLCHAIN_FILE: ""
+      QT_TOOLCHAIN_INCLUDE_FILE: ""
+      QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR: "/home/matthieu/qt6/pi/lib/cmake"
+      QT_TOOLCHAIN_RELOCATABLE_PREFIX: ""
+    buildResult:
+      variable: "HAVE_STDATOMIC"
+      cached: true
+      stdout: |
+        Change Dir: '/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-6xjarL'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_61233
+        [1/2] /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -DHAVE_STDATOMIC  -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu  -fdiagnostics-color=always -o CMakeFiles/cmTC_61233.dir/src.cxx.o -c /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-6xjarL/src.cxx
+        [2/2] : && /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib CMakeFiles/cmTC_61233.dir/src.cxx.o -o cmTC_61233  -Wl,-rpath,/home/matthieu/rpi-sysroot && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules/FindEGL.cmake:127 (check_cxx_source_compiles)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/FindGLESv2.cmake:13 (find_package)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6Gui/Qt6GuiDependencies.cmake:30 (_qt_internal_find_third_party_dependencies)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake:40 (include)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/Qt6Config.cmake:157 (find_package)"
+      - "CMakeLists.txt:10 (find_package)"
+    checks:
+      - "Performing Test HAVE_EGL"
+    directories:
+      source: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-JHBg8R"
+      binary: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-JHBg8R"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS: " -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_C_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib"
+      CMAKE_MODULE_PATH: "/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/kwin"
+      CMAKE_SYSROOT: "/home/matthieu/rpi-sysroot"
+      QT_ADDITIONAL_PACKAGES_PREFIX_PATH: ""
+      QT_CHAINLOAD_TOOLCHAIN_FILE: ""
+      QT_TOOLCHAIN_INCLUDE_FILE: ""
+      QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR: "/home/matthieu/qt6/pi/lib/cmake"
+      QT_TOOLCHAIN_RELOCATABLE_PREFIX: ""
+    buildResult:
+      variable: "HAVE_EGL"
+      cached: true
+      stdout: |
+        Change Dir: '/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-JHBg8R'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_cab34
+        [1/2] /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -DHAVE_EGL  -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu  -fdiagnostics-color=always -o CMakeFiles/cmTC_cab34.dir/src.cxx.o -c /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-JHBg8R/src.cxx
+        [2/2] : && /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib CMakeFiles/cmTC_cab34.dir/src.cxx.o -o cmTC_cab34  -Wl,-rpath,/home/matthieu/rpi-sysroot  /home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/libEGL.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/FindGLESv2.cmake:27 (check_cxx_source_compiles)"
+      - "/home/matthieu/logiciels/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6Gui/Qt6GuiDependencies.cmake:30 (_qt_internal_find_third_party_dependencies)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake:40 (include)"
+      - "/home/matthieu/qt6/pi/lib/cmake/Qt6/Qt6Config.cmake:157 (find_package)"
+      - "CMakeLists.txt:10 (find_package)"
+    checks:
+      - "Performing Test HAVE_GLESv2"
+    directories:
+      source: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-TqXc4Z"
+      binary: "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-TqXc4Z"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS: " -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_C_COMPILER_TARGET: "aarch64-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib"
+      CMAKE_MODULE_PATH: "/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6/platforms;/home/matthieu/qt6/pi/lib/cmake/Qt6;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/home/matthieu/qt6/pi/lib/cmake/Qt6/3rdparty/kwin"
+      CMAKE_SYSROOT: "/home/matthieu/rpi-sysroot"
+      QT_ADDITIONAL_PACKAGES_PREFIX_PATH: ""
+      QT_CHAINLOAD_TOOLCHAIN_FILE: ""
+      QT_TOOLCHAIN_INCLUDE_FILE: ""
+      QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR: "/home/matthieu/qt6/pi/lib/cmake"
+      QT_TOOLCHAIN_RELOCATABLE_PREFIX: ""
+    buildResult:
+      variable: "HAVE_GLESv2"
+      cached: true
+      stdout: |
+        Change Dir: '/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-TqXc4Z'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_5223d
+        [1/2] /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -DHAVE_GLESv2  -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu  -fdiagnostics-color=always -o CMakeFiles/cmTC_5223d.dir/src.cxx.o -c /home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/CMakeScratch/TryCompile-TqXc4Z/src.cxx
+        [2/2] : && /usr/bin/aarch64-linux-gnu-g++ --sysroot=/home/matthieu/rpi-sysroot -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=/home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu -Wl,-rpath-link=$HOME/qt6/pi/lib CMakeFiles/cmTC_5223d.dir/src.cxx.o -o cmTC_5223d  -Wl,-rpath,/home/matthieu/rpi-sysroot  /home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/libGLESv2.so  /home/matthieu/rpi-sysroot/usr/lib/aarch64-linux-gnu/libEGL.so && :
+        
+      exitCode: 0
+...

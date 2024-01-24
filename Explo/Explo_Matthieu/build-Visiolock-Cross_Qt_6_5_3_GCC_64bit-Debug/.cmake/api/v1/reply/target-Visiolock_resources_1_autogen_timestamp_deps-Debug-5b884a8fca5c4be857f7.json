@@ -1,0 +1,62 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"imports/Visiolock/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"folder" : 
+	{
+		"name" : "QtInternalTargets"
+	},
+	"id" : "Visiolock_resources_1_autogen_timestamp_deps::@c8fba210fb1c0152abb8",
+	"isGeneratorProvided" : true,
+	"name" : "Visiolock_resources_1_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "imports/Visiolock",
+		"source" : "imports/Visiolock"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/Visiolock/CMakeFiles/Visiolock_resources_1_autogen_timestamp_deps",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/Visiolock/CMakeFiles/Visiolock_resources_1_autogen_timestamp_deps.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

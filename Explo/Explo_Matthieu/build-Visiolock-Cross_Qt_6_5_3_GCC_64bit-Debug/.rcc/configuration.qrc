@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="qtquickcontrols2.conf">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/qtquickcontrols2.conf</file>
+  </qresource>
+</RCC>
+

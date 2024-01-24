@@ -1,0 +1,15 @@
+-rootPath
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/test
+-cmake-output
+-output-file
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/.qt_plugins/Qt6_QmlPlugins_Imports_testApp.cmake
+-importPath
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/qml/Main
+-importPath
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/qml
+-importPath
+/home/matthieu/qt6/pi/qml
+-qrcFiles
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/.rcc/configuration.qrc
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmake_Main.qrc
+/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/.rcc/testApp_raw_qml_0.qrc

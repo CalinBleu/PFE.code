@@ -1,0 +1,37 @@
+<RCC>
+  <qresource prefix="/content/">
+    <file alias="App.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/App.qml</file>
+    <file alias="Accueil.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/Accueil.qml</file>
+    <file alias="AccueilForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AccueilForm.ui.qml</file>
+    <file alias="AccueilAdmin.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AccueilAdmin.qml</file>
+    <file alias="AccueilAdminForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AccueilAdminForm.ui.qml</file>
+    <file alias="AccueilResult.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AccueilResult.qml</file>
+    <file alias="AccueilResultForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AccueilResultForm.ui.qml</file>
+    <file alias="AddUserNameFirstname.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserNameFirstname.qml</file>
+    <file alias="AddUserNameFirstnameForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserNameFirstnameForm.ui.qml</file>
+    <file alias="AddUserPicture.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserPicture.qml</file>
+    <file alias="AddUserPictureForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserPictureForm.ui.qml</file>
+    <file alias="AddUserResume.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserResume.qml</file>
+    <file alias="AddUserResumeForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserResumeForm.ui.qml</file>
+    <file alias="AddUserRFID.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserRFID.qml</file>
+    <file alias="AddUserRFIDForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserRFIDForm.ui.qml</file>
+    <file alias="AddUserRoleAccess.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserRoleAccess.qml</file>
+    <file alias="AddUserRoleAccessForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/AddUserRoleAccessForm.ui.qml</file>
+    <file alias="ModifyUserPicture.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/ModifyUserPicture.qml</file>
+    <file alias="ModifyUserPictureForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/ModifyUserPictureForm.ui.qml</file>
+    <file alias="ModifyUserResume.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/ModifyUserResume.qml</file>
+    <file alias="ModifyUserResumeForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/ModifyUserResumeForm.ui.qml</file>
+    <file alias="ParametersAdmin.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/ParametersAdmin.qml</file>
+    <file alias="ParametersAdminForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/ParametersAdminForm.ui.qml</file>
+    <file alias="PasswordAdmin.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/PasswordAdmin.qml</file>
+    <file alias="PasswordAdminForm.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/PasswordAdminForm.ui.qml</file>
+    <file alias="fonts/fonts.txt">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/fonts/fonts.txt</file>
+    <file alias="images/bottom_image.png">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/images/bottom_image.png</file>
+    <file alias="images/corner.png">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/images/corner.png</file>
+    <file alias="images/down.png">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/images/down.png</file>
+    <file alias="images/search.png">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/images/search.png</file>
+    <file alias="images/thales_logo.png">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/images/thales_logo.png</file>
+    <file alias="images/top_image.png">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/content/images/top_image.png</file>
+  </qresource>
+</RCC>
+

@@ -1,0 +1,4 @@
+module Main
+typeinfo VisiolockApp.qmltypes
+prefer :/qt/qml/Main/
+

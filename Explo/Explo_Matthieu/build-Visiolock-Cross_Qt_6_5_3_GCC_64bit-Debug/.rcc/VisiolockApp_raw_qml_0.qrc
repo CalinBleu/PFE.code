@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/Main/">
+    <file alias="main.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/main.qml</file>
+  </qresource>
+</RCC>
+

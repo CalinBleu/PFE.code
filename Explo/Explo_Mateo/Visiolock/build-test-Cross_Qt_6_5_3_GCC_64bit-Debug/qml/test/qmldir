@@ -1,0 +1,11 @@
+module test
+linktarget testplugin
+optional plugin testplugin
+classname testPlugin
+typeinfo test.qmltypes
+prefer :/qt/qml/test/
+singleton Constants 1.0 Constants.qml
+DirectoryFontLoader 1.0 DirectoryFontLoader.qml
+EventListModel 1.0 EventListModel.qml
+EventListSimulator 1.0 EventListSimulator.qml
+

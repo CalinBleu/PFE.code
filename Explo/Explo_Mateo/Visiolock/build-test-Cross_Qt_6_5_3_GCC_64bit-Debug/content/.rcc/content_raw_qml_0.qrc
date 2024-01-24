@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="/qt/qml/content/">
+    <file alias="App.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/test/content/App.qml</file>
+    <file alias="Screen01.ui.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/test/content/Screen01.ui.qml</file>
+    <file alias="fonts/fonts.txt">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/test/content/fonts/fonts.txt</file>
+  </qresource>
+</RCC>
+

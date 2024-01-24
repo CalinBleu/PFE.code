@@ -1,0 +1,32 @@
+module content
+linktarget contentplugin
+optional plugin contentplugin
+classname contentPlugin
+typeinfo content.qmltypes
+prefer :/content/
+App 1.0 App.qml
+Accueil 1.0 Accueil.qml
+AccueilForm 1.0 AccueilForm.ui.qml
+AccueilAdmin 1.0 AccueilAdmin.qml
+AccueilAdminForm 1.0 AccueilAdminForm.ui.qml
+AccueilResult 1.0 AccueilResult.qml
+AccueilResultForm 1.0 AccueilResultForm.ui.qml
+AddUserNameFirstname 1.0 AddUserNameFirstname.qml
+AddUserNameFirstnameForm 1.0 AddUserNameFirstnameForm.ui.qml
+AddUserPicture 1.0 AddUserPicture.qml
+AddUserPictureForm 1.0 AddUserPictureForm.ui.qml
+AddUserResume 1.0 AddUserResume.qml
+AddUserResumeForm 1.0 AddUserResumeForm.ui.qml
+AddUserRFID 1.0 AddUserRFID.qml
+AddUserRFIDForm 1.0 AddUserRFIDForm.ui.qml
+AddUserRoleAccess 1.0 AddUserRoleAccess.qml
+AddUserRoleAccessForm 1.0 AddUserRoleAccessForm.ui.qml
+ModifyUserPicture 1.0 ModifyUserPicture.qml
+ModifyUserPictureForm 1.0 ModifyUserPictureForm.ui.qml
+ModifyUserResume 1.0 ModifyUserResume.qml
+ModifyUserResumeForm 1.0 ModifyUserResumeForm.ui.qml
+ParametersAdmin 1.0 ParametersAdmin.qml
+ParametersAdminForm 1.0 ParametersAdminForm.ui.qml
+PasswordAdmin 1.0 PasswordAdmin.qml
+PasswordAdminForm 1.0 PasswordAdminForm.ui.qml
+

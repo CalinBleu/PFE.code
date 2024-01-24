@@ -1,0 +1,512 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "imports/test/libtest.a"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"_qt_internal_add_library",
+			"qt6_add_library",
+			"qt_add_library",
+			"add_dependencies",
+			"qt6_target_qml_sources",
+			"qt6_add_qml_module",
+			"target_link_libraries",
+			"target_include_directories",
+			"_qt_internal_qml_type_registration",
+			"target_sources",
+			"qt6_extract_metatypes",
+			"_qt_internal_expose_deferred_files_to_ide",
+			"qt6_finalize_target"
+		],
+		"files" : 
+		[
+			"/home/matthieu/qt6/pi/lib/cmake/Qt6Core/Qt6CoreMacros.cmake",
+			"imports/test/CMakeLists.txt",
+			"/home/matthieu/qt6/pi/lib/cmake/Qt6Qml/Qt6QmlMacros.cmake",
+			"/home/matthieu/qt6/pi/lib/cmake/Qt6Core/Qt6CoreMacros.cmake:679:EVAL"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 2313,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 2217,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 2291,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 625,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 2273,
+				"parent" : 6
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 369,
+				"parent" : 5
+			},
+			{
+				"command" : 9,
+				"file" : 2,
+				"line" : 532,
+				"parent" : 5
+			},
+			{
+				"command" : 8,
+				"file" : 2,
+				"line" : 2604,
+				"parent" : 9
+			},
+			{
+				"command" : 8,
+				"file" : 2,
+				"line" : 2629,
+				"parent" : 9
+			},
+			{
+				"command" : 11,
+				"file" : 2,
+				"line" : 2409,
+				"parent" : 9
+			},
+			{
+				"command" : 10,
+				"file" : 0,
+				"line" : 1124,
+				"parent" : 12
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2595,
+				"parent" : 9
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2062,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2215,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2062,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2215,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2062,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2215,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2062,
+				"parent" : 6
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 2215,
+				"parent" : 6
+			},
+			{
+				"file" : 1,
+				"line" : -1,
+				"parent" : 0
+			},
+			{
+				"command" : 13,
+				"file" : 3,
+				"line" : 1,
+				"parent" : 23
+			},
+			{
+				"command" : 12,
+				"file" : 0,
+				"line" : 704,
+				"parent" : 24
+			},
+			{
+				"command" : 10,
+				"file" : 0,
+				"line" : 1780,
+				"parent" : 25
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/aarch64-linux-gnu -g -fdiagnostics-color=always"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 8,
+					"define" : "QT_CORE_LIB"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "QT_NETWORK_LIB"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "QT_QMLINTEGRATION_LIB"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "QT_QML_LIB"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 0,
+					"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/test_autogen/include"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/test/imports/test"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/matthieu/qt6/pi/include/QtQml/6.5.1"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/matthieu/qt6/pi/include/QtQml/6.5.1/QtQml"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/matthieu/qt6/pi/include/QtCore/6.5.1"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/matthieu/qt6/pi/include/QtCore/6.5.1/QtCore"
+				},
+				{
+					"backtrace" : 11,
+					"isSystem" : true,
+					"path" : "/home/matthieu/qt6/pi/include/QtCore"
+				},
+				{
+					"backtrace" : 11,
+					"isSystem" : true,
+					"path" : "/home/matthieu/qt6/pi/include"
+				},
+				{
+					"backtrace" : 11,
+					"isSystem" : true,
+					"path" : "/home/matthieu/qt6/pi/mkspecs/devices/linux-rasp-pi4-aarch64"
+				},
+				{
+					"backtrace" : 11,
+					"isSystem" : true,
+					"path" : "/home/matthieu/qt6/pi/include/QtQml"
+				},
+				{
+					"backtrace" : 11,
+					"isSystem" : true,
+					"path" : "/home/matthieu/qt6/pi/include/QtQmlIntegration"
+				},
+				{
+					"backtrace" : 11,
+					"isSystem" : true,
+					"path" : "/home/matthieu/qt6/pi/include/QtNetwork"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				2,
+				4,
+				6,
+				8,
+				10
+			],
+			"sysroot" : 
+			{
+				"path" : "/home/matthieu/rpi-sysroot"
+			}
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 7,
+			"id" : "test_tooling::@e41ec27710d76f167a54"
+		},
+		{
+			"id" : "test_autogen_timestamp_deps::@e41ec27710d76f167a54"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "test_autogen::@e41ec27710d76f167a54"
+		}
+	],
+	"id" : "test::@e41ec27710d76f167a54",
+	"name" : "test",
+	"nameOnDisk" : "libtest.a",
+	"paths" : 
+	{
+		"build" : "imports/test",
+		"source" : "imports/test"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				2,
+				4,
+				6,
+				8,
+				10
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				1,
+				3,
+				5,
+				7,
+				9,
+				11,
+				12,
+				21,
+				22,
+				23
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/test_autogen/mocs_compilation.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 13,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/meta_types/qt6test_debug_metatypes.json.gen",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 14,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/test_qmltyperegistrations.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 15,
+			"path" : "imports/test/Constants.qml",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 16,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_Constants_qml.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 17,
+			"path" : "imports/test/DirectoryFontLoader.qml",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 18,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_DirectoryFontLoader_qml.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 19,
+			"path" : "imports/test/EventListModel.qml",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 20,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_EventListModel_qml.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"path" : "imports/test/EventListSimulator.qml",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 22,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_EventListSimulator_qml.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 26,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/qml/test/qmldir",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/test_autogen/timestamp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/meta_types/qt6test_debug_metatypes.json.gen.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/test_qmltyperegistrations.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_Constants_qml.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_DirectoryFontLoader_qml.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_EventListModel_qml.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/.rcc/qmlcache/test_EventListSimulator_qml.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/test_autogen/timestamp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Mateo/Visiolock/build-test-Cross_Qt_6_5_3_GCC_64bit-Debug/imports/test/meta_types/test_json_file_list.txt.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 8,
+			"path" : "/home/matthieu/qt6/pi/metatypes/qt6qml_release_metatypes.json",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 8,
+			"path" : "/home/matthieu/qt6/pi/metatypes/qt6core_release_metatypes.json",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 8,
+			"path" : "/home/matthieu/qt6/pi/metatypes/qt6network_release_metatypes.json",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}
