@@ -107,7 +107,7 @@ static void Guard_timer_launch()
 
 	itimer.it_interval.tv_sec = 0;
 	itimer.it_interval.tv_nsec = 0;
-	itimer.it_value.tv_sec = 25;
+	itimer.it_value.tv_sec = 15;
 	itimer.it_value.tv_nsec = 0;
 
 	if (timer_settime(ai_process_timer, 0, &itimer, NULL) != 0) {
