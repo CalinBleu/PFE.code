@@ -96,6 +96,7 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_USER_DENIED][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
     [S_USER_UNKNOWN][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
     [S_IDLE][E_TAG_READED] = {S_CHOICE_1, A_TAG_READED},
+    [S_IDLE][E_CHANGE_MODE_CLASSIC] = {S_IDLE, A_CHANGE_MODE},
     //standBy()
     [S_ANALYSE][E_STANDBY] = {S_OFF, A_STANDBY},
     [S_REGISTER][E_STANDBY] = {S_OFF, A_STANDBY},
