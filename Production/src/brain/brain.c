@@ -138,6 +138,7 @@ int Brain_new(void)
 		return 1;
     }
 
+    //initialisation du timer des écrans de messages (utilisateur inconnu, refusé ou autorisé)
 	struct sigevent event;
 
 	event.sigev_notify = SIGEV_THREAD;
@@ -217,19 +218,22 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
     {
         case A_NOP: 
             break;
-        case A_TAG_READED:
+        case A_TAG_READED: 
+            //réveil du système et check du mode actif
             Brain_wakeUp();
             Rfid_stopReading();
             Brain_cancel_timer();
             Brain_evaluateMode(mode);
             printf("%s : A_TAG_READED\n", __FILE__);
             break;
-        case A_MODE_CLASSIC: ;
+        case A_MODE_CLASSIC: ; 
+            //un utilisateur a passé son badge, on vérifie le tag
             AuthResult tagResult = Guard_checkTag(currentTag);
             Brain_evaluateTag(tagResult);
             printf("%s : A_MODE_CLASSIC\n", __FILE__);
             break;
         case A_MODE_ADMIN:
+            //le système est en mode administrateur, le badge lu doit être communiqué à GUI (nouveau badge pour ajouter ou modifier un utilisateur)
             Gui_setTag(currentTag);
             Rfid_startReading();
             printf("%s : A_MODE_ADMIN\n", __FILE__);
@@ -243,33 +247,39 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             Rfid_startReading();
             printf("%s : A_CHANGE_MODE_SPE\n", __FILE__);
             break;
-        case A_USER_TAG_OK: ;
+        case A_USER_TAG_OK:
+            //tag utilisateur détecté, on passe à la détection
             Gui_displayHomeScreen(USER_TAG_OK);
             Guard_checkFace(currentTag);
             printf("%s : A_USER_TAG_OK\n", __FILE__);
             break;
-        case A_ADMIN_TAG: ;
+        case A_ADMIN_TAG:
+            //tag administrateur détecté, on passe à la détection
             Gui_displayHomeScreen(ADMIN_TAG);
             Guard_checkFace(currentTag);
             printf("%s : A_ADMIN_TAG\n", __FILE__);
             break;
         case A_USER_TAG_DENIED:
+            //on envoie les informations d'utilisateur refusé
             Gui_displayHomeScreen(USER_TAG_DENIED);
             Doorman_userDenied();
             Brain_timer_launch();
             printf("%s : A_USER_TAG_DENIED\n", __FILE__);
             break;
         case A_USER_TAG_UNKNOWN:
+            //on envoie les informations d'utilisateur inconnu
             Gui_displayHomeScreen(USER_TAG_UNKNOWN);
             Doorman_userUnknown();
             Brain_timer_launch();
             printf("%s : A_USER_TAG_UNKNOWN\n", __FILE__);
             break;
         case A_FACE_ANALYSED:
+            //on vérifie la valeur de retour du script de reco faciale
             Brain_evaluateState(aMsg->data.recognized);
             printf("%s : A_FACE_ANALYSED\n", __FILE__);
             break;
         case A_FACE_TRUE:
+            //on déverouille la serrure
             Gui_displayHomeScreen(ALLOWED);
             Doorman_open();
             Brain_timer_launch();
@@ -277,6 +287,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             break;
         case A_FACE_FALSE:
             Gui_displayHomeScreen(FACE_UNKNOWN);
+            //on envoie les informations d'utilisateur inconnu
             Doorman_userUnknown();
             Brain_timer_launch();
             printf("%s : A_FACE_FALSE\n", __FILE__);

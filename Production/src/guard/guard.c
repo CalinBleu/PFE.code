@@ -32,6 +32,7 @@ static timer_t ai_process_timer;
  */
 
 void Guard_checkPassword(char* password, char* idTag ){
+    //comparaison entre le mot de passe hashé de la BDD et le hash du mot de passe en paramètre
 
     char password_hash[SHA256_HEX_SIZE];
 
@@ -50,6 +51,7 @@ void Guard_checkPassword(char* password, char* idTag ){
 }
 
 AuthResult Guard_checkTag(char* idTag){
+    //détermination des droits de l'utilisateur en fonction de son tag, son role et ses accès
     Role role = Archivist_getRole(idTag);
     Access* access = Archivist_getAccess(idTag);
 
@@ -116,7 +118,7 @@ static void Guard_timer_launch()
 }
 
 /**
- * @brief Fonction qui stoper le timer
+ * @brief Fonction qui stoppe le timer
  */
 static void Guard_cancel_timer()
 {

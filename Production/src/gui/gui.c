@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "common.h"
-#include "gui/gui.h"
+#include "gui.h"
 #include "guard/guard.h"
 #include "brain/brain.h"
 #include "manager/manager.h"

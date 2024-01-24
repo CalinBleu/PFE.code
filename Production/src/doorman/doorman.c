@@ -58,12 +58,10 @@ static void Doorman_lock_timeout(union sigval val);
 
 /******************************************************************************/
 
-/**
- * brief Fonction d'intialisation des ports GPIO
- *
- */
+
 void Doorman_init(){
 	#if TARGET
+	//configuration des GPIO
 	chipLock = gpiod_chip_open_by_name(chipnameLock);
 	lineLock = gpiod_chip_get_line(chipLock, LOCK);
 	gpiod_line_request_output(lineLock, "ex", 0);
@@ -77,6 +75,7 @@ void Doorman_init(){
 	gpiod_line_request_output(lineRed, "ex", 0);
 	#endif
 
+	//initialisation des timers pour les LEDs
     struct sigevent event;
 
 	event.sigev_notify = SIGEV_THREAD;
@@ -100,9 +99,7 @@ void Doorman_init(){
 	}
 }
 
-/**
- * brief Fonction permettant d'ouvrir la porte
- */
+
 void Doorman_open(){
 	#if TARGET	
 	gpiod_line_set_value(lineLock, 1);
@@ -157,11 +154,6 @@ static void Doorman_lock_timer_launch()
 	}
 }
 
-/**
- * brief Fonction permettant l'allumage de la LED correspondant à l'évènement "l'utilisateur est 
- * reconnu mais n'a pas le droit d'accéder au bâtiment"
- * 
- */
 void Doorman_userDenied() {
 	#if TARGET	
     gpiod_line_set_value(lineOrange, 1);
@@ -169,10 +161,6 @@ void Doorman_userDenied() {
     Doorman_led_timer_launch();    
 }
 
-/**
- * brief Fonction permettant l'allumage de la LED correspondant à l'évènement "l'utilisateur n'est pas reconnu"
- * 
- */
 void Doorman_userUnknown() {
 	#if TARGET	
     gpiod_line_set_value(lineRed, 1);
