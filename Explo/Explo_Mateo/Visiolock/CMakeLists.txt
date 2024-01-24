@@ -13,7 +13,11 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(VisiolockApp src/main.cpp)
+qt_add_executable(VisiolockApp
+    src/main.cpp
+    src/test.c
+    src/interfacec.cpp
+)
 
 qt_add_resources(VisiolockApp "configuration"
     PREFIX "/"

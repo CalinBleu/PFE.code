@@ -3,10 +3,14 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "app_environment.h"
 #include "import_qml_components_plugins.h"
 #include "import_qml_plugins.h"
+
+//#include "mydata.h"
+#include "interfacec.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +18,16 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    qmlRegisterType<InterfaceC>("MonModule", 1, 0, "InterfaceC");
+
+    //MyData myData;
+
+    //myData.setMyString("2");
+
     QQmlApplicationEngine engine;
+
+    //engine.rootContext()->setContextProperty("myData", &myData);
+
     const QUrl url(u"qrc:Main/main.qml"_qs);
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreated, &app,

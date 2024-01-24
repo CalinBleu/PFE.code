@@ -14,6 +14,9 @@ Item {
     width: Constants.width
     height: Constants.height
 
+    property alias text_auth : text_auth
+    property alias text_msg : text_message
+
     Rectangle {
         width: Constants.width
         height: Constants.height

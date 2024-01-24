@@ -18,6 +18,8 @@ Item {
 
     property alias button: admin_button
     property alias camera: camera
+    property alias timer : timer
+    property alias video : videoOutput
 
     Rectangle {
         id: rectangle
@@ -86,6 +88,13 @@ Item {
             videoOutput: videoOutput
         }
 
+        Timer {
+            id: timer
+            interval: 500 // Une demi-seconde
+            running: true
+            repeat: true
+        }
+
         VideoOutput {
             id: videoOutput
             x:244
@@ -93,6 +102,11 @@ Item {
             width: 320
             height: 259
             fillMode: VideoOutput.PreserveAspectCrop
+
+            MouseArea{
+                anchors.fill: parent
+                id : mouse
+            }
 
             Rectangle {
                 id: rectangle_video
