@@ -1,3 +1,6 @@
+/*
+ * INCLUDES
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -15,32 +18,51 @@
 #include "brain.h"
 #include "manager.h"
 
+/*
+ * DEFINES
+ */
 #define NAME_MQ_BOX_GUI  "/mq_gui" //Boîte aux lettres liée à Gui
 #define MQ_MSG_COUNT 10
 
-
+/*
+ * TYPEDEF
+ */
 typedef enum  {S_FORGET = 0, S_STANDBY, S_TAG_SCANNED, S_HOME_DETECTION, S_UNKNOWN_USER, S_ACCESS_AUTHORIZED, S_ADMIN_HOME_DETECTION, S_ACCESS_DENIED, S_MANAGEMENT_PASSWORD, S_MANAGEMENT_SETTINGS, S_MODIFY_USER_POPUP, S_MODIFY_USER_MANAGEMENT, S_MODIFY_USER_PICTURE, S_NEW_USER_RFID, S_NEW_USER_PICTURE, S_NEW_USER_NAMES, S_NEW_USER_ACCESS_ROLE, S_NEW_USER_SUMMARY, S_DELETE_USER, S_DEATH, STATE_NB} State;
 typedef enum  {E_SCREEN_ON = 0, E_SCREEN_OFF, E_USER_TAG_OK, E_USER_TAG_UNKNOWN, E_FACE_UNKNOWN, E_USER_ALLOWED, E_USER_TAG_DENIED, E_ADMIN_TAG, E_ADMIN_MODE, E_QUIT_ADMIN_MODE, E_MANAGEMENT_USER, E_ASK_MODIFY_USER, E_MODIFY_USER, E_ASK_ADD_USER, E_ADD_USER, E_VALIDATE, E_CANCEL, E_ASK_TAKE_PICTURE, E_TAKE_PICTURE, E_ASK_DELETE_USER, E_REMOVE_USER, E_STOP, EVENT_NB} Event;
 typedef enum  {A_NOP = 0, A_SCREEN_ON, A_SCREEN_OFF, A_USER_TAG_OK, A_USER_TAG_UNKNOWN, A_FACE_UNKNOWN, A_USER_ALLOWED, A_USER_TAG_DENIED, A_ADMIN_TAG, A_ADMIN_MODE, A_QUIT_ADMIN_MODE, A_MANAGEMENT_USER, A_ASK_MODIFY_USER, A_MODIFY_USER, A_ASK_ADD_USER, A_ADD_USER, A_VALIDATE, A_ASK_TAKE_PICTURE, A_TAKE_PICTURE, A_CANCEL, A_ASK_DELETE_USER, A_REMOVE_USER, A_STOP} Action ;
 
-
+/*
+ * brief Structure des transitions liées à GUI. Etat de destination et action à réaliser.
+ * 
+ */
 typedef struct
 {
     State destinationState;
     Action action;
 } Transition;
 
+/**
+ * brief Structure des données d'un message de la boîte aux lettres. Evènement à traiter et éventuelle donnée, ici un état de WebCam/porte.
+ * 
+ */
 typedef struct
 {
     Event event;
 } MqMsgData;
 
+/**
+ * brief Structure d'un message de la boîte aux lettres. Donnée définie dans la structure MqMsgData et son buffer associé.
+ * 
+ */
 typedef union
 {
     MqMsgData data;
     char buffer[sizeof(MqMsgData)];
 } MqMsg;
 
+/*
+ * LOCAL FUNCTIONS
+ */
 static void Gui_mqReceive(MqMsg * aMsg);
 
 static void Gui_mqSend(MqMsg * aMsg);
@@ -55,6 +77,9 @@ static void Gui_cancel_timer();
 
 static void Gui_timeout(union sigval val);
 
+/*
+ * LOCAL VARIABLES
+ */
 static pthread_t gui_thread;
 static mqd_t gui_mq;
 static timer_t screen_lock_timer;
@@ -63,6 +88,10 @@ static User userToAdd;
 static char* passwordField;
 static char* searchField;
 
+/**
+ * brief Tableau des transitions de la machine à états de GUI
+ * 
+ */
 static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon l'état courant et l'évènement reçu
 {
     [S_STANDBY][E_SCREEN_ON] = {S_TAG_SCANNED, A_SCREEN_ON},

@@ -83,6 +83,9 @@ static void Rfid_popen();
 
 static void * Rfid_read(void * aParam);
 
+/*
+ * LOCAL VARIABLES
+ */
 static pthread_t rfid_thread;
 static pthread_t read_thread;
 static mqd_t rfid_mq; //Boîte aux lettres d'RFID
