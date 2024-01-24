@@ -123,11 +123,9 @@ Picture Archivist_getPicture(char* idtag) {
     size_t path_size = strlen(name) + strlen(firstname) + strlen(path) + strlen("_.jpg") + 1;
     Picture result = malloc(path_size);
 
-    //à changer
     if (name != NULL) {
         if(firstname != NULL) {
             snprintf(result, path_size, "%s%s%s%s%s", path, firstname, "_", name, ".jpg");
-            //printf("path : %s\n", result);
             free(name);
             free(firstname);
         }

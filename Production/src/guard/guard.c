@@ -15,6 +15,9 @@
 #include "archivist/archivist.h"
 #include "ai/ai.h"
 
+/*
+ * LOCAL FUNCTIONS
+ */
 static void Guard_timer_launch();
 
 static void Guard_cancel_timer();
@@ -22,6 +25,10 @@ static void Guard_cancel_timer();
 static void Guard_timeout(union sigval val);
 
 static timer_t ai_process_timer;
+
+/*
+ * PUBLIC FUNCTIONS
+ */
 
 void Guard_checkPassword(char* password, char* idTag ){
 
@@ -90,6 +97,10 @@ void Guard_checkFace(char* idTag){
     Guard_timer_launch();
 }
 
+
+/**
+ * @brief Fonction qui lance le timer
+ */
 static void Guard_timer_launch()
 {
 	struct itimerspec itimer;
@@ -104,6 +115,9 @@ static void Guard_timer_launch()
 	}
 }
 
+/**
+ * @brief Fonction qui stoper le timer
+ */
 static void Guard_cancel_timer()
 {
 	struct itimerspec itimer;
@@ -118,6 +132,9 @@ static void Guard_cancel_timer()
 	}
 }
 
+/**
+ * @brief Fonction qui gère le timeout du timer
+ */
 static void Guard_timeout(union sigval val)
 {
     AI_stopRecognition();

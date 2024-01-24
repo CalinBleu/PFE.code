@@ -1,8 +1,16 @@
 #ifndef ARCHIVIST_H
 #define ARCHIVIST_H
 
+/**
+ * @brief Ouverture de la base de données
+ * 
+ */
 void Archivist_open();
 
+/**
+ * @brief Fermeture de la base de données
+ * 
+ */
 void Archivist_close();
 
 /**

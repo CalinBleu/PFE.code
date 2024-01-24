@@ -1,4 +1,8 @@
+#ifndef RFID_H
+#define RFID_H
+
 #include <stdint.h>
+
 /**
  * brief Fonction permettant de mettre en marche la lecture d'un badge RFID
  * 
@@ -39,3 +43,5 @@ void Rfid_stop();
  * 
  */
 uint8_t Rfid_free(void);
+
+#endif //RFID_H
