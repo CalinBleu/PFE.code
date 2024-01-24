@@ -125,6 +125,18 @@ void Gui_quitAdminMode();
  */
 void Gui_displayHomeScreen(AuthResult result);
 
+void Gui_askConnexion(char* password);
+
+void Gui_changeMode(Mode mode);
+
+void Gui_userAdded(User user);
+
+void Gui_userModified(User user);
+
+void Gui_userRemoved(char* idTag);
+
+void Gui_userSearched(char* searchField);
+
 /**
  * @brief Fonction d'initialisation de l'objet Gui. 
  * 

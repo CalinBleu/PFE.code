@@ -1,6 +1,7 @@
 /*
  * INCLUDES
  */
+#if 0
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -297,45 +298,57 @@ static void Gui_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_SCREEN_ON:
-        
             printf("%s : A_SCREEN_ON\n", __FILE__);
-            
+            //allumer l'écran
             break;
         case A_SCREEN_OFF:
             printf("%s : A_SCREEN_OFF\n", __FILE__);
+            //éteindre l'écran
             break;
         case A_USER_TAG_OK:
             printf("%s : A_USER_TAG_OK\n", __FILE__);
+            //displayScreen(HOME_DETECTION)
             break;
         case A_USER_TAG_UNKNOWN:
             printf("%s : A_USER_TAG_UNKNOWN\n", __FILE__);
+            //displayScreen(HOME_UNKNOWN_USER)
             break;
         case A_FACE_UNKNOWN:
             printf("%s : A_FACE_UNKNOWN\n", __FILE__);
+            //displayScreen(HOME_UNKNOWN_USER)
             break;
         case A_USER_ALLOWED:
             printf("%s : A_USER_ALLOWED\n", __FILE__);
+            //displayScreen(HOME_ACCESS_AUTHORIZED)
             break;
         case A_USER_TAG_DENIED:
             printf("%s : A_USER_TAG_DENIED\n", __FILE__);
+            //displayScreen(HOME_ACCESS_DENIED)
             break;
         case A_ADMIN_TAG:
             printf("%s : A_ADMIN_TAG\n", __FILE__);
+            //displayScreen(HOME_ADMIN_DETECTION)
             break;
         case A_ADMIN_MODE:
             printf("%s : A_ADMIN_MODE\n", __FILE__);
+            //displayScreen(ADMIN_LOGIN)
             break;
         case A_QUIT_ADMIN_MODE:
             printf("%s : A_QUIT_ADMIN_MODE\n", __FILE__);
+            //displayScreen(HOME_ADMIN_DETECTION)
             break;
         case A_MANAGEMENT_USER:
             printf("%s : A_MANAGEMENT_USER\n", __FILE__);
+            //displayScreen(MANAGEMENT_USERS)
+            Brain_changeMode(ADMIN);
             break;
         case A_ASK_MODIFY_USER:
             printf("%s : A_ASK_MODIFY_USER\n", __FILE__);
+            //displayScreen(POP_UP_MODIFY)
             break;
         case A_MODIFY_USER:
             printf("%s : A_MODIFY_USER\n", __FILE__);
+            Manager_modifyUser(userToAdd);
             break;
         case A_ASK_ADD_USER:
             printf("%s : A_ASK_ADD_USER\n", __FILE__);
@@ -648,6 +661,8 @@ static void Gui_displayScreen(ScreenId screenId)
 {
     //TODO
 }
+
+#endif
 
 
 

@@ -13,6 +13,7 @@
 #include "guard/guard.h"
 #include "brain.h"
 #include "rfid/rfid.h"
+#include "gui/gui.h"
 #include "doorman/doorman.h"
 
 #define NAME_MQ_BOX_BRAIN  "/mq_brain" //Boîte aux lettres liée à Brain
@@ -229,7 +230,7 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_MODE_CLASSIC\n", __FILE__);
             break;
         case A_MODE_ADMIN:
-            //GUI_setTag(aMsg->data.idtag);
+            Gui_setTag(currentTag);
             Rfid_startReading();
             printf("%s : A_MODE_ADMIN\n", __FILE__);
             break;
@@ -243,23 +244,23 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_CHANGE_MODE_SPE\n", __FILE__);
             break;
         case A_USER_TAG_OK: ;
-            //GUI_displayHomeScreen(USER_TAG_OK);
+            Gui_displayHomeScreen(USER_TAG_OK);
             Guard_checkFace(currentTag);
             printf("%s : A_USER_TAG_OK\n", __FILE__);
             break;
         case A_ADMIN_TAG: ;
-            //GUI_displayHomeScreen(ADMIN_TAG);
+            Gui_displayHomeScreen(ADMIN_TAG);
             Guard_checkFace(currentTag);
             printf("%s : A_ADMIN_TAG\n", __FILE__);
             break;
         case A_USER_TAG_DENIED:
-            //GUI_displayHomeScreen(USER_TAG_DENIED);
+            Gui_displayHomeScreen(USER_TAG_DENIED);
             Doorman_userDenied();
             Brain_timer_launch();
             printf("%s : A_USER_TAG_DENIED\n", __FILE__);
             break;
         case A_USER_TAG_UNKNOWN:
-            //GUI_displayHomeScreen(USER_TAG_UNKNOWN);
+            Gui_displayHomeScreen(USER_TAG_UNKNOWN);
             Doorman_userUnknown();
             Brain_timer_launch();
             printf("%s : A_USER_TAG_UNKNOWN\n", __FILE__);
@@ -269,13 +270,13 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_FACE_ANALYSED\n", __FILE__);
             break;
         case A_FACE_TRUE:
-            //GUI_displayHomeScreen(ALLOWED);
+            Gui_displayHomeScreen(ALLOWED);
             Doorman_open();
             Brain_timer_launch();
             printf("%s : A_FACE_TRUE\n", __FILE__);
             break;
         case A_FACE_FALSE:
-            //GUI_displayHomeScreen(FACE_UNKNOWN);
+            Gui_displayHomeScreen(FACE_UNKNOWN);
             Doorman_userUnknown();
             Brain_timer_launch();
             printf("%s : A_FACE_FALSE\n", __FILE__);
@@ -285,13 +286,13 @@ static void Brain_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_TIMEOUT\n", __FILE__);
             break;
         case A_STANDBY:
-            //GUI_screenOff();
+            Gui_screenOff();
             Rfid_startReading();
             printf("%s : A_STANDBY\n", __FILE__);
             break;
         case A_STOP:
             Rfid_stopReading();
-            //GUI_screenOff();
+            Gui_screenOff();
             printf("%s : A_STOP\n", __FILE__);
             break;
         default:
@@ -464,9 +465,12 @@ void Brain_faceAnalysed(bool recognized)
 	Brain_mqSend(&msg);
 }
 
-
-
 static void Brain_wakeUp()
 {
-    //GUI_screenOn();
+    Gui_screenOn();
+}
+
+void Brain_getCurrentTag(char* buffer, size_t size)
+{
+    strncpy(buffer, currentTag, size);
 }

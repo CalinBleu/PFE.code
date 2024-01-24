@@ -13,6 +13,7 @@
 #include "guard.h"
 #include "brain/brain.h"
 #include "archivist/archivist.h"
+#include "gui/gui.h"
 #include "ai/ai.h"
 
 /*
@@ -40,11 +41,11 @@ void Guard_checkPassword(char* password, char* idTag ){
 
     if(strcmp(password_hash, hash)== 0){
         printf("Correct Password\n");
-        //GUI_validatePassword(true);
+        Gui_validatePassword(true);
     }
     else{
         printf("Incorrect Password\n");
-        //GUI_validatePassword(false);
+        Gui_validatePassword(false);
     }
 }
 
@@ -90,7 +91,6 @@ void Guard_checkFace(char* idTag){
 
 	if (timer_create(CLOCK_REALTIME, &event, &ai_process_timer) != 0) {
 		perror("timer_create");
-        return 1;
 	}
     Picture picture = Archivist_getPicture(idTag);
     AI_startRecognition(picture);

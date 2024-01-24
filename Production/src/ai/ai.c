@@ -238,10 +238,13 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
         case A_NOP: 
             break;
         case A_START_ANALYSE:
-            if(pthread_create(&analyse_thread, NULL, AI_analyse, (void *)aMsg->data.picturePath) != 0) //création du thread run d'RFID
+            if(TARGET)
             {
-                fprintf(stderr, "pthread_create AI error\n");
-                fflush(stderr);
+                if(pthread_create(&analyse_thread, NULL, AI_analyse, (void *)aMsg->data.picturePath) != 0) //création du thread run d'RFID
+                {
+                    fprintf(stderr, "pthread_create AI error\n");
+                    fflush(stderr);
+                }
             }
             printf("%s : A_START_ANALYSE\n", __FILE__);
             break;
@@ -254,16 +257,22 @@ static void AI_performAction(Action anAction, MqMsg * aMsg)
             printf("%s : A_RESULT_ALLOWED\n", __FILE__);
             break;
         case A_STOP_ANALYSE:
-            pthread_cancel(analyse_thread);
-            pthread_join(analyse_thread, NULL);
+            if(TARGET)
+            {
+                pthread_cancel(analyse_thread);
+                pthread_join(analyse_thread, NULL);
+            }
             printf("%s : A_STOP_ANALYSE\n", __FILE__);
             MqMsg msg;
             msg.data.event = E_FACE_UNKNOWN;
             AI_mqSend(&msg);
             break;
         case A_STOP:
-            pthread_cancel(analyse_thread);
-            pthread_join(analyse_thread, NULL);
+            if(TARGET)
+            {
+                pthread_cancel(analyse_thread);
+                pthread_join(analyse_thread, NULL);
+            }
             printf("%s : A_STOP\n", __FILE__);
             break;
 

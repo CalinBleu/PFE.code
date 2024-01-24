@@ -40,6 +40,8 @@ void Brain_changeMode(Mode mode);
  */
 void Brain_faceAnalysed(bool recognized);
 
+void Brain_getCurrentTag(char* buffer, size_t size);
+
 /**
  * @brief Fonction d'initialisation de l'objet Brain
  * 
