@@ -186,10 +186,10 @@ static void * Rfid_run(void * aParam)
     {
         Rfid_mqReceive(&msg);
         myTrans = &mySm[myState][msg.data.event];
-        printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
-        printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
-        printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
-        printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
+        //printf("%s : %d : myState : %d\n", __FILE__, __LINE__, myState);
+        //printf("%s : %d : event : %d\n", __FILE__, __LINE__, msg.data.event);
+        //printf("%s : %d : dest state : %d\n", __FILE__, __LINE__, myTrans->destinationState);
+        //printf("%s : %d : action : %d\n", __FILE__, __LINE__, myTrans->action);
         if (myTrans->destinationState != S_FORGET)
         {
             Rfid_performAction(myTrans->action, &msg);

@@ -56,11 +56,9 @@ void Gui_userAdded(User user)
     Manager_addUser(user);
 }
 
-void Gui_userModified(User user)
+void Gui_userModified(User user, char* idTag)
 {
-    char tag[20];
-    Brain_getCurrentTag(tag, sizeof(tag));
-    Manager_modifyUser(user, tag);
+    Manager_modifyUser(user, idTag);
 }
 
 void Gui_userRemoved(char* idTag)

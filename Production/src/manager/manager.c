@@ -73,7 +73,14 @@ void Manager_modifyUser(User user, char* idTag){
     Archivist_setIdTag(idTag, user.idTag);
     Archivist_setName(user.idTag, user.name);
     Archivist_setFirstName(user.idTag, user.firstName);
-    Archivist_setPassword(user.idTag, user.password);
+    if(user.password == NULL)
+    {
+        Archivist_setPassword(user.idTag, "");
+    }
+    else
+    {
+        Archivist_setPassword(user.idTag, user.password);
+    }
     Archivist_setPicture(user.idTag, user.picture);
     Archivist_setRole(user.idTag, user.role);
     Archivist_setAccess(user.idTag,&user.access);
@@ -140,6 +147,10 @@ static User* Manager_getUserByTag(char* idTag){
  * param array Le tableau de char*
  */
 static int taille_char_array(char **array){ 
+    if(array == NULL)
+    {
+        return 0;
+    }
     int i = 0;
     while(array[i] != NULL){
         i++;

@@ -62,7 +62,7 @@ void Gui_userAdded(User user);
  * 
  * @param user 
  */
-void Gui_userModified(User user);
+void Gui_userModified(User user, char* idTag);
 
 /**
  * @brief Méthode publique permettant de sauvegarder la suppression d'un utilisateur

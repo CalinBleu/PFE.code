@@ -349,6 +349,17 @@ char* Archivist_getPassword(char* idtag) {
 
 char** Archivist_getTags(char* name) {
 
+    int inputLength = 0;
+    if(name != NULL)
+    {
+        inputLength = strlen(name);
+    }
+    char final[inputLength+2];
+    if(name != NULL)
+    {
+        sprintf(final, "%c%s%c", '%',name,'%');
+    }
+
     char *err_msg = 0;
     sqlite3_stmt *res;
 
@@ -361,7 +372,7 @@ char** Archivist_getTags(char* name) {
     }
     else
     {
-        sql = "SELECT * FROM Employee WHERE Name = ?"; 
+        sql = "SELECT * FROM Employee WHERE Name LIKE ? OR Firstname LIKE ?"; 
     }
 
     rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
@@ -369,7 +380,8 @@ char** Archivist_getTags(char* name) {
     if (rc == SQLITE_OK) { 
         if(name != NULL)
         {
-            sqlite3_bind_text(res, 1, name, -1, SQLITE_STATIC);
+            sqlite3_bind_text(res, 1, final, -1, SQLITE_STATIC);
+            sqlite3_bind_text(res, 2, final, -1, SQLITE_STATIC);
         }
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
@@ -704,7 +716,14 @@ void Archivist_setPassword(char* idtag, char* password)
     rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
     
     if (rc == SQLITE_OK) { 
-        sqlite3_bind_text(res, 1, password_hash, -1, SQLITE_STATIC);
+        if(strcmp(password, "") == 0)
+        {
+            sqlite3_bind_text(res, 1, NULL, -1, SQLITE_STATIC);
+        }
+        else
+        {
+            sqlite3_bind_text(res, 1, password_hash, -1, SQLITE_STATIC);
+        }
         sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
@@ -736,6 +755,9 @@ void Archivist_setUser(User user)
     char* idtag = user.idTag;
     Picture picture = user.picture;
     char* password = user.password;
+
+    char password_hash[SHA256_HEX_SIZE];
+    sha256_hex(password, strlen(password), password_hash);
 
     for (int i = 0; i < NB_LOCK; ++i) {
         access[i] = user.access[i];
@@ -828,7 +850,7 @@ void Archivist_setUser(User user)
         sqlite3_bind_text(res, 4, idtag, -1, SQLITE_STATIC);
         sqlite3_bind_int(res, 5, role);
         sqlite3_bind_int(res, 6, accessIntValue);
-        sqlite3_bind_text(res, 7, password, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 7, password_hash, -1, SQLITE_STATIC);
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
     }
