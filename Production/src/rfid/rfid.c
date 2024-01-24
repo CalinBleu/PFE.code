@@ -202,6 +202,11 @@ static void * Rfid_run(void * aParam)
     return NULL;
 }
 
+/**
+ * brief Fonction de lecture du tag RFID
+ * 
+ * param aParam Paramètre du thread
+ */
 static void * Rfid_read(void * aParam){
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
     pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
