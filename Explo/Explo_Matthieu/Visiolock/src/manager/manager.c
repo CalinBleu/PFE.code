@@ -42,6 +42,7 @@ void Manager_removeUser(char* idTag){
  * param searchField Le champ de recherche
  */
 User* Manager_searchUser(char* searchField){
+    //on récupère le ou les tags liés au nom ou prénom entrés
 
     char **tags = (char**)malloc(sizeof(char*));
 
@@ -51,6 +52,7 @@ User* Manager_searchUser(char* searchField){
 
     User* user = (User*)malloc(taille_tags * sizeof(User));
 
+    //pour chaque tag trouvé, on récupère l'utilisateur associé
     for(int i=0;i<taille_tags;i++){
         User* current_user = Manager_getUserByTag(tags[i]);
 
@@ -82,6 +84,7 @@ void Manager_modifyUser(User user, char* idTag){
  * 
  */
 User* Manager_getAllUsers(){
+    //on recherche tous les tags présents dans la BDD et on retourne les utilisateurs
 
     char** tags = (char**)malloc(sizeof(char*));
 

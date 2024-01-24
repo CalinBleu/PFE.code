@@ -34,17 +34,17 @@ char* Archivist_getName(char* idtag) {
     char *err_msg = 0;
     sqlite3_stmt *res;
     
-    char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; 
+    char *sql = "SELECT * FROM Employee WHERE IdTag = ?"; //construction de la requête
 
     rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
     
     if (rc == SQLITE_OK) { 
-        sqlite3_bind_text(res, 1, idtag, -1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, idtag, -1, SQLITE_STATIC); //on lie le paramètre à la requête SQL
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
     }
     
-    int step = sqlite3_step(res);
+    int step = sqlite3_step(res); //éxécution de la requête
     
     if (step == SQLITE_ROW) {
         size_t len = strlen((const char*)sqlite3_column_text(res, NAME));
@@ -120,6 +120,7 @@ Picture Archivist_getPicture(char* idtag) {
     char* name = Archivist_getName(idtag);
     char* firstname = Archivist_getFirstName(idtag);
 
+    //on stocke la photo récupérée dans le dossier Pictures au format nom_prénom.jpg
     size_t path_size = strlen(name) + strlen(firstname) + strlen(path) + strlen("_.jpg") + 1;
     Picture result = malloc(path_size);
 
@@ -354,7 +355,7 @@ char** Archivist_getTags(char* name) {
     char** result;
     
     char* sql;
-    if(name == NULL)
+    if(name == NULL) //retourne tous les employés si name == NULL
     {
         sql = "SELECT * FROM Employee";
     }
@@ -377,7 +378,7 @@ char** Archivist_getTags(char* name) {
     char** results = NULL;
     int resultCount = 0;
 
-    while (sqlite3_step(res) == SQLITE_ROW) {
+    while (sqlite3_step(res) == SQLITE_ROW) { //tant que l'on a une colonne de résultat
 
         const char* idtagValue = (const char*)sqlite3_column_text(res, IDTAG);
         size_t len = strlen(idtagValue);
@@ -435,7 +436,7 @@ void Archivist_setName(char* idtag, char* name)
 
     rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
     
-    if (rc == SQLITE_OK) { 
+    if (rc == SQLITE_OK) { //on lie les deux paramètres à la requête
         sqlite3_bind_text(res, 1, name, -1, SQLITE_STATIC);
         sqlite3_bind_text(res, 2, idtag, -1, SQLITE_STATIC);
     } else {
@@ -727,6 +728,7 @@ void Archivist_setPassword(char* idtag, char* password)
 
 void Archivist_setUser(User user)
 {
+    //on réalise toutes les opérations d'écriture en une fonction
     char* name = user.name;
     char* firstname = user.firstName;
     Role role = user.role;
@@ -881,6 +883,7 @@ void Archivist_deleteEmployee(char* idtag)
 
 void Archivist_clearImages()
 {
+    //supprime tous les fichiers contenus dans le dossier Pictures
     DIR *dir;
     struct dirent *entry;
 
@@ -927,7 +930,7 @@ int Archivist_getNbEmployee(char* inputString)
     int count = 0;
 
     char* sql;
-    if(inputString == NULL)
+    if(inputString == NULL) //retourne le nombre total d'employés si inputString est nul
     {
         sql = "SELECT * FROM Employee";
     }

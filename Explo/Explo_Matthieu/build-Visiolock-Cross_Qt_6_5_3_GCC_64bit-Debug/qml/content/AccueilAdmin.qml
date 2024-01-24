@@ -18,7 +18,7 @@ AccueilAdminForm {
     }
 
     button.onClicked: {
-        //camera.stop();
+        camera.stop();
         stack.push("PasswordAdmin.qml")
     }
 }

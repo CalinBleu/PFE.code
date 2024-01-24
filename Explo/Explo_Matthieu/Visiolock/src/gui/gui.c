@@ -5,13 +5,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "gui/gui.h"
+#include "common.h"
+#include "gui.h"
 #include "guard/guard.h"
 #include "brain/brain.h"
 #include "manager/manager.h"
 
 
-//c vers qml
+//De C vers QML
 void Gui_displayHomeScreen(AuthResult result)
 {
     //GuiController_displayHomeScreen(result);
@@ -37,7 +38,7 @@ void Gui_setTag(char* idTag)
     //GuiController_displayNewUserTag(idTag);
 }
 
-//qml vers c
+//De QML vers C
 void Gui_askConnexion(char* password)
 {
     char tag[20];

@@ -28,8 +28,14 @@ DEP = $(MAIN:.c=.d)
 
 EXEC = ../$(PROG)
 
+# Inclusion depuis le niveau du package.
 
+CCFLAGS += -I.
+
+
+ifeq ($(TARGET), raspberry)
 export CC = /usr/bin/aarch64-linux-gnu-gcc
+endif
 
 
 #

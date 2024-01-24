@@ -1,0 +1,85 @@
+{
+    "classes": [
+        {
+            "className": "GuiModel",
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "password",
+                            "type": "char*"
+                        }
+                    ],
+                    "name": "Gui_askConnexionController",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "mode",
+                            "type": "Mode"
+                        }
+                    ],
+                    "name": "Gui_changeModeController",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "user",
+                            "type": "User"
+                        }
+                    ],
+                    "name": "Gui_userAddedController",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "user",
+                            "type": "User"
+                        }
+                    ],
+                    "name": "Gui_userModifiedController",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "idTag",
+                            "type": "char*"
+                        }
+                    ],
+                    "name": "Gui_userRemovedController",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "searchField",
+                            "type": "char*"
+                        }
+                    ],
+                    "name": "Gui_userSearchedController",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "GuiModel",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "GuiModel.h",
+    "outputRevision": 68
+}

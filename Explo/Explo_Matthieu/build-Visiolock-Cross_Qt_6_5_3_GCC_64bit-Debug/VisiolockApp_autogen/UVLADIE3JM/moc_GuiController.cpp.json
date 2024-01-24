@@ -48,6 +48,21 @@
                     "type": "QString",
                     "user": false,
                     "write": "GuiController_displayNewUserTag"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "authResult",
+                    "notify": "displayHomeScreenChanged",
+                    "read": "getAuthResult",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "write": "Gui_Controller_displayHomeScreen"
                 }
             ],
             "qualifiedClassName": "GuiController",
@@ -65,6 +80,11 @@
                 {
                     "access": "public",
                     "name": "newUserTagChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "displayHomeScreenChanged",
                     "returnType": "void"
                 }
             ],

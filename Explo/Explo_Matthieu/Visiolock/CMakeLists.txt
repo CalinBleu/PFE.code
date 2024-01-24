@@ -9,6 +9,8 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick)
 
+
+
 if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
@@ -25,6 +27,7 @@ qt_add_executable(VisiolockApp
     src/doorman/doorman.o
     src/rfid/rfid.o
     src/guard/sha256.o
+    src/GuiModel.h src/GuiModel.cpp
 )
 
 qt_add_resources(VisiolockApp "configuration"
@@ -42,6 +45,8 @@ target_link_libraries(VisiolockApp PRIVATE
     Qt6::Qml
     Qt6::Quick
 )
+
+target_link_libraries(VisiolockApp PRIVATE -lsqlite3)
 
 if (BUILD_QDS_COMPONENTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/qmlcomponents)

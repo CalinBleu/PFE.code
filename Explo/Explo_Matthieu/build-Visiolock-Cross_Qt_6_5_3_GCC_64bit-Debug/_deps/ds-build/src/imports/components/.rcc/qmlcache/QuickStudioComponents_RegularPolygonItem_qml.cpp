@@ -1826,12 +1826,12 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for onRadiusChanged at line 186, column 5
 QObject *r9_1;
-double r7_1;
 QObject *r7_2;
+double r7_1;
 double r8_1;
-double r2_2;
 QObject *r2_1;
 int r2_4;
+double r2_2;
 bool r2_3;
 // generate_CreateCallContext
 {
@@ -1951,8 +1951,8 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for __centerX at line 195, column 5
 double r7_1;
-QObject *r2_1;
 double r2_2;
+QObject *r2_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(12, &r2_1)) {
 aotContext->setInstructionPointer(2);
@@ -1983,8 +1983,8 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for __centerY at line 196, column 5
 double r7_1;
-double r2_2;
 QObject *r2_1;
+double r2_2;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(14, &r2_1)) {
 aotContext->setInstructionPointer(2);
@@ -2016,8 +2016,8 @@ Q_UNUSED(argumentsPtr)
 // expression for __radius at line 197, column 5
 double r11_1;
 double r7_1;
-double r2_2;
 QObject *r2_1;
+double r2_2;
 double r10_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(17, &r2_1)) {
@@ -2100,8 +2100,8 @@ Q_UNUSED(argumentsPtr)
 double r16_1;
 double r11_1;
 double r7_1;
-double r2_2;
 QObject *r2_1;
+double r2_2;
 int r2_3;
 double r15_1;
 QObject *r12_1;
@@ -2187,8 +2187,8 @@ Q_UNUSED(argumentsPtr)
 // expression for __actualRadius at line 204, column 5
 double r16_1;
 double r11_1;
-QObject *r2_1;
 double r2_2;
+QObject *r2_1;
 int r2_3;
 double r15_1;
 double r10_1;
@@ -2279,11 +2279,11 @@ return r2_3;
 Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // constructPolygon at line 206, column 5
-int r7_2;
 QObject *r7_1;
+int r7_2;
 QObject *r8_1;
-int r2_2;
 QObject *r2_1;
+int r2_2;
 bool r2_3;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(42, &r2_1)) {
@@ -2426,8 +2426,8 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for __halfCornerArcSweepAngle at line 255, column 5
 double r7_1;
-double r2_2;
 QObject *r2_1;
+double r2_2;
 // generate_MoveConst
 r7_1 = double(90);
 // generate_LoadQmlContextPropertyLookup
@@ -2606,8 +2606,8 @@ return r2_2;
 Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for samples at line 166, column 5
-bool r2_2;
 int r2_3;
+bool r2_2;
 QObject *r2_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(282, &r2_1)) {

@@ -386,8 +386,8 @@ Q_UNUSED(argumentsPtr)
 // expression for fontDirectory at line 10, column 5
 QString r11_1;
 QObject *r7_1;
-QString r2_2;
 QUrl r2_3;
+QString r2_2;
 QObject *r2_1;
 QUrl r10_1;
 // generate_LoadQmlContextPropertyLookup
@@ -436,8 +436,8 @@ return r2_3;
 Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for folder at line 21, column 9
-QObject *r2_1;
 QUrl r2_2;
+QObject *r2_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(6, &r2_1)) {
 aotContext->setInstructionPointer(2);
@@ -463,8 +463,8 @@ Q_UNUSED(argumentsPtr)
 // expression for nameFilters at line 22, column 9
 QString r7_1;
 QString r8_1;
-QStringList r2_2;
 QString r2_1;
+QStringList r2_2;
 // generate_LoadRuntimeString
 r2_1 = QStringLiteral("*.ttf");
 // generate_StoreReg

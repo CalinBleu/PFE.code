@@ -49,6 +49,21 @@
                         "type": "QString",
                         "user": false,
                         "write": "GuiController_displayNewUserTag"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "authResult",
+                        "notify": "displayHomeScreenChanged",
+                        "read": "getAuthResult",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "write": "Gui_Controller_displayHomeScreen"
                     }
                 ],
                 "qualifiedClassName": "GuiController",
@@ -67,6 +82,11 @@
                         "access": "public",
                         "name": "newUserTagChanged",
                         "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "displayHomeScreenChanged",
+                        "returnType": "void"
                     }
                 ],
                 "superClasses": [
@@ -78,6 +98,91 @@
             }
         ],
         "inputFile": "GuiController.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "GuiModel",
+                "methods": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "password",
+                                "type": "char*"
+                            }
+                        ],
+                        "name": "Gui_askConnexionController",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "mode",
+                                "type": "Mode"
+                            }
+                        ],
+                        "name": "Gui_changeModeController",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "user",
+                                "type": "User"
+                            }
+                        ],
+                        "name": "Gui_userAddedController",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "user",
+                                "type": "User"
+                            }
+                        ],
+                        "name": "Gui_userModifiedController",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "idTag",
+                                "type": "char*"
+                            }
+                        ],
+                        "name": "Gui_userRemovedController",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "searchField",
+                                "type": "char*"
+                            }
+                        ],
+                        "name": "Gui_userSearchedController",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "GuiModel",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "GuiModel.h",
         "outputRevision": 68
     }
 ]

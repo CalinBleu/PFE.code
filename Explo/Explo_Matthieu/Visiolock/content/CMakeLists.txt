@@ -40,4 +40,5 @@ qt6_add_qml_module(content
         images/search.png
         images/thales_logo.png
         images/top_image.png
+        QML_FILES Blank.qml
 )

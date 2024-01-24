@@ -92,10 +92,6 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_ANALYSE][E_STOP] = {S_DEATH, A_STOP}
 };
 
-/**
- * brief Fonction permettant d'initialiser la boite aux lettres
- * 
- */
 int AI_new(void)
 {
     int check;
@@ -120,9 +116,6 @@ int AI_new(void)
     return 0;
 }
 
-/**
- * brief Fonction permettant de lancer le thread RFID
- */
 int AI_start(void)
 {
 	if(pthread_create(&AI_thread, NULL, AI_run, NULL) != 0)
@@ -134,10 +127,6 @@ int AI_start(void)
 	return 0;
 }
 
-/**
- * brief Fonction permettant de libérer la mémoire et la boite aux lettres
- * 
- */
 int AI_free(void)
 {
     int check;
@@ -156,10 +145,6 @@ int AI_free(void)
     return 0;
 }
 
-/**
- * brief Fonction permettant de stopper la machine à états d'IA
- * 
- */
 int AI_stop(void)
 {
     MqMsg msg;
@@ -168,11 +153,6 @@ int AI_stop(void)
     return 0;
 }
 
-/**
- * brief Fonction d'envoi d'un message à la machine à états d'IA pour lancer la reconnaissance
- * 
- * param picturePath Chemin de l'image à analyser
- */
 void AI_startRecognition(char *picturePath)
 {
     MqMsg msg;
@@ -181,10 +161,6 @@ void AI_startRecognition(char *picturePath)
     AI_mqSend(&msg);
 }
 
-/**
- * brief Fonction d'envoi d'un message à la machine à états d'IA pour stopper la reconnaissance
- * 
- */
 void AI_stopRecognition(void)
 {
     MqMsg msg;

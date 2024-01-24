@@ -5,7 +5,7 @@ import QtQuick 6.5
 import QtQuick.VirtualKeyboard 6.2
 import QtQuick.Controls
 import Visiolock
-//import MonModule
+import GuiModel
 
 
 Window {
@@ -17,11 +17,16 @@ Window {
 
     visibility: Window.FullScreen
 
+    GuiModel{
+        id: gui
+    }
+
     StackView {
         id: stack
-        initialItem: AccueilAdmin {}
+        initialItem: Blank {}
         anchors.fill: parent
     }
+
 
     InputPanel {
         id: inputPanel

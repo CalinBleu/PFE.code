@@ -3,11 +3,14 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "app_environment.h"
 #include "import_qml_components_plugins.h"
 #include "import_qml_plugins.h"
 
+#include "GuiController.h"
+#include "GuiModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +18,14 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    qmlRegisterType<GuiModel>("GuiModel", 1, 0, "GuiModel");
+
     QQmlApplicationEngine engine;
+
+    GuiController GuiController;
+
+    engine.rootContext()->setContextProperty("GuiController", &GuiController);
+
     const QUrl url(u"qrc:/qt/qml/Main/main.qml"_qs);
     QObject::connect(
         &engine,

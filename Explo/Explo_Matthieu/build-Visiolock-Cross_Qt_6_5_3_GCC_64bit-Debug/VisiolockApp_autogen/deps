@@ -1,9 +1,12 @@
 VisiolockApp_autogen/timestamp: \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/CMakeLists.txt \
+	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/common.h \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/insight \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/qmlcomponents \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/qmlmodules \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/src/GuiController.h \
+	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/src/GuiModel.cpp \
+	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/src/GuiModel.h \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/src/common.h \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/src/gui/gui.h \
 	/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/src/main.cpp \

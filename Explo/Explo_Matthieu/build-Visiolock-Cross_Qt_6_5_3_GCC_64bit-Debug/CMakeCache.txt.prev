@@ -489,6 +489,9 @@ Qt6Quick_DIR:PATH=/home/matthieu/qt6/pi/lib/cmake/Qt6Quick
 //The directory containing a CMake configuration file for Qt6.
 Qt6_DIR:PATH=/home/matthieu/qt6/pi/lib/cmake/Qt6
 
+//The directory containing a CMake configuration file for Qt6sqlite3.
+Qt6sqlite3_DIR:PATH=Qt6sqlite3_DIR-NOTFOUND
+
 //Value Computed by CMake
 VisiolockApp_BINARY_DIR:STATIC=/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/build-Visiolock-Cross_Qt_6_5_3_GCC_64bit-Debug
 

@@ -2226,10 +2226,10 @@ Q_UNUSED(argumentsPtr)
 QObject *r14_1;
 double r11_1;
 QObject *r7_1;
-double r13_2;
 QObject *r13_1;
-double r2_2;
+double r13_2;
 QObject *r2_1;
+double r2_2;
 double r10_1;
 double r12_1;
 // generate_LoadQmlContextPropertyLookup
@@ -2317,8 +2317,8 @@ return r2_2;
 Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for roundEnd at line 307, column 5
-QObject *r2_1;
 bool r2_2;
+QObject *r2_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(6, &r2_1)) {
 aotContext->setInstructionPointer(2);
@@ -2449,8 +2449,8 @@ Q_UNUSED(argumentsPtr)
 // mySin at line 330, column 5
 double r11_1;
 double r6_1 = *static_cast<double*>(argumentsPtr[0]);
-QObject *r2_1;
 double r2_2;
+QObject *r2_1;
 QObject *r12_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(21, &r2_1)) {
@@ -2601,8 +2601,8 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // sortedBegin at line 342, column 5
 double r11_1;
-QObject *r2_1;
 double r2_2;
+QObject *r2_1;
 double r10_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(33, &r2_1)) {
@@ -2746,8 +2746,8 @@ Q_UNUSED(argumentsPtr)
 // isArcFull at line 350, column 5
 double r7_1;
 QObject *r2_1;
-double r2_2;
 bool r2_3;
+double r2_2;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(48, &r2_1)) {
 aotContext->setInstructionPointer(2);
@@ -2780,8 +2780,8 @@ Q_UNUSED(argumentsPtr)
 QObject *r7_2;
 bool r7_1;
 QObject *r8_1;
-bool r2_2;
 QObject *r2_1;
+bool r2_2;
 // generate_CreateCallContext
 {
 // generate_LoadQmlContextPropertyLookup
@@ -3117,8 +3117,8 @@ return r2_2;
 Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for smooth at line 284, column 5
-QObject *r2_1;
 bool r2_2;
+QObject *r2_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(357, &r2_1)) {
 aotContext->setInstructionPointer(5);
@@ -3143,8 +3143,8 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for samples at line 285, column 5
 int r2_3;
-QObject *r2_1;
 bool r2_2;
+QObject *r2_1;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(359, &r2_1)) {
 aotContext->setInstructionPointer(5);
@@ -3245,8 +3245,8 @@ Q_UNUSED(argumentsPtr)
 double r9_1;
 double r7_1;
 double r8_1;
-double r2_2;
 QObject *r2_1;
+double r2_2;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(365, &r2_1)) {
 aotContext->setInstructionPointer(5);
@@ -3302,8 +3302,8 @@ Q_UNUSED(argumentsPtr)
 // expression for __arcWidth at line 375, column 9
 double r16_1;
 double r11_1;
-QObject *r2_1;
 double r2_2;
+QObject *r2_1;
 double r15_1;
 double r10_1;
 // generate_LoadQmlContextPropertyLookup
@@ -3378,8 +3378,8 @@ Q_UNUSED(aotContext)
 Q_UNUSED(argumentsPtr)
 // expression for __xCenter at line 377, column 9
 double r7_1;
-double r2_2;
 QObject *r2_1;
+double r2_2;
 // generate_LoadQmlContextPropertyLookup
 while (!aotContext->loadContextIdLookup(379, &r2_1)) {
 aotContext->setInstructionPointer(5);
@@ -3463,8 +3463,8 @@ double r14_2;
 double r11_1;
 QObject *r7_1;
 double r13_1;
-QObject *r2_1;
 double r2_2;
+QObject *r2_1;
 double r10_1;
 double r12_1;
 // generate_LoadQmlContextPropertyLookup

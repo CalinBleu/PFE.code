@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="/qt/qml/Visiolock/">
+    <file alias="Constants.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/imports/Visiolock/Constants.qml</file>
+    <file alias="DirectoryFontLoader.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/imports/Visiolock/DirectoryFontLoader.qml</file>
+    <file alias="EventListModel.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/imports/Visiolock/EventListModel.qml</file>
+    <file alias="EventListSimulator.qml">/home/matthieu/Documents/PFE/PFE.code/Explo/Explo_Matthieu/Visiolock/imports/Visiolock/EventListSimulator.qml</file>
+  </qresource>
+</RCC>
+
