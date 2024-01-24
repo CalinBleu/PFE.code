@@ -167,6 +167,10 @@ static Transition mySm [STATE_NB-1][EVENT_NB] = //Transitions état-action selon
     [S_ACCESS_DENIED][E_STOP] = {S_DEATH, A_STOP},
 };
 
+/**
+ * brief Fonction permettant d'initialiser la boite aux lettres
+ * 
+ */
 int Gui_new(void)
 {
     int check;
@@ -203,6 +207,9 @@ int Gui_new(void)
     return 0;
 }
 
+/**
+ * brief Fonction permettant de lancer le thread GUI
+ */
 int Gui_start(void)
 {
     if(pthread_create(&gui_thread, NULL, Gui_run, NULL) != 0)
@@ -214,12 +221,18 @@ int Gui_start(void)
     return 0;
 }
 
+/**
+ * brief Fonction permettant de gérer le timeout de l'écran
+ */
 static void Gui_timeout(union sigval val)
 {
 	MqMsg msg = {.data.event = E_TIMEOUT};
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction permettant de libérer la mémoire et la boite aux lettres
+ */
 int Gui_free(void)
 {
     int check;
@@ -238,6 +251,11 @@ int Gui_free(void)
     return 0;
 }
 
+/**
+ * brief Fonction permettant de recevoir un message de la boîte aux lettres
+ * 
+ * param aMsg Le message à recevoir
+ */
 static void Gui_mqReceive(MqMsg * aMsg)
 {
 	int check;
@@ -248,6 +266,11 @@ static void Gui_mqReceive(MqMsg * aMsg)
     }
 }
 
+/**
+ * brief Fonction permettant d'envoyer un message dans la boîte aux lettres
+ * 
+ * param aMsg Le message à envoyer
+ */
 static void Gui_mqSend(MqMsg * aMsg)
 {
     int check;
@@ -261,6 +284,12 @@ static void Gui_mqSend(MqMsg * aMsg)
     }
 }
 
+/**
+ * brief Fonction permettant d'effectuer une action en fonction de l'évènement reçu
+ * 
+ * param anAction L'action à effectuer
+ * param aMsg Le message associé
+ */
 static void Gui_performAction(Action anAction, MqMsg * aMsg)
 {
     switch (anAction)
@@ -339,6 +368,11 @@ static void Gui_performAction(Action anAction, MqMsg * aMsg)
     }
 }
 
+/**
+ * brief Fonction permettant de lancer la machine à états de GUI
+ * 
+ * param aParam Paramètre de la fonction
+ */
 static void * Gui_run(void * aParam)
 {
     printf("Gui run\n");
@@ -367,6 +401,9 @@ static void * Gui_run(void * aParam)
     return NULL;
 }
 
+/**
+ * brief Fonction permettant de lancer le timer de l'écran
+ */
 static void Gui_timer_launch()
 {
 	struct itimerspec itimer;
@@ -381,6 +418,9 @@ static void Gui_timer_launch()
 	}
 }
 
+/**
+ * brief Fonction permettant d'annuler le timer de l'écran
+ */
 static void Gui_cancel_timer()
 {
 	struct itimerspec itimer;
@@ -395,58 +435,98 @@ static void Gui_cancel_timer()
 	}
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_SCREEN_ON à la machine à états de GUI
+ */
 void Gui_screenOn()
 {
     MqMsg msg = {.data.event = E_SCREEN_ON}; //envoi de l'évènement E_SCREEN_ON via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_SCREEN_OFF à la machine à états de GUI
+ */
 void Gui_screenOff()
 {
     MqMsg msg = {.data.event = E_SCREEN_OFF}; //envoi de l'évènement E_SCREEN_OFF via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_USER_TAG_OK à la machine à états de GUI
+ */
 void Gui_askAddUser()
 {
     MqMsg msg = {.data.event = E_ASK_ADD_USER}; //envoi de l'évènement E_ASK_ADD_USER via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_ASK_MODIFY_USER à la machine à états de GUI
+ * 
+ * param user L'utilisateur à modifier
+ */
 void Gui_askModifyUser(User user)
 {
     MqMsg msg = {.data.event = E_ASK_MODIFY_USER}; //envoi de l'évènement E_ASK_MODIFY_USER via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_ASK_DELETE_USER à la machine à états de GUI
+ * 
+ * param user L'utilisateur à supprimer
+ */
 void Gui_askDeleteUser(User user)
 {
     MqMsg msg = {.data.event = E_ASK_DELETE_USER}; //envoi de l'évènement E_ASK_DELETE_USER via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction permettant de cherhcer un utilisateur dans la base de données
+ *
+ */
 void Gui_setSearchField(char* search)
 {
     searchField = search;
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_VALIDATE à la machine à états de GUI
+ */
 void Gui_validate()
 {
     MqMsg msg = {.data.event = E_VALIDATE}; //envoi de l'évènement E_VALIDATE via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_CANCEL à la machine à états de GUI
+ *
+ */
 void Gui_cancel()
 {
     MqMsg msg = {.data.event = E_CANCEL}; //envoi de l'évènement E_CANCEL via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui permet d'inscrire un mot de passe dans le champ mot de passe
+ * 
+ * param password Le mot de passe à inscrire
+ */
 void Gui_setFieldPassword(char* password)
 {
     passwordField = password;
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_MANAGEMENT_USER  ou E_ADMIN_MODE à la machine à états de GUI
+ * 
+ * param result Le résultat de la vérification du mot de passe 
+ */
 void Gui_validatePassword(bool result)
 {
     MqMsg msg;
@@ -458,54 +538,100 @@ void Gui_validatePassword(bool result)
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui permet de définir le nom de l'utilisateur à ajouter
+ * 
+ * param name Le nom de l'utilisateur à ajouter
+ */
 void Gui_setName(char* name)
 {
     userToAdd.name = name;
 }
 
+/**
+ * brief Fonction qui permet de définir le prénom de l'utilisateur à ajouter
+ * 
+ * param firstname Le prénom de l'utilisateur à ajouter
+ */
 void Gui_setFirstName(char* firstname)
 {
     userToAdd.firstName = firstname;
 }
 
+/**
+ * brief Fonction qui permet de définir le rôle de l'utilisateur à ajouter
+ * 
+ * param role Le rôle de l'utilisateur à ajouter
+ */
 void Gui_setRole(Role role)
 {
     userToAdd.role = role;
 }
 
+/**
+ * brief Fonction qui permet de définir les accès de l'utilisateur à ajouter
+ * 
+ * param access Les accès de l'utilisateur à ajouter
+ */
 void Gui_setAccess(Access access)
 {
     userToAdd.access = access;
 }
 
+/**
+ * brief Fonction qui permet de définir le tag RFID de l'utilisateur à ajouter
+ * 
+ * param idTag Le tag RFID de l'utilisateur à ajouter
+ */
 void Gui_setTag(char* idTag)
 {
     userToAdd.idTag = idTag;
 }
 
+/**
+ * brief Fonction qui permet de définir la photo de l'utilisateur à ajouter
+ * 
+ * param picture La photo de l'utilisateur à ajouter
+ */
 void Gui_setPicture(Picture picture)
 {
     userToAdd.picture = picture
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_ASK_TAKE_PICTURE à la machine à états de GUI
+ */
 void Gui_askTakePicture()
 {
     MqMsg msg = {.data.event = E_ASK_TAKE_PICTURE}; //envoi de l'évènement E_ASK_TAKE_PICTURE via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_ADMIN_MODE à la machine à états de GUI
+ */
+ */
 void Gui_adminMode()
 {
     MqMsg msg = {.data.event = E_ADMIN_MODE}; //envoi de l'évènement E_ADMIN_MODE via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_QUIT_ADMIN_MODE à la machine à états de GUI
+ */
+ */
 void Gui_quitAdminMode()
 {
     MqMsg msg = {.data.event = E_QUIT_ADMIN_MODE}; //envoi de l'évènement E_QUIT_ADMIN_MODE via mq
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief Fonction qui envoie l'évènement E_USER_MODIFY8USER à la machine à états de GUI
+ * 
+ * param user L'utilisateur à modifier
+ */
 void Gui_displayHomeScreen(AuthResult result)
 {
     MqMsg msg;
@@ -515,6 +641,9 @@ void Gui_displayHomeScreen(AuthResult result)
 	Gui_mqSend(&msg);
 }
 
+/**
+ * brief TODO
+ */
 static void Gui_displayScreen(ScreenId screenId)
 {
     //TODO
