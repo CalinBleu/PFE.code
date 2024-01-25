@@ -11,11 +11,11 @@
 #include "ai/ai.h"
 #include "gui/gui.h"
 
-#define LIBRE           0
+#define LIBRE           1
 #define CONNEXION_KO    0
 #define CONNEXION_OK    0
 #define ADD_USER        0
-#define MODIFY_USER     1
+#define MODIFY_USER     0
 #define REMOVE_USER     0
 #define SEARCH_USER     0
 
